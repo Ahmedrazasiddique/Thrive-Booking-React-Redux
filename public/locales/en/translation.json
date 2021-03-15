@@ -1,0 +1,39 @@
+{
+  "LOGIN": {
+    "SIGN_IN": "Sign In",
+    "WELCOME_NOTE": "Welcome back! Please signin to continue.",
+    "PH_EMAIL_ADDRESS": "Email Address",
+    "EMAIL_REQUIRED": "Email is Required",
+    "PASSWORD_REQUIRED": "Password is Required",
+    "EMAIL": "Email address",
+    "PASSWORD": "Password",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "REMEMBER_ME": "Remember Me",
+    "DONT_HAVE_ACCOUNT": "Don't have an account?",
+    "CREATE_ACCOUNT": "Create an Account"
+  },
+  "USER_TYPE": {
+    "SELECT_ACCOUNT_TYPE": "Select Account Type"
+  },
+  "SPINNER": {
+    "LOADING": "Loading"
+  },
+  "SETTINGS": {
+    "COMPANY": "Company",
+    "GENERAL": "General",
+    "APPEARANCE": "Appearance",
+    "PAYMENT": "Payment Settings",
+    "EMAIL_NOTIFICATIONS": "Email Notifications",
+    "EMAIL_TEMPLATE": "Email Template",
+    "SMS_NOTIFICATIONS": "SMS Notifications",
+    "SMS_TEMPLATE": "SMS Template",
+    "FREQUENTLY_DISCOUNT": "Frequently Discount",
+    "PROMOCODE": "Promocode",
+    "FRONT_TOOLTIPS": "Front Tooltips",
+    "FORM_FIELDS": "Form Fields",
+    "RECURRENCE_BOOKING": "Recurrence Booking",
+    "SEO": "SEO",
+    "GOOGLE_CALENDAR": "Google Calendar",
+    "SELECT_SECTION": "Select Section"
+  }
+}

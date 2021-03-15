@@ -1,0 +1,1 @@
+export const USER_TYPE_PREFIX = "tbook2020-abcxyz-";
