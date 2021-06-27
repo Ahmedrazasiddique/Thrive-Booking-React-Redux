@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { User, Info, Share } from "react-feather";
-import "../../../../../frontend/src/assets/scss/pages/users.scss";
+//import "../../../../../frontend/src/assets/scss/pages/users.scss";
 import AdminTemplates from "./EmailTemplates/AdminTemplates";
 import ClientTemplates from "./EmailTemplates/ClientTemplates";
 import StaffTemplates from "./EmailTemplates/StaffTemplates";

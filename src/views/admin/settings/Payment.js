@@ -15,7 +15,7 @@ import { User, Info, Share } from "react-feather";
 import PayLocal from "./PaymentMethod/PayLocal";
 import Paypal from "./PaymentMethod/Paypal";
 import Stripe from "./PaymentMethod/Stripe";
-import "../../../../../frontend/src/assets/scss/pages/users.scss";
+//import "../../../../../frontend/src/assets/scss/pages/users.scss";
 import { connect } from "react-redux";
 import { getMyPayment } from "../../../actions/paymentAction";
 import Loader from "../../../../src/components/Loader/Loader";

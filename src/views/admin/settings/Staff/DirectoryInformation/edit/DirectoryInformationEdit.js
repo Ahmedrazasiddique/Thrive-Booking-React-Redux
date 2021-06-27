@@ -15,7 +15,7 @@ import { User, Info, Share } from "react-feather";
 import AccountTab from "./Account";
 import InfoTab from "./Information";
 import SocialTab from "./Social";
-import "../../../../../../../src/assets/scss/pages/users.scss";
+//import "../../../../../../../src/assets/scss/pages/users.scss";
 import { connect } from "react-redux";
 import {
   getSingleUserByIDDirectoryInformation,

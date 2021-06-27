@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { User, Info } from "react-feather";
-import "../../../../../frontend/src/assets/scss/pages/users.scss";
+//import "../../../../../frontend/src/assets/scss/pages/users.scss";
 import AdminSmsTemplate from "./SmsTemplates/AdminSmsTemplate";
 import ClientSmsTemplate from "./SmsTemplates/ClientSmsTemplate";
 import { connect } from "react-redux";
