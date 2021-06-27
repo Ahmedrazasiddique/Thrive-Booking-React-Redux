@@ -16,7 +16,7 @@ import ProfileInfo from "./ProfileInfo"
 import CardInfo from "./CardInfo"
 import ProfileChangePassword from "./ChangePassword"
 
-import "../../../../../frontend/src/assets/scss/pages/users.scss"
+//import "../../../../../frontend/src/assets/scss/pages/users.scss"
 class Profile extends React.Component {
   state = {
     activeTab: "1"
