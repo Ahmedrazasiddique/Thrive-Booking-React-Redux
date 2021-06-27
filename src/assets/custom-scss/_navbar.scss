@@ -1,0 +1,65 @@
+nav {
+  width: 1230px;
+  height: 95px;
+  margin: auto;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 0 rgba(131, 134, 163, 0.17);
+  background-color: #ffffff;
+  .nav-container {
+    height: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 25px;
+  }
+  .links-side-btns {
+    display: flex;
+    align-items: center;
+  }
+  .links-side-btns ul {
+    display: flex;
+  }
+  .links-side-btns ul li {
+    list-style: none;
+    display: flex;;
+    align-items: center;
+  }
+  .links {
+    margin: 0;
+    padding: 0;
+    margin-right: 40px;
+  }
+  .links li {
+    padding: 0px 10px;
+  }
+  .links-side-btns ul li a {
+    text-decoration: none;
+    color: #0C4767;
+    font-size: 16px;
+    padding: 3px 0px;
+  }
+  .links li a.active {
+    font-weight: bold;
+    background-image: url('../../assets/fe-images/actvie-link-border.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+  }
+  .side-bnts {
+    margin: 0;
+    padding: 0;
+  }
+  .side-bnts .login {
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #626262;
+    border: 1px solid rgba(12, 71, 103, .3);
+  }
+  .side-bnts .signup {
+    border-radius: 5px;
+    box-shadow: 0 6px 10px 0 rgba(12, 71, 103, 0.22);
+    background-color: #0c4767;
+    color: #ffffff;
+    margin-left: 20px;
+  }
+}

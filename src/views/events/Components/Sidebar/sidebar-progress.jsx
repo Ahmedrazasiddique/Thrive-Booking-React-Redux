@@ -24,7 +24,16 @@ const progressPoints = [
 ]
 
 
-const SidebarProgress = () => {
+const SidebarProgress = (props) => {
+
+    const { props: pageProps } = props;
+    const { route } = pageProps || {};
+    const { location, match, history } = route || {};
+
+    // console.log({
+    //     props,
+    //     route
+    // })
 
    
     const [isToggle, setToggle ] = useState(false);

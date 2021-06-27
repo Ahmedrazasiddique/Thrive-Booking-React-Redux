@@ -3,7 +3,8 @@ import { Row, Col, Button, Alert } from 'reactstrap';
 import { connect } from "react-redux";
 import { saveAdHocEvent } from '../../actions/eventActions';
 import AdHocCalendar from './Components/Common/Ad-Hoc-Calendar';
-import InvitesList from './Components/Common/InvitesList';
+import * as moment from 'moment';
+import ToolTip from './Components/Common/ToolTip';
 import IntervalField from './Components/Common/IntervalField';
 import TimeIntervalComponent from './Components/Common/TimeInterval';
 import FormField from "./Components/Common/FormField";
@@ -13,7 +14,10 @@ import * as Yup from "yup";
 const validation = Yup.object().shape({
     event_title: Yup.string().required("Event Title is required"),
     start_time: Yup.string().required("Start Time is required"),
-    end_time: Yup.string().required("End Time is Required")
+    end_time: Yup.string().required("End Time is Required"),
+    first_name: Yup.string().required("First Name is Required"),
+    last_name: Yup.string().required("Last Name is Required"),
+    email: Yup.string().required("Email is Required"),
 });    
 
 let initialValues = {
@@ -21,8 +25,11 @@ let initialValues = {
     event_date: new Date(),
     start_time: "",
     end_time: "",
-    link_expiration_period: "",
-    min_schedule_notice_in_minutes: ""
+    link_expiration_period: 0,
+    min_schedule_notice_in_minutes: 0,
+    first_name: "",
+    last_name: "",
+    email: ""
 }    
 
 let defaultInvitee = {
@@ -36,6 +43,7 @@ class AddAdHocComponent extends Component {
     state = {
         isLoading: false,
         errorMessage: "",
+        successMessage: "",
         invites_list: [
             {
                 first_name: "",
@@ -55,27 +63,8 @@ class AddAdHocComponent extends Component {
         })
     
     }
-
-    onChange = (fieldName, fieldValue, index) => {
-        const { invites_list } = this.state;
-
-        const new_invitees_list = (invites_list || []).map((list, i) => {
-            if(i === index) {
-                return {
-                    ...list,
-                    [fieldName]: fieldValue
-                }
-            }
-
-            return list
-        });
-
-        this.setState({
-            invites_list: new_invitees_list
-        })
-    }
     render() {
-        const { isLoading, errorMessage, invites_list } = this.state;
+        const { isLoading, errorMessage, successMessage } = this.state;
         return (
             <div className="create-event-wrapper">
                 <div className="create-event-container">
@@ -92,19 +81,51 @@ class AddAdHocComponent extends Component {
                                             validationSchema={validation}
                                             initialValues={initialValues}
                                             onSubmit={(data) => {
+
+                                                const { min_schedule_notice_in_minutes, event_date:date, link_expiration_period } = data || {};
+
+                                                if(parseInt(min_schedule_notice_in_minutes) === 0) {
+                                                    alert("Minimum schedule notice should be greater than 0 miutes.");
+                                                    return;
+                                                }
+
+                                                if(parseInt(link_expiration_period) === 0) {
+                                                    alert("Link expiration perios should be greater than 0 days.");
+                                                    return;
+                                                }
                                                 const bussinessId = localStorage.getItem('businessId')
-                                                const { invites_list } = this.state;
                                                 const { saveAdHocEvent } = this.props;
+
+                                                const { first_name, last_name, email} = data || {};
+
+                                                // const allowedFields = ['first_name', 'last_name', 'email'];
+
+                                                // const filterData = (Object.keys(data) || []).filter((e) => allowedFields.indexOf(e) === -1);
+                                                
+                                                alert(date);
+
+                                                this.setState({
+                                                    isLoading: true
+                                                })
                                                 saveAdHocEvent({
                                                     data: {
                                                         ...data,
-                                                        event_invitations: invites_list,
+                                                        event_date: moment(date).format('YYYY/MM/DD'),
+                                                        event_invitations:[{ 
+                                                            first_name,
+                                                            last_name,
+                                                            email
+                                                        }],
                                                         business_id: bussinessId,
                                                         provider_id: bussinessId
                                                     },
                                                     onSuccess: (event) => {
                                                         const { route } = this.props;
                                                         const { history } = route || {};
+                                                        this.setState({
+                                                            successMessage: event,
+                                                            isLoading: false
+                                                        })
                                                         history.push(`/admin/events/list`);
                                                     },
                                                     onError: (error) => {
@@ -156,6 +177,7 @@ class AddAdHocComponent extends Component {
                                                                         />
                                                                     </Col>
                                                                 </Row>
+                                                                
                                                                 <Row>
                                                                     <Col md="12" lg="12">
                                                                         <TimeIntervalComponent 
@@ -164,7 +186,7 @@ class AddAdHocComponent extends Component {
                                                                                     target: { name: "start_time", value }
                                                                                 });
                                                                             }}
-                                                                            label = "Start Time" 
+                                                                            label = "Start Time *" 
                                                                             value = { values.start_time }
                                                                             placeholder = "12:00" 
                                                                             errors={errors}
@@ -181,7 +203,7 @@ class AddAdHocComponent extends Component {
                                                                                     target: { name: "end_time", value }
                                                                                 });
                                                                             }}
-                                                                            label = "End Time" 
+                                                                            label = "End Time *" 
                                                                             value = { values.end_time }
                                                                             placeholder = "12:00" 
                                                                             errors={errors}
@@ -193,7 +215,10 @@ class AddAdHocComponent extends Component {
                                                                 <Row>
                                                                     <Col md="6" lg="6">
                                                                         <div className="form-group event-group">
-                                                                            <label>Minimum Scheduling Notice</label>
+                                                                            <label>
+                                                                                Minimum Scheduling Notice
+                                                                                <ToolTip/>
+                                                                            </label>
                                                                             <IntervalField 
                                                                                 onChange= {
                                                                                     (value) => {
@@ -211,7 +236,12 @@ class AddAdHocComponent extends Component {
                                                                     </Col>
                                                                     <Col md="6" lg="6">
                                                                         <div className="form-group event-group">
-                                                                            <label>Link Validity Period</label>
+                                                                            <label>
+                                                                                Link Validity Period
+                                                                                <ToolTip
+                                                                                    position="left"
+                                                                                />
+                                                                            </label>
                                                                             <IntervalField 
                                                                                 onChange= {
                                                                                     (value) => {
@@ -229,19 +259,60 @@ class AddAdHocComponent extends Component {
                                                                 </Row>
                                                                 <Row>
                                                                     <Col md="12" lg="12">
-                                                                        {
-                                                                            (invites_list || []).map((list, index) => {
-                                                                                return (
-                                                                                    <InvitesList index = { index } data = { list } onChange = { this.onChange }/>
-                                                                                )
-                                                                            })
-                                                                        }
+                                                                        <div className="invite-wrapper">
+                                                                            <h3>Invitees</h3>
+                                                                            <div className="padding-zero">
+                                                                                <Row>
+                                                                                    <Col md="6" lg="6">
+                                                                                        <FormField
+                                                                                            type="text"
+                                                                                            name="first_name"
+                                                                                            label="First Name *"
+                                                                                            placeholder="First Name"
+                                                                                            showLabel={true}
+                                                                                            value={values.first_name}
+                                                                                            errors={errors}
+                                                                                            touched={touched}
+                                                                                            
+                                                                                        />
+
+                                                                                    </Col>
+                                                                                    <Col md="6" lg="6">
+                                                                                        <FormField
+                                                                                            type="text"
+                                                                                            name="last_name"
+                                                                                            label="Last Name *"
+                                                                                            placeholder="Last Name"
+                                                                                            showLabel={true}
+                                                                                            value={values.last_name}
+                                                                                            errors={errors}
+                                                                                            touched={touched}
+                                                                                            
+                                                                                        />
+                                                                                        
+                                                                                    </Col>
+                                                                                </Row>
+                                                                                <Row>
+                                                                                    <Col md="12" lg="12">
+                                                                                        <FormField
+                                                                                            type="email"
+                                                                                            name="email"
+                                                                                            label="Email *"
+                                                                                            placeholder="Email"
+                                                                                            showLabel={true}
+                                                                                            value={values.email}
+                                                                                            errors={errors}
+                                                                                            touched={touched}
+                                                                                            
+                                                                                        />
+                                                                                        
+                                                                                    </Col>
+                                                                                </Row>
+                                                                            </div>
+                                                                        </div>
+
                                                                     </Col>
-                                                                    <Col md="4" lg="4">
-                                                                        <Button type="button" className="btn btn-primary" onClick = { this.addInvitee }> 
-                                                                            Add Invitte
-                                                                        </Button>
-                                                                    </Col>
+                                                                    
                                                                 </Row>    
                                                                 <Row>
                                                                     <Col md="12" lg="12">
@@ -252,6 +323,10 @@ class AddAdHocComponent extends Component {
                                                                 </Row>
                                                                 { errorMessage !== "" && <Alert color="danger" className="mt-4 text-center p-10">
                                                                     { errorMessage }
+                                                                </Alert> }
+
+                                                                { successMessage !== "" && <Alert color="success" className="mt-4 text-center p-10">
+                                                                    { successMessage }
                                                                 </Alert> }
                                                             </Col>
                                                         </Row>

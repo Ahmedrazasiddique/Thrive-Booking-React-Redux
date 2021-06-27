@@ -1,6 +1,7 @@
 import React from "react";
 import { Field } from "formik";
 import { FormGroup, Label, FormFeedback } from "reactstrap";
+import ToolTip from './ToolTip';
 import PropTypes from "prop-types";
 
 const FormField = (props) => {
@@ -20,7 +21,10 @@ const FormField = (props) => {
   } = props;
   return (
     <FormGroup className="event-form-group">
-      { showlabel && <Label for={name}>{label}</Label>}
+      { showlabel && <Label for={name}>
+          {label}
+          <ToolTip/>
+        </Label>}
 
       {type === "select" ? (
         <Field

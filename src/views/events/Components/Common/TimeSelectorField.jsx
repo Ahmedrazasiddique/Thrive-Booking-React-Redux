@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import { Fragment } from 'react';
 
 const time = [
     {
@@ -27,34 +28,61 @@ const time = [
         text: '60'
     },
     {
-        value: '000',
-        text: '000'
+        value: '0',
+        text: '000',
+        type: 'custom'
     },
 
 ]
 
 class TimeSelectorField extends Component {
 
+    state = {
+        textboxValue: "",
+
+    }
+
     handleChange = ( { target } ) => {
         const { onChange } = this.props;
-        const { value } = target || {}; 
+        
+        const { value } = target || {};
+
+        if(target.getAttribute('data-type') === "text") {
+            this.setState({
+                textboxValue: value
+            })
+        }
         onChange(value);
     }
 
     render() {
+        const { textboxValue } = this.state || {};
+        const { defaultValue } = this.props || {};
         return (
             <div className="time-selector-wrapper">
                 {
                     (time || []).map((e, i) => {
-                        const { text, value } = e || {};
+                        const { text, value, type } = e || {};
                         return (
-                            <div className="event-form-check" key = { i }>
-                                <input type="radio" id={ text } value = { value } onChange = { this.handleChange } name = "time"></input>
-                                <label htmlFor={ text }>
-                                    <span> { text } </span>
-                                    
-                                </label>
-                            </div>
+                            <Fragment>
+                                {
+                                    type === "custom"
+                                    ?
+                                    <div className="event-form-check" key = { i }>
+                                        <input type="number" id={ text } value = { textboxValue } placeholder={ text } onChange = { this.handleChange } data-type="text" name = "time"></input>
+                                    </div>  
+                                    :
+                                    <div className="event-form-check" key = { i }>
+                                        <input type="radio" id={ text } value = { value } onChange = { this.handleChange } checked = {
+                                            (defaultValue === value) ? true : false
+                                        } name = "time"></input>
+                                        <label htmlFor={ text }>
+                                            <span> { text } </span>
+                                            
+                                        </label>
+                                    </div> 
+                                }
+                            </Fragment>
                         )
                     })
                 }

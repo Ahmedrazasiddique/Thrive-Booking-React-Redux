@@ -19,6 +19,7 @@ import paymentReducer from "./paymentReducer";
 import vacationReducer from "./vacationReducer";
 import crmReducer from "./crmReducer";
 import directoryInformationReducer from "./directoryInformationReducer";
+import bookingReducer from "./bookingReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -39,5 +40,6 @@ export default combineReducers({
   payment: paymentReducer,
   vacation: vacationReducer,
   crm: crmReducer,
-  directoryinformation:directoryInformationReducer
+  directoryinformation:directoryInformationReducer,
+  booking:bookingReducer
 });

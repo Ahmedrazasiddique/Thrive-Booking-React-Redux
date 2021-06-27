@@ -1,0 +1,16 @@
+.meeting-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 90px;
+}
+.meeting-details h1 {
+  font-size: 40px;
+  color: #0c4767;
+  font-weight: bold;
+}
+.meeting-details p {
+  font-size: 20px;
+  color: #626262;
+}

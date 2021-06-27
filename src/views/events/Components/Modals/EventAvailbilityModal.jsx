@@ -1,19 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, Label, Input, FormGroup } from 'reactstrap';
-import ToggleField from '../Common/ToggleField';
-import FormField from "../Common/FormField";
+// import ToggleField from '../Common/ToggleField';
+// import FormField from "../Common/FormField";
 import NumberField from '../Common/NumberField';
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 
-const validation = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-});    
 
-let initialValues = {
-    name: "",
-    location: ""
-}
 
 class EventAvailbilityModal extends Component {
     constructor(props) {
@@ -47,77 +39,52 @@ class EventAvailbilityModal extends Component {
                 <Modal isOpen={isOpen} toggle={this.toggle} className="event-modal modal-lg modal-dialog">
                     <ModalHeader toggle={this.toggle}>Event Validity</ModalHeader>
                     <ModalBody>
-                        <Formik
-                            validationSchema={validation}
-                            initialValues={initialValues}
-                            onSubmit={(data) => {
-                                console.log({
-                                    data
-                                })
-                            }}
-                        >
-                            {(formProps) => {
-                                const {
-                                    values,
-                                    errors,
-                                    touched,
-                                    handleChange,
-                                    setFieldValue,
-                                } = formProps;
-                                return (
-                                    <Form>
+                        <Row>
+                            <Col md="4" lg="4">
+                                <div className="form-group event-form-group">
+                                    <label>Number of days</label>
+                                    <NumberField defaultValue = { 0 } onChange = { (value) => {
+                                        console.log({
+                                            value
+                                        })
+                                    }}/>
+                                </div>
+                            </Col>
+                            <Col md="1" lg="1"></Col>
+                            <Col md="6" lg="6">
+                                <div className="form-group event-form-group ">
+                                    <label>
+                                        Staff Assignment
+                                    </label>
+                                    <FormGroup tag="fieldset" className="event-form-group ">
+                                        
                                         <Row>
-                                            <Col md="4" lg="4">
-                                                <div className="form-group event-form-group">
-                                                    <label>Number of days</label>
-                                                    <NumberField defaultValue = { 0 } onChange = { (value) => {
-                                                        console.log({
-                                                            value
-                                                        })
-                                                    }}/>
+                                            <Col md="12" lg="12">
+                                                <div className="event-form-check">
+                                                    <input type="radio" id="input-1" name="is_time_block"></input>
+                                                    <label htmlFor="input-1">
+                                                        <span></span>
+                                                        Yes
+                                                    </label>
+                                                    
                                                 </div>
                                             </Col>
-                                            <Col md="1" lg="1"></Col>
-                                            <Col md="6" lg="6">
-                                                <div className="form-group event-form-group ">
-                                                    <label>
-                                                        Staff Assignment
+                                            <Col md="12" lg="12">
+                                                <div className="event-form-check">
+                                                    <input type="radio" id="input-2" name="is_time_block"></input>
+                                                    <label htmlFor="input-2">
+                                                        <span></span>
+                                                        No
                                                     </label>
-                                                    <FormGroup tag="fieldset" className="event-form-group ">
-                                                       
-                                                        <Row>
-                                                            <Col md="12" lg="12">
-                                                                <div className="event-form-check">
-                                                                    <input type="radio" id="input-1" name="is_time_block"></input>
-                                                                    <label htmlFor="input-1">
-                                                                        <span></span>
-                                                                        Yes
-                                                                    </label>
-                                                                    
-                                                                </div>
-                                                            </Col>
-                                                            <Col md="12" lg="12">
-                                                                <div className="event-form-check">
-                                                                    <input type="radio" id="input-2" name="is_time_block"></input>
-                                                                    <label htmlFor="input-2">
-                                                                        <span></span>
-                                                                        No
-                                                                    </label>
-                                                                    
-                                                                </div>
-                                                            </Col>
-                                                        </Row>
-                                                        
-                                                    </FormGroup>  
+                                                    
                                                 </div>
                                             </Col>
                                         </Row>
                                         
-                                    </Form>
-                                )
-                            }}
-                        </Formik>                       
-
+                                    </FormGroup>  
+                                </div>
+                            </Col>
+                        </Row>
                     </ModalBody>
                     
                 </Modal>

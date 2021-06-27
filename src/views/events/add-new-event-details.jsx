@@ -3,11 +3,13 @@ import React, { Component, Fragment } from 'react';
 import FormField from "./Components/Common/FormField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import Tooltip from './Components/Common/ToolTip';
+import TextEditor from './Components/Common/TextEditorField';
 import { connect } from "react-redux";
 import { Row, Col, Alert, Button, Input, FormGroup, InputGroup, InputGroupAddon,InputGroupText } from 'reactstrap';
 import SidebarProgress from './Components/Sidebar/sidebar-progress';
 import NumberField from './Components/Common/NumberField';
-import { saveEventDetails } from '../../actions/eventActions';
+import { saveEventDetails, getEventDetails } from '../../actions/eventActions';
 import ToggleField from './Components/Common/ToggleField';
 import FileUploadField from './Components/Common/FileUploadField';
 import qs from 'query-string';
@@ -24,18 +26,21 @@ const initialValues = {
     recurring_booking_status: "D",
     allow_rescheduling_status: "D",
     attendee_cancellation_status: "D",
-  
-    
+    attendee_cancellation: "",
+    email_reminder_status: "D",
+    sms_reminder_status: "D",
+    email_followup_status: "D",
+    instruction_to_attendee: "",
+
 }
 
 
-const paidValues = {
+let paidValues = {
     ...initialValues,
     coupon_codes_status: "D",
     recurrent_booking_discounts_status: "D",
-    cancellation_policy: "",
-    instructions_attende: "",
-    event_prepaid_status: ""
+    // attendee_cancellation_status: "",
+    event_prepaid_status: "",
 }
 
 
@@ -58,8 +63,54 @@ class AddNewEventDetails extends Component {
                 "qty": 0
             }
         ],
-        payments_type: [],
-        payments_price: []
+        payments_type: "",
+        payments_price: "",
+        payments_flat_type: "percent"
+    }
+
+    componentDidMount() {
+        const { route, getEventDetails } = this.props;
+        const { location, match, history } = route || {};
+        const { search } = location || {};
+
+        const locationParse = qs.parse(search);
+        const { type } = locationParse || {};
+
+        const { params } = match || {};
+        const { id } = params || {};
+
+        if(id) {
+            getEventDetails({
+                data: {
+                    id,
+                    type
+                },
+                onSuccess: function(response) {
+                   if(type === "free-event") {
+                       initialValues = {
+                           ...initialValues,
+                           ...response
+                       }
+                   }
+
+                   if(type === "paid-event") {
+                        paidValues = {
+                            ...paidValues,
+                            ...response
+                        }
+                    }
+
+                    console.log({
+                        paidValues
+                    })
+                },
+                onError: function(error) {
+                    console.log({
+                        error
+                    });
+                }
+            })
+        }
     }
 
     render() {
@@ -73,7 +124,7 @@ class AddNewEventDetails extends Component {
         const { params } = match || {};
         const { id } = params || {};
 
-        const { isLoading, errorMessage, pricing, add_ons, payments_type, payments_price } = this.state;
+        const { isLoading, errorMessage, pricing, add_ons, payments_type, payments_price, payments_flat_type } = this.state;
 
         return (
             <div className="create-event-wrapper">
@@ -87,10 +138,21 @@ class AddNewEventDetails extends Component {
                                 <Formik
                                    
                                     initialValues={ type === "paid-event" ? paidValues : initialValues }
+                                    enableReinitialize
                                     onSubmit={(data) => {
-                                        // this.setState({
-                                        //     isLoading: true
-                                        // })
+                                        
+
+                                        const { max_no_of_booking, event_color, is_max_no_bookings } = data || {};
+
+                                        if(event_color === "") {
+                                            alert("Event color is required field.");
+                                            return;
+                                        }
+
+                                        if(parseInt(max_no_of_booking) === 0 && is_max_no_bookings === "E") {
+                                            alert("Max number of booking needs to be greater than 0");
+                                            return;
+                                        }
 
                                         const { saveEventDetails } = this.props;
 
@@ -102,34 +164,57 @@ class AddNewEventDetails extends Component {
                                         }
 
                                         if(type === "paid-event") {
-                                            console.log({
-                                                payments_price,
-                                                payments_type
-                                            });
 
+                                            // const payments = (payments_type || []).map((e) => {
+                                            //     console.log({
+                                            //         e,
+                                            //         payments_type,
+                                            //         payments_price
+                                            //     })
+                                            //     if(payments_price[e]) {
+                                            //         return {
+                                            //             payment_type: e,
+                                            //             payment_type_flat_percent: payments_flat_type[e],
+                                            //             price: payments_price[e]
+                                            //         }
+                                            //     }
 
-                                            const payments = (payments_type || []).map((e) => {
-                                                if(payments_price[e]) {
-                                                    return {
-                                                        payment_type: e,
-                                                        payment_type_flat_percent: "percent",
-                                                        price: payments_price[e]
-                                                    }
+                                            //     return {
+                                            //         payment_type: e,
+                                            //         payment_type_flat_percent: payments_flat_type[e],
+                                            //         price: payments_price[e]
+                                            //     }
+                                            // });
+
+                                            const payments = [
+                                                {
+                                                    payment_type: payments_type,
+                                                    payment_type_flat_percent: payments_flat_type,
+                                                    price: payments_price
                                                 }
-
-                                                return {
-                                                    payment_type: e,
-                                                }
-                                            });
+                                            ]
 
                                             newData = {
                                                 ...data,
                                                 pricing,
                                                 add_ons,
-                                                payments
+                                                payments,
+                                                id: parseInt(id)
                                             }
                                         }
 
+
+                                        // console.log({
+                                        //     data,
+                                        //     newData
+                                        // });
+
+                                        // return false;
+
+                                        this.setState({
+                                            isLoading: true
+                                        })
+                                        
                                         saveEventDetails({
                                             data: newData,
                                             onSuccess: (eventId) => {
@@ -159,19 +244,25 @@ class AddNewEventDetails extends Component {
                                                     <Row>
                                                         <Col md="6" lg="6">
                                                             <div className="form-group event-form-group">
-                                                                <label>Image</label>
+                                                                <label>
+                                                                    Image
+                                                                    <Tooltip/>
+                                                                </label>
                                                                 <FileUploadField 
-                                                                    name = "eventFile"
+                                                                    name = "event_image"
                                                                     accept="image/*" placeholder = "Choose Images" onChange= { (file) => {
                                                                     handleChange({
-                                                                        target: { name: "eventFile", value: file }
+                                                                        target: { name: "event_image", value: file }
                                                                     });
                                                                 }}/>
                                                             </div>
                                                         </Col>
                                                         <Col md="6" lg="6">
                                                             <div className="form-group event-form-group">
-                                                                <label>Event Color</label>
+                                                                <label>
+                                                                    Event Color
+                                                                    <Tooltip/>
+                                                                </label>
                                                                 <ColorSelectorField name = "event_color" onChange = {
                                                                     (name, value) => {
                                                                         handleChange({
@@ -186,8 +277,17 @@ class AddNewEventDetails extends Component {
                                                         <Row>
                                                             <Col md="6" lg="6">
                                                                 <div className="form-group event-form-group">
-                                                                    <label>Description / Instruction</label>
-                                                                    <Input 
+                                                                    <label>
+                                                                        Description / Instruction
+                                                                        <Tooltip/>
+                                                                    </label>
+                                                                    <TextEditor name="description" value={ values.event_description } onChange = {({ target }) => {
+                                                                            const { name, value } = target || {};
+                                                                            handleChange({
+                                                                                target: { name, value }
+                                                                            });
+                                                                    }} />
+                                                                    {/* <Input 
                                                                         className="form-control"
                                                                         type="textarea" 
                                                                         placeholder="From Text"
@@ -200,7 +300,7 @@ class AddNewEventDetails extends Component {
                                                                             });
                                                                         }} 
                                                                         id="venueNotes" 
-                                                                    />
+                                                                    /> */}
                                                                 </div>
                                                             </Col>
                                                             <Col md="6" lg="6">
@@ -297,7 +397,8 @@ class AddNewEventDetails extends Component {
                                                             </Col>
                                                         </Row>
                                                     </div>
-                                                    { type === "paid-event" && <Fragment>
+                                                    <Fragment>
+                                                    { type === "paid-event" &&  <Fragment>
                                                         <div className="event-field-group">
                                                             <h3 className="field-title">Do You Require A Prepayment/Deposit ?</h3>
                                                             <Row>
@@ -323,8 +424,13 @@ class AddNewEventDetails extends Component {
                                                                     <div className="event-field-groups">
                                                                         <div className="form-group event-form-group">
                                                                             <div className="form-check-box">
-                                                                                <input id="full_payment" type="checkbox" name="payment_type" onChange = { () => {
-                                                                                    payments_type.push('full')
+                                                                                <input id="full_payment" type="radio" name="payment_type" onChange = { () => {
+                                                                                    // payments_type.push('full')
+
+                                                                                    this.setState({
+                                                                                        payments_type: "full"
+                                                                                    });
+                                                                                    
                                                                                 }}></input>
                                                                                 <label htmlFor="full_payment">
                                                                                     <span></span>
@@ -337,7 +443,11 @@ class AddNewEventDetails extends Component {
                                                                                 <div className="form-group event-form-group">
                                                                                     <div className="form-check-box">
                                                                                         <input id="deposit" type="checkbox" name="payment_type" onChange = { () => {
-                                                                                            payments_type.push('deposit')
+                                                                                            // payments_type.push('deposit')
+                                                                                            this.setState({
+                                                                                                payments_type: "deposit"
+                                                                                            });
+                                                                                            
                                                                                         }}></input>
                                                                                         <label htmlFor="deposit">
                                                                                             <span></span>
@@ -346,24 +456,41 @@ class AddNewEventDetails extends Component {
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="form-group form-field-group">
-                                                                                    <InputGroup>
-                                                                                        <InputGroupAddon addonType="prepend">
-                                                                                        <InputGroupText>Precent %</InputGroupText>
-                                                                                        </InputGroupAddon>
-                                                                                        <Input onChange = { ({ target }) => {
-                                                                                            const { value } = target;
+                                                                                    <div className="group-field">
+                                                                                        <select name="payment_type_flat_percent" onChange={ ({ target }) => {
+                                                                                            const { value } = target || {};
+                                                                                          
+                                                                                            this.setState({
+                                                                                                payments_flat_type: value
+                                                                                            })
+                                                                                            
+                                                                                        }}> 
 
-                                                                                            payments_price["deposit"] = value;
+                                                                                            <option value="percent">Percent %</option>
+                                                                                            <option value="flat">Flat</option>
+                                                                                        </select>
+                                                                                        <Input type="number" onChange = { ({ target }) => {
+                                                                                            const { value } = target;
+                                                                                            // payments_price.push(value);
+
+                                                                                            this.setState({
+                                                                                                payments_price: value
+                                                                                            })
+                                                                                            // payments_price = value;
                                                                                             
                                                                                         }}/>
-                                                                                    </InputGroup>
+                                                                                    </div>
                                                                                 </div>
                                                                             </Col>
                                                                             <Col md="6" lg="6">
                                                                                 <div className="form-group event-form-group">
                                                                                     <div className="form-check-box">
-                                                                                        <input id="partial_payment" type="checkbox" name="payment_type" onChange = { () => {
-                                                                                            payments_type.push('partial_payment')
+                                                                                        <input id="partial_payment" type="radio" name="payment_type" onChange = { () => {
+                                                                                            // payments_type.push('partial_payment')
+                                                                                            this.setState({
+                                                                                                payments_type: "partial_payment"
+                                                                                            })
+                                                                                            
                                                                                         }}></input>
                                                                                         <label htmlFor="partial_payment">
                                                                                             <span></span>
@@ -372,16 +499,26 @@ class AddNewEventDetails extends Component {
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="form-group form-field-group">
-                                                                                    <InputGroup >
-                                                                                        <InputGroupAddon addonType="prepend">
-                                                                                        <InputGroupText>Precent %</InputGroupText>
-                                                                                        </InputGroupAddon>
-                                                                                        <Input onChange = { ({ target }) => {
+                                                                                <div className="group-field">
+                                                                                        <select name="payment_type_flat_percent" onChange={ ({ target }) => {
+                                                                                            const { name , value } = target || {};
+                                                                                            // payments_flat_type["partial_payment"] = value;
+                                                                                            this.setState({
+                                                                                                payments_flat_type: value
+                                                                                            })
+                                                                                            // payments_flat_type = value;
+                                                                                        }}>
+                                                                                            <option value="percent">Percent %</option>
+                                                                                            <option value="flat">Flat</option>
+                                                                                        </select>
+                                                                                        <Input type="number" onChange = { ({ target }) => {
                                                                                             const { value } = target;
-                                                                                            payments_price["partial_payment"] = value;
-                                                                                            
+                                                                                            this.setState({
+                                                                                                payments_price: value
+                                                                                            });
+                                                                                             
                                                                                         }}/>
-                                                                                    </InputGroup>
+                                                                                    </div>
                                                                                 </div>
                                                                             </Col>
                                                                         </Row>
@@ -460,6 +597,7 @@ class AddNewEventDetails extends Component {
                                                             
                                                         </div>
                                                         {/* add on */}
+                                                       
                                                         <div className="event-field-group mb-30">
                                                             <h3 className="field-title">Add-on</h3>
                                                             <SectionAddOns addOns = { add_ons } onChange = {
@@ -470,71 +608,122 @@ class AddNewEventDetails extends Component {
                                                                 }
                                                             }/>
                                                         </div>
-                                                        <Row >
-                                                            <Col md="6" lg="6">
-                                                                <FormField
-                                                                    type="text"
-                                                                    name="cancellation_policy"
-                                                                    label="Cancellation Policy"
-                                                                    placeholder="From Text"
-                                                                    showLabel={true}
-                                                                    value={values.cancellation_policy}
-                                                                    errors={errors}
-                                                                    touched={touched}
-                                                                />
-                                                            </Col>
-                                                            <Col md="6" lg="6">
-                                                                <FormField
-                                                                    type="text"
-                                                                    name="instructions_attende"
-                                                                    label="Instructions to Attendee"
-                                                                    placeholder="From Text"
-                                                                    showLabel={true}
-                                                                    value={values.instructions_attende}
-                                                                    errors={errors}
-                                                                    touched={touched}
-                                                                />
-                                                            </Col>
-                                                        </Row>
-                                                        <Row className="mt-4">
-                                                            <Col md="3" lg="3">
-                                                                <div className="form-group event-form-group">
-                                                                    <div className="form-check-box">
-                                                                        <input id="booking_page" type="checkbox" name="page_selector"></input>
-                                                                        <label htmlFor="booking_page">
-                                                                            <span></span>
-                                                                            Booking Page
-                                                                        </label>
+                                                        </Fragment> }
+                                                        <div className="cancel-wrapper mt-30">
+                                                            <Row >
+                                                                <Col md="6" lg="6">
+                                                                    <FormField
+                                                                        type="text"
+                                                                        name="attendee_cancellation"
+                                                                        label="Cancellation Policy"
+                                                                        placeholder="From Text"
+                                                                        showLabel={true}
+                                                                        value={values.attendee_cancellation}
+                                                                        errors={errors}
+                                                                        touched={touched}
+                                                                    />
+                                                                </Col>
+                                                                <Col md="6" lg="6">
+                                                                    <FormField
+                                                                        type="text"
+                                                                        name="instruction_to_attendee"
+                                                                        label="Instructions to Attendee"
+                                                                        placeholder="From Text"
+                                                                        showLabel={true}
+                                                                        value={values.instruction_to_attendee}
+                                                                        errors={errors}
+                                                                        touched={touched}
+                                                                    />
+                                                                </Col>
+                                                            </Row> 
+                                                            <Row>
+                                                                <Col md="3" lg="3">
+                                                                    <div className="form-group event-form-group">
+                                                                        <div className="form-check-box">
+                                                                            <input id="booking_page" type="checkbox" name="sms_reminder_status" value={ values.sms_reminder_status } onChange = { (event) => {
+                                                                                const { target } = event || {};
+                                                                                const { name, value } = target || {};
+                                                                                let defaultValue = "D";
+                                                                                if(value === "D") {
+                                                                                    defaultValue = "E";
+                                                                                }
+
+                                                                                handleChange({
+                                                                                    target: {
+                                                                                        name,
+                                                                                        value: defaultValue
+                                                                                    }
+                                                                                })
+
+                                                                                
+                                                                            }}></input>
+                                                                            <label htmlFor="booking_page">
+                                                                                <span></span>
+                                                                                Booking Page
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                
-                                                            </Col>
-                                                            <Col md="3" lg="3">
-                                                                <div className="form-group event-form-group">
-                                                                    <div className="form-check-box">
-                                                                        <input id="confirmation_page" type="checkbox" name="page_selector"></input>
-                                                                        <label htmlFor="confirmation_page">
-                                                                            <span></span>
-                                                                            Confirmation Page
-                                                                        </label>
+                                                                    
+                                                                </Col>
+                                                                <Col md="3" lg="3">
+                                                                    <div className="form-group event-form-group">
+                                                                        <div className="form-check-box">
+                                                                            <input id="confirmation_page" type="checkbox" name="email_followup_status" value={ values.email_followup_status } onChange = { (event) => {
+                                                                                const { target } = event || {};
+                                                                                const { name, value } = target || {};
+                                                                                let defaultValue = "D";
+                                                                                if(value === "D") {
+                                                                                    defaultValue = "E";
+                                                                                }
+
+                                                                                handleChange({
+                                                                                    target: {
+                                                                                        name,
+                                                                                        value: defaultValue
+                                                                                    }
+                                                                                })
+
+                                                                                
+                                                                            }}></input>
+                                                                            <label htmlFor="confirmation_page">
+                                                                                <span></span>
+                                                                                Confirmation Page
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                
-                                                            </Col>
-                                                            <Col md="3" lg="3">
-                                                                <div className="form-group event-form-group">
-                                                                    <div className="form-check-box">
-                                                                        <input id="reminder_email" type="checkbox" name="page_selector"></input>
-                                                                        <label htmlFor="reminder_email">
-                                                                            <span></span>
-                                                                            Reminder Email
-                                                                        </label>
+                                                                    
+                                                                </Col>
+                                                                <Col md="3" lg="3">
+                                                                    <div className="form-group event-form-group">
+                                                                        <div className="form-check-box">
+                                                                            <input id="reminder_email" type="checkbox" name="email_reminder_status" value={ values.email_reminder_status } onChange = { (event) => {
+                                                                                const { target } = event || {};
+                                                                                const { name, value } = target || {};
+                                                                                let defaultValue = "D";
+                                                                                if(value === "D") {
+                                                                                    defaultValue = "E";
+                                                                                }
+
+                                                                                handleChange({
+                                                                                    target: {
+                                                                                        name,
+                                                                                        value: defaultValue
+                                                                                    }
+                                                                                })
+
+                                                                                
+                                                                            }}></input>
+                                                                            <label htmlFor="reminder_email">
+                                                                                <span></span>
+                                                                                Reminder Email
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                
-                                                            </Col>
-                                                        </Row>
-                                                    </Fragment> }
+                                                                    
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                    </Fragment> 
                                                 </div>
                                                 <div className="event-card-footer">
                                                     <Row>
@@ -560,7 +749,7 @@ class AddNewEventDetails extends Component {
                             </div>                      
                         </Col>
                         <Col md="3" lg="3">
-                            <SidebarProgress/>
+                            <SidebarProgress route = { route } props = { this.props }/>
                         </Col>
                     </Row>
                 </div>
@@ -572,7 +761,8 @@ class AddNewEventDetails extends Component {
 
 
 export default connect(null, {
-    saveEventDetails
+    saveEventDetails,
+    getEventDetails
 })(AddNewEventDetails);
 
 // export default AddNewEventDetails;

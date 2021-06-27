@@ -11,6 +11,9 @@ class TextEditor extends Component {
     constructor(props) {
         super(props);
         const { value } = props;
+        console.log({
+            value
+        })
         this.state = {
             content: value
         }
@@ -75,9 +78,6 @@ class TextEditor extends Component {
                     }}
                     value={content}
                     onBlur={newContent => {
-                        console.log({
-                            newContent
-                        })
                         this.setState({
                             'content': newContent
                         }, onChange(newContent));

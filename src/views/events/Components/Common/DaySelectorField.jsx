@@ -4,31 +4,31 @@ import React, { Component } from 'react';
 const time = [
     {
         value: '1',
-        text: 'S'
+        text: 'Sun'
     },
     {
         value: '2',
-        text: 'M'
+        text: 'Mon'
     },
     {
         value: '3',
-        text: 'T'
+        text: 'Tue'
     },
     {
         value: '4',
-        text: 'W'
+        text: 'Wed'
     },
     {
         value: '5',
-        text: 'T'
+        text: 'Thu'
     },
     {
         value: '6',
-        text: 'F'
+        text: 'Fri'
     },
     {
         value: '7',
-        text: 'S'
+        text: 'Sat'
     },
 
 ]
@@ -43,7 +43,7 @@ class DaySelectorField extends Component {
 
     render() {
         return (
-            <div className="time-selector-wrapper">
+            <div className="time-selector-wrapper day-selector">
                 {
                     (time || []).map((e, i) => {
                         const { text, value } = e || {};

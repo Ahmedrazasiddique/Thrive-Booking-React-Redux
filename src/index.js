@@ -2,6 +2,7 @@ import "react-app-polyfill/ie11"; // For IE 11 support
 import "react-app-polyfill/stable";
 
 import "bootstrap/dist/css/bootstrap.css";
+import './assets/custom-scss/index.scss';
 
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";

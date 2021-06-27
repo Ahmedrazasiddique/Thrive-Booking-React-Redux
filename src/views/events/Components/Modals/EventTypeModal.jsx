@@ -3,36 +3,119 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, Label, In
 import EventDropDownComponent from '../Dropdown/event-dropdown';
 import FormField from "../../Components/Common/FormField";
 import PropTypes from "prop-types";
+import Tooltip from '../Common/ToolTip';
+
 
 class EventTypeModal extends Component {
     constructor(props) {
         super(props);
+        const { defaultValue } = props || {};
+        // const { venue_id } = values || {};
         this.state = {
             isOpen: false,
-            dropDownValue: ""
+            dropDownValue: "",
+            veneue: defaultValue
         }
     }
 
     toggle = () => {
-        const { isOpen } = this.state;
-        this.setState({
-            isOpen: !isOpen
-        })
+        const { onToggle } = this.props;
+        onToggle();
     }
 
     onDropdownChange = (value) => {
-        this.setState({
-            dropDownValue: value
+       this.setState({
+           veneue: value
+       })
+    }
+
+    onApplyChanges = () => {
+
+        const { formValues: values, onToggle, onChange } = this.props || {};
+
+        const { veneue: venue_id } = this.state || {};
+
+
+        console.log({
+            venue_id
         })
+
+        // const { venue_id } = values || {};
+
+        if(parseInt(venue_id) === 1) {
+            const { venue_location, venue_location_notes, venue_location_status} = values || {};
+
+            if(venue_location === "") {
+                alert("Venue locatation is required.");
+                return;
+            }
+
+            if(venue_location_notes === "") {
+                alert("Venue locatation notes is required.");
+                return;
+            }
+
+            if(venue_location_status === "") {
+                alert("Venue locatation status is required.");
+                return;
+            }
+        }
+
+        if(parseInt(venue_id) === 2) {
+            const { invitee_call_status, host_phone_no } = values || {};
+
+            if(invitee_call_status === "" || !invitee_call_status) {
+                alert("Invitee call status is required.");
+                return;
+            }
+
+            if(invitee_call_status === "invitee" && host_phone_no === "") {
+                alert("Host phone number is required.");
+                return;
+            }
+        }
+
+        // other
+
+        if(parseInt(venue_id) === 7) {
+            const { venue_other_display_status, venue_other_notes} = values || {};
+            if(venue_other_notes === "") {
+                alert("Notes is required.");
+                return;
+            }
+
+            if(venue_other_display_status === "") {
+                alert("Venue display status is required.");
+                return;
+            }
+        }
+
+        onChange("venue_id", venue_id);
+        
+        onToggle();
+    }
+
+    componentDidUpdate(prevProps, nextProps) {
+        const { veneue: oldVeneue } = nextProps || {};
+        const { defaultValue } = prevProps || {};
+
+        if(oldVeneue !== defaultValue) {
+            this.setState({
+                veneue: defaultValue
+            });
+        }
     }
 
     render() {
-        const { isOpen, dropDownValue } = this.state;
-        const { venues, defaultValue, formValues: values, errors, touched, onChange } = this.props;
+        const { dropDownValue, veneue:defaultValue } = this.state;
+        const { isOpen, venues, formValues: values, errors, touched, onChange, defaultValue: propValue } = this.props;
         return (
             <Fragment>
                 <div className="btn-wrapper">
-                    <Button type="button" className="btn btn-primary" onClick={ this.toggle }>Edit Details</Button>
+                    <Button type="button" className="btn btn-primary" onClick={ this.toggle }>
+                        Edit Details
+                        
+                    </Button>
                 </div>
                 <Modal isOpen={isOpen} toggle={this.toggle} className="event-modal modal-lg modal-dialog">
                     <ModalHeader toggle={this.toggle}>Add Location</ModalHeader>
@@ -41,22 +124,30 @@ class EventTypeModal extends Component {
                             <Col md="12" lg="12">
                                 <div className="event-form-group">
                                     <EventDropDownComponent defaultValue = { defaultValue } venues = { venues } onChange = { this.onDropdownChange }/>
-                                    { defaultValue === "3" && <div className="help-block">
-                                        Google Meet Link will be provided after invitee completed booking.
+                                    { (defaultValue === "3" || defaultValue === 3) && <div className="help-block">
+                                        Google Meet link will be provided after invitee booking completed.
                                     </div> }
 
-                                    { defaultValue === "4" && <div className="help-block">
-                                        Zoom Link will be provided after invitee completed booking..
+                                    { (defaultValue === "4" || defaultValue === 4) && <div className="help-block">
+                                        Zoom link will be provided after invitee booking completed.
+                                    </div> }
+
+                                    {(defaultValue === "5" || defaultValue === 5) && <div className="help-block">
+                                        Microsoft Team link will be provided after invitee booking completed.
+                                    </div> }
+
+                                    { (defaultValue === "6" || defaultValue === 6) && <div className="help-block">
+                                        Go to Meeting link will be provided after invitee booking completed.
                                     </div> }
                                 </div>
                             </Col>
-                            { defaultValue === "1" && ( 
+                            { (defaultValue === "1" || defaultValue === 1) && ( 
                                 <Fragment>
                                     <Col md="12" lg="12">
                                         <FormField
                                             type="text"
                                             name="venue_location"
-                                            label="Location"
+                                            label="Location *"
                                             placeholder="Location"
                                             showLabel={true}
                                             value={ values.venue_location }
@@ -70,7 +161,10 @@ class EventTypeModal extends Component {
                                     </Col>
                                     <Col md="12" lg="12">
                                         <div className="form-group event-form-group">
-                                            <Label for="venueNotes">Venue Notes</Label>
+                                            <label for="venueNotes">
+                                                Venue Notes
+                                                <Tooltip/>
+                                            </label>
                                             <Input 
                                                 className="form-control"
                                                 type="textarea" 
@@ -80,6 +174,7 @@ class EventTypeModal extends Component {
                                                     const { name, value } = target || {};
                                                     onChange(name, value);
                                                 }} 
+                                                value = { values.venue_location_notes }
                                                 id="venueNotes" 
                                             />
                                     </div>
@@ -91,6 +186,7 @@ class EventTypeModal extends Component {
                                                     type="radio"
                                                     id="input-1"
                                                     name="venue_location_status"
+                                                    checked = { values.venue_location_status === "display_location_booking" ? true : false }
                                                     value="display_location_booking"
                                                     onChange = {({ target }) => {
                                                         const { name, value } = target || {};
@@ -107,6 +203,7 @@ class EventTypeModal extends Component {
                                                     type="radio"
                                                     id="input-2"
                                                     name="venue_location_status"
+                                                    checked = { values.venue_location_status === "display_booking_after_confirmed" ? true : false }
                                                     value="display_booking_after_confirmed"
                                                     onChange = {({ target }) => {
                                                         const { name, value } = target || {};
@@ -123,6 +220,7 @@ class EventTypeModal extends Component {
                                                     type="radio"
                                                     id="input-3"
                                                     name="venue_location_status"
+                                                    checked = { values.venue_location_status === "invitee_add_location" ? true : false }
                                                     value="invitee_add_location"
                                                     onChange = {({ target }) => {
                                                         const { name, value } = target || {};
@@ -143,38 +241,33 @@ class EventTypeModal extends Component {
                                 </Fragment>
                             
                             ) }
-                            { defaultValue === "2" && <Col md="12" lg="12">
+                            { (defaultValue === "2" || defaultValue === 2) && <Col md="12" lg="12">
                                 <FormGroup tag="fieldset" className="event-form-group">
                                     <div class="event-form-check">
-                                        <input type="checkbox" id="input-1" name="call_my_invitee_status"
-                                            checked = { values.call_my_invitee_status === "yes"}
+                                        <input type="checkbox" id="input-1" value="me" name="invitee_call_status"
+                                            checked = { values.invitee_call_status === "me"}
                                             onChange = {
                                             ({ target }) => {
-                                                if(values.call_my_invitee_status === "yes") {
-                                                    onChange("call_my_invitee_status", "no"); 
-                                                } else {
-                                                    onChange("call_my_invitee_status", "yes")
-                                                }
+                                               
+                                                const { name, value } = target || {};
+                                                onChange(name, value);
                                                 
                                         }}></input>
                                         <label htmlFor="input-1">
                                             <span></span>
-                                            I will call my invitee.
+                                            I will call my invitee
                                         </label>
                                         <div className="help-block">
-                                            This option will automatically require and add a section for your client to add location.
+                                            This option will automatically require and add a section for your client to add phone.
                                         </div>
                                     </div>
                                     <div class="event-form-check">
-                                        <input type="checkbox" id="input-2" name="invitee_call_me_status"
-                                            checked = { values.invitee_call_me_status === "yes"}
+                                        <input type="checkbox" id="input-2" value="invitee" name="invitee_call_status"
+                                            checked = { values.invitee_call_status === "invitee"}
                                             onChange = {
                                                 ({ target }) => {
-                                                    if(values.invitee_call_me_status === "yes") {
-                                                        onChange("invitee_call_me_status", "no"); 
-                                                    } else {
-                                                        onChange("invitee_call_me_status", "yes")
-                                                    }
+                                                    const { name, value} = target || {};
+                                                    onChange(name, value);
                                                 }
                                             }
                                         ></input>
@@ -182,9 +275,9 @@ class EventTypeModal extends Component {
                                             <span></span>
                                             Let my invitee call me
                                         </label>
-                                        <div className="check-field">
+                                       { values.invitee_call_status === "invitee" && <div className="check-field">
                                             <FormField
-                                                type="text"
+                                                type="number"
                                                 name="host_phone_no"
                                                 label="Phone No"
                                                 placeholder="+XXX-XXX-XXXXXX"
@@ -193,19 +286,87 @@ class EventTypeModal extends Component {
                                                 errors={errors}
                                                 touched={touched}
                                                 onChange={ ({ target }) => {
+                                                    // const { isOpen } = this.state;
                                                     const { name, value } = target || {};
                                                     onChange(name, value);
+
+                                                    
+
                                                 }}
                                             />
-                                        </div>
+                                        </div> }
                                         <div className="help-block">
-                                            This option will not require thriveBooking to collect your client’s phone number when
+                                            This option will not require MeetOcto to collect your client’s phone number when
                                             booking Your phone number will be sent to the invitee once booking is confirmed.
                                         </div>
                                     </div>
                                     
                                 </FormGroup>    
                             </Col> }
+
+
+                            { (defaultValue === "7" || defaultValue === 7) && <Fragment>
+                                <Col md="12" lg="12">
+                                    <div className="form-group event-form-group">
+                                        <label for="venueNotes">
+                                            Notes *
+                                            <Tooltip/>
+                                        </label>
+                                        <Input 
+                                            className="form-control"
+                                            type="textarea" 
+                                            placeholder="From Text"
+                                            name="venue_other_notes"
+                                            onChange = {({ target }) => {
+                                                const { name, value } = target || {};
+                                                onChange(name, value);
+                                            }} 
+                                            value = { values.venue_other_notes }
+                                            id="venueNotes" 
+                                        />
+                                    </div>    
+                                </Col>
+                                <Col md="12" lg="12">
+                                    <FormGroup tag="fieldset" className="event-form-group">
+                                        <div class="event-form-check">
+                                            <input 
+                                                type="radio"
+                                                id="input-1"
+                                                name="venue_other_display_status"
+                                                checked = { values.venue_other_display_status === "1" }
+                                                value="1"
+                                                onChange = {({ target }) => {
+                                                    const { name, value } = target || {};
+                                                    onChange(name, value);
+                                                }} 
+                                            ></input>
+                                            <label htmlFor="input-1">
+                                                <span></span>
+                                                Display booking notes.
+                                            </label>
+                                        </div>
+                                        <div class="event-form-check">
+                                            <input 
+                                                type="radio"
+                                                id="input-2"
+                                                name="venue_other_display_status"
+                                                value="2"
+                                                checked = { values.venue_other_display_status === "2" }
+                                                onChange = {({ target }) => {
+                                                    const { name, value } = target || {};
+                                                    onChange(name, value);
+                                                }} 
+                                            ></input>
+                                            <label htmlFor="input-2">
+                                                <span></span>
+                                                Display Notes After Booking is Confirmed
+                                            </label>
+                                        </div>
+                                        
+                                        
+                                    </FormGroup>    
+                                </Col> 
+                            </Fragment> }
                             
                         </Row>
                     </ModalBody>
@@ -215,7 +376,7 @@ class EventTypeModal extends Component {
                                 <Button className="btn btn-outline" onClick={this.toggle}>Cancel</Button>
                             </Col>
                             <Col md="6" lg="6">
-                                <Button className="btn btn-app" onClick={this.toggle}>Apply</Button>
+                                <Button className="btn btn-app" onClick={this.onApplyChanges}>Apply</Button>
                             </Col>
                         </Row>
                     </ModalFooter>

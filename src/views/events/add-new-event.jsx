@@ -1,26 +1,29 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input, Button, Alert } from 'reactstrap';
-import { getEventTypes, getVenues, saveEventType, saveAdHocEvent } from '../../actions/eventActions';
+import { getEventTypes, getVenues, saveEventType, saveAdHocEvent, getEventTypeDetails } from '../../actions/eventActions';
 import SidebarProgress from './Components/Sidebar/sidebar-progress';
 import FormField from "./Components/Common/FormField";
 import EventTypeModal from './Components/Modals/EventTypeModal';
 import NumberField from './Components/Common/NumberField';
 import { Formik, Form } from "formik";
+import ToolTip from './Components/Common/ToolTip';
+import Loader from '../../components/Loader/Loader';
 import * as Yup from "yup";
 import { Component } from 'react';
 import qs from 'query-string'
 
 const validation = Yup.object().shape({
-    event_name: Yup.string().required("Event Name is required"),
-    event_format_id: Yup.string().required("Event Type is required"),
-    venue_id: Yup.string().required("Venue is required"),
+    event_name: Yup.string().required("Event Name is required."),
+    event_format_id: Yup.string().required("Event Type is required."),
+    venue_id: Yup.string().required("Venue is required."),
+    event_url: Yup.string().required("Event Url is required.")
 });    
 
 let initialValues = {
     event_name: "",
     no_of_attendies: 1,
-    event_format_id: "",
+    event_format_id: 1,
     venue_id: "",
     event_url: "",
     venue_location: "",
@@ -28,7 +31,9 @@ let initialValues = {
     venue_location_status: "",
     call_my_invitee_status: "no",
     invitee_call_me_status: "no",
-    host_phone_no: ""
+    host_phone_no: "",
+    venue_other_notes: "",
+    venue_other_display_status: ""
 }
 
 class AddNewEvent extends Component {
@@ -38,14 +43,71 @@ class AddNewEvent extends Component {
         this.state = {
             isLoading: false,
             errorMessage: "",
-            eventTypes: [],
-            venues: []
+            eventTypes: [
+                {
+                    "label": "One-on-One",
+                    "value": 1
+                },
+                {
+                    "label": "Group",
+                    "value": 2
+                }
+            ],
+            isOpen: false,
+            venues: [],
+            pageLoading: false, 
+            isEdit: false,
+            eventId: ""
         }
     }
     componentDidMount() {
-        const { state } = this.props;
+        const { state, route, getEventTypeDetails } = this.props;
+
+        const { match } = route || {};
+
+        const { params } = match || {};
+        const { id } = params || {};
+        
+        // get event details
+
+        if(id) {
+            this.setState({
+                pageLoading: true
+            });
+
+            const _this = this;
+
+            getEventTypeDetails({
+                data: {
+                    id
+                },
+                onSuccess: function(details) {
+                    initialValues = {
+                        ...initialValues,
+                        ...details
+                    }
+
+
+                    console.log({
+                        initialValues
+                    });
+
+                   _this.setState({
+                       pageLoading: false,
+                       isEdit: true,
+                       eventId: id
+                   })
+                },
+                onError: function(error) {
+                    console.error(error);
+                }
+            }) 
+        }
+
+        // veneues 
+
         Promise.all([
-            this.getEvents(),
+            // this.getEvents(),
             this.getVenues(),
           ])
         .then((value) => {
@@ -55,8 +117,8 @@ class AddNewEvent extends Component {
             });
     
             this.setState({
-                eventTypes: data[0],
-                venues: data[1]
+                // eventTypes: data[0],
+                venues: data[0]
             });
         })
         .catch((error) => {
@@ -109,15 +171,22 @@ class AddNewEvent extends Component {
 
     }
 
-    getEvents = () => {
-        return new Promise((resolve) => {
-            const { getEventTypes: getLocalEvents } = this.props;
-            getLocalEvents({
-              onSuccess: (data) => {
-                resolve(data);
-              },
-            });
-        });
+    // getEvents = () => {
+    //     return new Promise((resolve) => {
+    //         const { getEventTypes: getLocalEvents } = this.props;
+    //         getLocalEvents({
+    //           onSuccess: (data) => {
+    //             resolve(data);
+    //           },
+    //         });
+    //     });
+    // }
+
+    toggleModal = () => {
+        const { isOpen } = this.state;
+        this.setState({
+            isOpen: !isOpen
+        })
     }
 
 
@@ -132,7 +201,10 @@ class AddNewEvent extends Component {
 
         const { type } = locationParse || {};
 
-        const { eventTypes, venues, errorMessage, isLoading } = this.state;
+        const { eventTypes, venues, errorMessage, isLoading, pageLoading, isOpen } = this.state;
+        console.log({
+            pageLoading
+        })
         return (
             <div className="create-event-wrapper">
                 <div className="create-event-container">
@@ -142,15 +214,52 @@ class AddNewEvent extends Component {
                                 <div className="event-card-head">
                                     <h3 className="event-title">Event Type</h3>
                                 </div>
-                                <Formik
+                            { pageLoading ? <Loader isShowLoader={true}/> :    
+                            <Formik
                                     validationSchema={validation}
                                     initialValues={initialValues}
+                                    enableReinitialize
                                     onSubmit={(data) => {
                                         const { saveEventType } = this.props;
-                                        const bussinessId = localStorage.getItem('businessId')
-                                        
-                                        const { event_name, venue_location, venue_location_notes, venue_location_status,  no_of_attendies, event_format_id, venue_id, event_url, call_my_invitee_status, invitee_call_me_status, host_phone_no } = data || {};
+                                        const bussinessId = localStorage.getItem('businessId');
 
+                                        const { eventId, isEdit } = this.state || {};
+                                        
+                                        const { event_name, venue_location, venue_location_notes, venue_location_status,  no_of_attendies, event_format_id, venue_id, event_url, invitee_call_status, host_phone_no } = data || {};
+
+                                        if(parseInt(venue_id) === 1) {
+                                            // const { venue_location, venue_location_notes, venue_location_status} = values || {};
+                                
+                                            if(venue_location === "") {
+                                                alert("Venue locatation is required.");
+                                                return;
+                                            }
+                                
+                                            if(venue_location_notes === "") {
+                                                alert("Venue locatation notes is required.");
+                                                return;
+                                            }
+                                
+                                            if(venue_location_status === "") {
+                                                alert("Venue locatation status is required.");
+                                                return;
+                                            }
+                                        }
+                                
+                                        if(parseInt(venue_id) === 2) {
+                                            // const { invitee_call_status, host_phone_no } = values || {};
+                                
+                                            if(invitee_call_status === "") {
+                                                alert("Invitee call status is required.");
+                                                return;
+                                            }
+                                
+                                            if(invitee_call_status === "invitee" && host_phone_no === "") {
+                                                alert("Host phone number is required.");
+                                                return;
+                                            }
+                                        }
+                                        
                                         let defaultValue = {
                                             event_name,
                                             no_of_attendies,
@@ -161,7 +270,8 @@ class AddNewEvent extends Component {
                                         } 
 
 
-                                        if( venue_id === "1") {
+
+                                        if( venue_id === 1 || venue_id === "1") {
                                             defaultValue = {
                                                 ...defaultValue,
                                                 venue_location,
@@ -170,11 +280,10 @@ class AddNewEvent extends Component {
                                             }
                                         }
 
-                                        if(venue_id === "2") {
+                                        if(venue_id === "2" || venue_id === 2) {
                                             defaultValue = {
                                                 ...defaultValue,
-                                                call_my_invitee_status,
-                                                invitee_call_me_status,
+                                                invitee_call_status,
                                                 host_phone_no
                                             }
                                         }
@@ -186,6 +295,7 @@ class AddNewEvent extends Component {
 
                                         saveEventType({
                                             data: defaultValue,
+                                            eventId,
                                             onSuccess: (eventId) => { 
                                                 const { route } = this.props;
                                                 const { history } = route || {};
@@ -245,18 +355,21 @@ class AddNewEvent extends Component {
                                                                 placeholder="Select Event Type"
                                                                 type="select"
                                                                 name="event_format_id"
-                                                                label="Select Event Type *"
+                                                                label="Select Event Format *"
                                                                 errors={errors}
                                                                 touched={touched}
                                                                 value={ values.event_format_id }
-                                                                options={this.transformValue(eventTypes, 'eventTypes')}
+                                                                options={ eventTypes }
                                                             />
                                                         </Col>
                                                     </Row>
                                                     <Row>
-                                                        <Col md="3" lg="3">
+                                                       { values.event_format_id === "2" &&  <Col md="4" lg="4">
                                                             <div className="form-group">
-                                                                <label>No of Attendees</label>
+                                                                <label>
+                                                                    No. of Attendees *
+                                                                    <ToolTip/>
+                                                                </label>
                                                                 <NumberField 
                                                                     defaultValue = { values.no_of_attendies }
                                                                     onChange = {(value) => {
@@ -266,16 +379,27 @@ class AddNewEvent extends Component {
                                                                     }}
                                                                 />
                                                             </div>    
-                                                        </Col>
-                                                        <Col md="9" lg="9">
+                                                        </Col> }
+                                                        <Col md="8" lg="8">
                                                             <div className="form-group form-field-group">
-                                                                <label>Event Url</label>
+                                                                <label>
+                                                                    Event Url *
+                                                                    <ToolTip/>
+                                                                </label>
                                                                 <InputGroup>
                                                                     <InputGroupAddon addonType="prepend">
                                                                     <InputGroupText>https://thriveBooking.com/company_name</InputGroupText>
                                                                     </InputGroupAddon>
-                                                                    <Input placeholder="Event Name" name="event_url" value={ values.event_url}/>
+                                                                    <Input placeholder="Event Name" name="event_url" onChange = { ({ target }) => {
+                                                                        const { value, name } = target || {};
+                                                                        handleChange({
+                                                                            target: { name, value }
+                                                                        });
+                                                                    }}  value={ values.event_url}/>
                                                                 </InputGroup>
+                                                                {errors['event_url'] && touched['event_url'] && (
+                                                                    <div className="form-field text-danger"> { errors['event_url'] } </div>
+                                                                ) }
                                                             </div>
                                                         </Col>
                                                     </Row>
@@ -291,14 +415,26 @@ class AddNewEvent extends Component {
                                                                 touched={touched}
                                                                 value={ values.venue_id }
                                                                 options={this.transformValue(venues, 'venues')}
+                                                                onChange = { ({ target }) => {
+                                                                    const { isOpen } = this.state;
+                                                                    const { name, value }  = target || {};
+                                                                    handleChange({
+                                                                        target: { name, value }
+                                                                    });
+
+                                                                    this.setState({
+                                                                        isOpen: true
+                                                                    })
+
+                                                                }}
                                                             />
                                                         </Col>
-                                                        <Col md="2" lg="2">
-                                                            <EventTypeModal touched = { touched } formValues={ values } errors = { errors } defaultValue={ values.venue_id } onChange = { (name, value) => {
+                                                        <Col md="4" lg="4">
+                                                            <EventTypeModal isOpen = { isOpen } touched = { touched } formValues={ values } errors = { errors } defaultValue={ values.venue_id } onChange = { (name, value) => {
                                                                 handleChange({
                                                                     target: { name, value }
                                                                 })
-                                                            } } venues = { venues }/>
+                                                            } } venues = { this.transformValue(venues, 'venues') } onToggle = { this.toggleModal }/>
                                                         </Col>
                                                     </Row>
                                                 </div>
@@ -306,7 +442,7 @@ class AddNewEvent extends Component {
                                                     <Row>
                                                         <Col md="6" lg="6">
                                                             <Button className="btn btn-outline">
-                                                                I Would Do That Another Time to Cancel
+                                                                Save as Draft
                                                             </Button>
                                                         </Col>
                                                         <Col md="6" lg="6">
@@ -323,12 +459,12 @@ class AddNewEvent extends Component {
                                             </Form>
                                         )
                                     } }
-                                </Formik>          
+                                </Formik>  }        
                             </div>
 
                         </Col>
                         <Col md="3" lg="3">
-                            <SidebarProgress/>
+                            <SidebarProgress props = { this.props }/>
                         </Col>
                     </Row>
                 </div>
@@ -343,6 +479,7 @@ class AddNewEvent extends Component {
 export default connect(null, {
     getEventTypes,
     getVenues,
+    getEventTypeDetails,
     saveEventType, 
     saveAdHocEvent
 })(AddNewEvent);

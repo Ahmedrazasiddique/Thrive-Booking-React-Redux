@@ -1,7 +1,8 @@
 import React from "react";
+import LandingPage from "../../LandingPage";
 
 const Bootstrap = () => {
-  return <div>Site Bootstrap</div>;
+  return <LandingPage />;
 };
 
 export default Bootstrap;

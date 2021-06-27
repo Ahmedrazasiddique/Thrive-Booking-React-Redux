@@ -61,6 +61,7 @@ import AddNewEventAvailability from "../views/events/add-new-event-availbility";
 import AddNewEventAdvanced from "../views/events/add-new-event-advanced";
 import AddAdHocComponent from "../views/events/add-ad-hoc-event";
 import EventSuccessPage from "../views/events/event-success-page";
+import ListEventsView from "../views/events/list-view-events";
 
 export const USER_TYPES = {
   admin: encryptUserRole("admin").toString(CryptoJS.enc.Hex),
@@ -358,7 +359,7 @@ const routes = [
   {
     component: EventTypeList,
     exact: true,
-    path: "/admin/events/list",
+    path: "/admin/events/create/list",
     userType: USER_TYPES.admin,
   },
 
@@ -366,6 +367,12 @@ const routes = [
     component: AddNewEvent,
     exact: true,
     path: "/admin/events/create",
+    userType: USER_TYPES.admin,
+  },
+  {
+    component: AddNewEvent,
+    exact: true,
+    path: "/admin/events/:id/create",
     userType: USER_TYPES.admin,
   },
   {
@@ -398,6 +405,12 @@ const routes = [
     component: EventSuccessPage,
     exact: true,
     path: "/admin/events/success",
+    userType: USER_TYPES.admin,
+  },
+  {
+    component: ListEventsView,
+    exact: true,
+    path: "/admin/events/list",
     userType: USER_TYPES.admin,
   },
 ];

@@ -30,22 +30,7 @@ class AdHocCalendar extends Component {
         return (
             <Fragment>
                 <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            className={classnames({ active: activeTab === '1' })}
-                            onClick={() => { this.toggle('1'); }}
-                        >
-                            Daily
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            className={classnames({ active: activeTab === '2' })}
-                            onClick={() => { this.toggle('2'); }}
-                        >
-                            Weekly
-                        </NavLink>
-                    </NavItem>
+                    
                     <NavItem>
                         <NavLink
                             className={classnames({ active: activeTab === '3' })}

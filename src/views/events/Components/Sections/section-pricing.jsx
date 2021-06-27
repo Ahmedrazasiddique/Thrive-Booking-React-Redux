@@ -77,6 +77,7 @@ class SectionPricing extends Component {
                                 <div className="form-group event-form-group">
                                     <label>Item Price *</label>
                                     <Input
+                                        type="number"
                                         placeholder="Item Price"
                                         required
                                         name="price" 

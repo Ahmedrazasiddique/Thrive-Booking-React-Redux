@@ -1,5 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from "prop-types";
+import * as Icon from 'react-feather';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class EventDropDownComponent extends Component {
@@ -15,9 +16,24 @@ class EventDropDownComponent extends Component {
     componentDidMount() {
         const { defaultValue } = this.props;
 
+        const venueText = this.getVenueName(defaultValue);
+
         this.setState({
-            dropDownText: defaultValue
+            dropDownText: venueText
         })
+    }
+
+    componentDidUpdate(prevProps, nextProps) {
+        const { defaultValue } = prevProps;
+        const { dropDownText: oldText } = nextProps || {};
+
+        const venueText = this.getVenueName(defaultValue);
+
+        if(venueText !== oldText) {
+            this.setState({
+                dropDownText: venueText
+            })
+        }
     }
 
     
@@ -33,6 +49,9 @@ class EventDropDownComponent extends Component {
         this.setState({
             dropDownText: value
         }, () => {
+            console.log({
+                value
+            })
             onChange(value);
         })
     }
@@ -46,11 +65,6 @@ class EventDropDownComponent extends Component {
 
         const { venue: name } = venueName || {};
 
-        console.log({
-            venues,
-            venueName
-        });
-
         return name || "";
 
     }
@@ -60,21 +74,21 @@ class EventDropDownComponent extends Component {
 
         const { venues } = this.props;
 
-        console.log({
-            dropDownText
-        });
-
         return(
             <Dropdown isOpen={dropdownOpen} toggle={this.toggle} className="event-dropdown" onChange={ this.onDropdownChange}>
                 <DropdownToggle caret>
-                    { this.getVenueName(dropDownText) }
+                    { dropDownText }
+                    <span className="dropdown-icon">
+                        <Icon.ChevronDown size="16"/>
+                    </span>
                 </DropdownToggle>
                 <DropdownMenu>
                     {
                         (venues || []).map((e, index) => {
-                            const { venue } = e || {};
+                            const { venue, id } = e || {};
+                            
                             return (
-                                <DropdownItem key={ index } onClick={ () => this.onDropdownChange(venue) }>{  venue }</DropdownItem>
+                                <DropdownItem key={ index } onClick={ () => this.onDropdownChange(id) }>{  venue }</DropdownItem>
                             )
                         })
                     }

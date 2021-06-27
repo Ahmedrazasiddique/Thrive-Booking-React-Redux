@@ -1,5 +1,6 @@
 import Bootstrap from "../views/site/bootstrap/Bootstrap";
 import Booking from "../views/site/booking/Booking";
+import MainPage from "../views/eventbooking/MainPage";
 
 const routes = [
   {
@@ -11,6 +12,11 @@ const routes = [
     component: Booking,
     exact: true,
     path: "/booking/:slug",
+  },
+  {
+    component: MainPage,
+    exact: true,
+    path: "/event-booking",
   },
 ];
 

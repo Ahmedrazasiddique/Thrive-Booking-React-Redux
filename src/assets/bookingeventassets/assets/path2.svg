@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="46" height="46" viewBox="0 0 46 46">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Intersection_103" data-name="Intersection 103" d="M7.667,42A7.7,7.7,0,0,1,0,34.263V3.314A3.3,3.3,0,0,1,3.286,0H42.714A3.3,3.3,0,0,1,46,3.314V34.263A7.7,7.7,0,0,1,38.333,42ZM2.19,34.263A5.5,5.5,0,0,0,7.667,39.79H38.333a5.5,5.5,0,0,0,5.474-5.527V11.052H2.19Zm0-30.948V8.841H43.808V3.314a1.1,1.1,0,0,0-1.094-1.1H3.286A1.1,1.1,0,0,0,2.19,3.314Z" transform="translate(0.001 0.035)" fill="#0c4767"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="Intersection_104" data-name="Intersection 104" d="M2.733,36.7.352,34.522A1.067,1.067,0,0,1,.3,32.984a1.133,1.133,0,0,1,1.574-.049l1.606,1.474,3.827-3.621a1.133,1.133,0,0,1,1.576.024,1.071,1.071,0,0,1-.024,1.54L4.271,36.693a1.132,1.132,0,0,1-1.538.012ZM14.5,34.833a1.089,1.089,0,1,1,0-2.177l11.147.012a1.089,1.089,0,1,1,0,2.177ZM2.733,25.818.352,23.637A1.07,1.07,0,0,1,.3,22.1a1.133,1.133,0,0,1,1.574-.047l1.606,1.472L7.311,19.9a1.135,1.135,0,0,1,1.576.024,1.071,1.071,0,0,1-.024,1.54L4.271,25.808a1.132,1.132,0,0,1-1.538.01ZM14.5,23.949a1.089,1.089,0,1,1,0-2.177l11.147.01a1.089,1.089,0,1,1,0,2.177ZM26.769,7.618V1.088a1.116,1.116,0,0,1,2.231,0V7.618a1.116,1.116,0,0,1-2.231,0Zm-24.538,0V1.088a1.116,1.116,0,0,1,2.231,0V7.618a1.116,1.116,0,0,1-2.231,0Z" transform="translate(0.276 0.001)" fill="#fe9920"/>
+    </clipPath>
+  </defs>
+  <g id="Group_3104" data-name="Group 3104" transform="translate(-21570.067 -9782.068)">
+    <g id="Group_3101" data-name="Group 3101" transform="translate(21570.066 9786.033)">
+      <g id="Group_3100" data-name="Group 3100" transform="translate(0 0)" clip-path="url(#clip-path)">
+        <rect id="Rectangle_2377" data-name="Rectangle 2377" width="70" height="65" transform="translate(-11.999 -10.965)" fill="#0c4767"/>
+      </g>
+    </g>
+    <g id="Group_3103" data-name="Group 3103" transform="translate(21578.791 9782.067)">
+      <g id="Group_3102" data-name="Group 3102" transform="translate(0 0)" clip-path="url(#clip-path-2)">
+        <rect id="Rectangle_2379" data-name="Rectangle 2379" width="52" height="61" transform="translate(-11.724 -11.999)" fill="#fe9920"/>
+      </g>
+    </g>
+  </g>
+</svg>

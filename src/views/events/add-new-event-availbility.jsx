@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import FormField from "./Components/Common/FormField";
 import { Formik, Form } from "formik";
 import { connect } from 'react-redux';
-import Select from 'react-select'
+import Select from 'react-select';
+import Tooltip from './Components/Common/ToolTip';
 import { getEventStaffList, getVenues } from '../../actions/eventActions';
 import { Row, Col, Button, FormGroup,  TabContent, TabPane, Nav, Input, NavItem, NavLink, } from 'reactstrap';
 import SidebarProgress from './Components/Sidebar/sidebar-progress';
 import classnames from 'classnames';
+import TextEditor from './Components/Common/TextEditorField';
 import TimeSelectorField from './Components/Common/TimeSelectorField';
-import EventAssignment from './Components/Common/EventAssignment';
+// import EventAssignment from './Components/Common/EventAssignment';
 import NumberField from './Components/Common/NumberField';
- 
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-daterangepicker/daterangepicker.css';
+import EventAvailbilityComponent from './Components/Common/Event-Availbility-Component';
+import moment from 'moment';
 
 let initialValues = {
     event_duration_in_minutes: 5,
@@ -25,6 +30,9 @@ let initialValues = {
     buffer_after_event_minutes: 0,
     staff_assignment_type: "",
     staff_choose: "",
+    event_valid: "",
+    event_valid_period: "",
+    staff_assignment_method: "",
     staffs: []
 }
 
@@ -34,7 +42,8 @@ class AddNewEventAvailability extends Component {
         super(props);
         this.state = {
             activeTab: '1',
-            staff: []
+            staff: [],
+            selectedStaff: []
         }
     }
 
@@ -87,7 +96,7 @@ class AddNewEventAvailability extends Component {
 
     }
     render() {
-        const { activeTab, staff } = this.state;
+        const { activeTab, staff, selectedStaff } = this.state;
         return (
             <div className="create-event-wrapper">
                 <div className="create-event-container">
@@ -251,19 +260,43 @@ class AddNewEventAvailability extends Component {
                                                                                     <Col md="3">
                                                                                         <div className="form-group">
                                                                                             <label>Minimum Scheduling Notice</label>
-                                                                                            <NumberField/>
+                                                                                            <NumberField
+                                                                                                name="min_scheduling_notice_minutes"
+                                                                                                defaultValue={ values.min_scheduling_notice_minutes }
+                                                                                                onChange= { (value) => {
+                                                                                                    handleChange({
+                                                                                                        target: { name: "min_scheduling_notice_minutes", value }
+                                                                                                    });
+                                                                                                }} 
+                                                                                            />
                                                                                         </div> 
                                                                                     </Col>
                                                                                     <Col md="3">
                                                                                         <div className="form-group">
                                                                                             <label>Buffer Before The Event</label>
-                                                                                            <NumberField/>
+                                                                                            <NumberField
+                                                                                                name="buffer_before_event_minutes"
+                                                                                                defaultValue={ values.buffer_before_event_minutes }
+                                                                                                onChange= { (value) => {
+                                                                                                    handleChange({
+                                                                                                        target: { name: "buffer_before_event_minutes", value }
+                                                                                                    });
+                                                                                                }} 
+                                                                                            />
                                                                                         </div> 
                                                                                     </Col>
                                                                                     <Col md="3">
                                                                                         <div className="form-group">
                                                                                             <label>Maximum Event Per Day</label>
-                                                                                            <NumberField/>
+                                                                                            <NumberField 
+                                                                                                name="max_event_per_day"
+                                                                                                defaultValue={ values.max_event_per_day }
+                                                                                                onChange= { (value) => {
+                                                                                                    handleChange({
+                                                                                                        target: { name: "max_event_per_day", value }
+                                                                                                    });
+                                                                                                }} 
+                                                                                            />
                                                                                         </div> 
                                                                                     </Col>
                                                                                 </Row>
@@ -271,19 +304,43 @@ class AddNewEventAvailability extends Component {
                                                                                     <Col md="3">
                                                                                         <div className="form-group">
                                                                                             <label>Maximum Scheduling Notice</label>
-                                                                                            <NumberField/>
+                                                                                            <NumberField 
+                                                                                                name="max_scheduling_notice_minutes"
+                                                                                                defaultValue={ values.max_scheduling_notice_minutes }
+                                                                                                onChange= { (value) => {
+                                                                                                    handleChange({
+                                                                                                        target: { name: "max_scheduling_notice_minutes", value }
+                                                                                                    });
+                                                                                                }}
+                                                                                            />
                                                                                         </div> 
                                                                                     </Col>
                                                                                     <Col md="3">
                                                                                         <div className="form-group">
                                                                                             <label>Buffer After The Event</label>
-                                                                                            <NumberField/>
+                                                                                            <NumberField 
+                                                                                                name="buffer_after_event_minutes"
+                                                                                                defaultValue={ values.buffer_after_event_minutes }
+                                                                                                onChange= { (value) => {
+                                                                                                    handleChange({
+                                                                                                        target: { name: "buffer_after_event_minutes", value }
+                                                                                                    });
+                                                                                                }}
+                                                                                            />
                                                                                         </div> 
                                                                                     </Col>
                                                                                     <Col md="3">
                                                                                         <div className="form-group">
                                                                                             <label>Maximum Event Per Week</label>
-                                                                                            <NumberField/>
+                                                                                            <NumberField 
+                                                                                                name="max_event_per_week"
+                                                                                                defaultValue={ values.max_event_per_week }
+                                                                                                onChange= { (value) => {
+                                                                                                    handleChange({
+                                                                                                        target: { name: "max_event_per_week", value }
+                                                                                                    });
+                                                                                                }}
+                                                                                            />
                                                                                         </div> 
                                                                                     </Col>
                                                                                 </Row>
@@ -310,7 +367,9 @@ class AddNewEventAvailability extends Component {
                                                                                                 name,
                                                                                                 value
                                                                                             }
-                                                                                        })
+                                                                                        });
+
+                                                                                        
                                                                                     }}
                                                                                 ></input>
                                                                                 <label htmlFor="input-4">
@@ -352,12 +411,21 @@ class AddNewEventAvailability extends Component {
                                                                                                 isMulti
                                                                                                 onChange = { (value) => {
                                                                                                     const { id } = value || {};
+                                                                                                    
+                                                                                                    
+
+
                                                                                                     handleChange({
                                                                                                         target: {
                                                                                                             name: 'staffs',
                                                                                                             value: id
                                                                                                         }
+                                                                                                    });
+
+                                                                                                    this.setState({
+                                                                                                        selectedStaff: [...selectedStaff, value]
                                                                                                     })
+
                                                                                                 }}
                                                                                             >
 
@@ -366,15 +434,15 @@ class AddNewEventAvailability extends Component {
                                                                                     </Col>
                                                                                     
                                                                                 </Row>
-                                                                                <Row className="mt-3">
+                                                                                <Row className="mt-1">
                                                                                     <Col md="12" lg="12">
                                                                                         <div className="event-form-check">
                                                                                             <input 
                                                                                                 type="checkbox"
-                                                                                                id="input-7"
+                                                                                                id="input-27"
                                                                                                 name="staff_choose"
                                                                                                 value="allow_invitee" 
-                                                                                                checked = { values.staff_choose === "staff_choose" }
+                                                                                                checked = { values.staff_choose === "allow_invitee" }
                                                                                                 onChange = { ({ target }) => {
                                                                                                     const { value, name } = target || {};
                                                                                                     handleChange({
@@ -385,7 +453,7 @@ class AddNewEventAvailability extends Component {
                                                                                                     })
                                                                                                 }}
                                                                                             ></input>
-                                                                                            <label htmlFor="input-7">
+                                                                                            <label htmlFor="input-27">
                                                                                                 <span></span>
                                                                                                 Allow Attendee To Select Staff
                                                                                             </label>
@@ -393,12 +461,12 @@ class AddNewEventAvailability extends Component {
                                                                                         </div>
                                                                                     </Col>
                                                                                 </Row>
-                                                                                <Row className="mt-1">
+                                                                                <Row className="">
                                                                                     <Col md="12" lg="12">
                                                                                         <div className="event-form-check">
                                                                                             <input 
                                                                                                 type="checkbox"
-                                                                                                id="input-8"
+                                                                                                id="input-28"
                                                                                                 name="staff_choose"
                                                                                                 value="random_choose" 
                                                                                                 checked = { values.staff_choose === "random_choose" }
@@ -412,12 +480,64 @@ class AddNewEventAvailability extends Component {
                                                                                                     })
                                                                                                 }}
                                                                                             ></input>
-                                                                                            <label htmlFor="input-7">
+                                                                                            <label htmlFor="input-28">
                                                                                                 <span></span>
-                                                                                                Allow Attendee To Select Staff
+                                                                                                Select Staff (Automatic Assignment)
                                                                                             </label>
                                                                                             
+                                                                                            
+                                                                                            
                                                                                         </div>
+                                                                                        <Row className="ml-1">
+                                                                                            <Col md="6" lg="6">
+                                                                                                <div className="event-form-check">
+                                                                                                    <input 
+                                                                                                        type="checkbox"
+                                                                                                        id="input-30"
+                                                                                                        name="staff_assignment_method"
+                                                                                                        value="round-robin" 
+                                                                                                        checked = { values.staff_assignment_method === "round-robin" }
+                                                                                                        onChange = { ({ target }) => {
+                                                                                                            const { value, name } = target || {};
+                                                                                                            handleChange({
+                                                                                                                target: {
+                                                                                                                    name,
+                                                                                                                    value
+                                                                                                                }
+                                                                                                            })
+                                                                                                        }}
+                                                                                                    ></input>
+                                                                                                    <label htmlFor="input-30">
+                                                                                                        <span></span>
+                                                                                                        Round-Robin
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </Col>
+                                                                                            <Col md="6" lg="6">
+                                                                                                <div className="event-form-check">
+                                                                                                    <input 
+                                                                                                        type="checkbox"
+                                                                                                        id="input-31"
+                                                                                                        name="staff_assignment_method"
+                                                                                                        value="event-rotation" 
+                                                                                                        checked = { values.staff_assignment_method === "event-rotation" }
+                                                                                                        onChange = { ({ target }) => {
+                                                                                                            const { value, name } = target || {};
+                                                                                                            handleChange({
+                                                                                                                target: {
+                                                                                                                    name,
+                                                                                                                    value
+                                                                                                                }
+                                                                                                            })
+                                                                                                        }}
+                                                                                                    ></input>
+                                                                                                    <label htmlFor="input-31">
+                                                                                                        <span></span>
+                                                                                                        Event Rotation
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </Col>
+                                                                                        </Row>
                                                                                     </Col>
                                                                                 </Row>
                                                                             </div>
@@ -427,7 +547,7 @@ class AddNewEventAvailability extends Component {
                                                                     <Col md="6" lg="6">
                                                                         <div className="form-group event-form-group">
                                                                             <label>Event Internal Notes:</label>
-                                                                            <Input 
+                                                                            {/* <Input 
                                                                                 className="form-control"
                                                                                 type="textarea" 
                                                                                 placeholder="Event Internal Notes"
@@ -440,50 +560,34 @@ class AddNewEventAvailability extends Component {
                                                                                     });
                                                                                 }} 
                                                                                 id="venueNotes" 
-                                                                            />
+                                                                            /> */}
+                                                                            <TextEditor name="event_internal_notes" onChange = {({ target }) => {
+                                                                                const { name, value } = target || {};
+                                                                                handleChange({
+                                                                                    target: { name, value }
+                                                                                });
+                                                                            }} />
                                                                         </div>
                                                                     </Col>
                                                                 </Row>
                                                             </div>
-                                                            <div className="event-field-group border-zero">
-                                                                <div className="availbility-container">
-                                                                    <Row>
-                                                                        <Col md="6" lg="6">
-                                                                            <FormField
-                                                                                showLabel
-                                                                                placeholder="Availability"
-                                                                                type="select"
-                                                                                name="type"
-                                                                                label="Availability"
-                                                                                errors={errors}
-                                                                                touched={touched}
-                                                                                
-                                                                                options={[
-                                                                                    {
-                                                                                    value: 0,
-                                                                                    label: "Jane Doe",
-                                                                                    },
-                                                                                    {
-                                                                                    value: 1,
-                                                                                    label: "John Doe",
-                                                                                    },
-                                                                                ]}
-                                                                            />
-                                                                        </Col>
-                                                                    </Row>
-                                                                    <div className="availbility-container-wrapper">
-                                                                        <EventAssignment values={ values } touched = { touched } errors = { errors }/>
-                                                                    </div>
-                                                                </div>
+                                                            <div className="event-field-group">
                                                                 <Row>
-                                                                    <Col md="8" lg="8">
+                                                                    <Col md="12" lg="12">
                                                                         <FormGroup tag="fieldset" className="event-form-group ">
                                                                             <label>Event Validity</label>
                                                                             <Row>
-                                                                                <Col md="4" lg="4">
+                                                                                <Col md="3" lg="3">
                                                                                     <div className="event-form-check">
-                                                                                        <input type="radio" id="input-6" name="is_time_block"></input>
-                                                                                        <label htmlFor="input-6">
+                                                                                        <input type="radio" id="input-16" value="indefinately" name="event_valid" onChange = {
+                                                                                            ({ target }) => {
+                                                                                                const { name, value } = target || {};
+                                                                                                handleChange({
+                                                                                                    target: { name, value }
+                                                                                                });
+                                                                                            }
+                                                                                        }></input>
+                                                                                        <label htmlFor="input-16">
                                                                                             <span></span>
                                                                                             Indefinitely
                                                                                         </label>
@@ -491,24 +595,68 @@ class AddNewEventAvailability extends Component {
                                                                                     </div>
                                                                                 </Col>
                                                                                 <Col md="4" lg="4">
-                                                                                    <div className="event-form-check ">
-                                                                                        <input type="radio" id="input-7" name="is_time_block"></input>
-                                                                                        <label htmlFor="input-7">
-                                                                                            <span></span>
-                                                                                            Valid Over
-                                                                                        </label>
-                                                                                        
+                                                                                    <div className="event-field-inline">
+                                                                                        <div className="event-form-check ">
+                                                                                            <input type="radio" id="input-17" value="valid_over" name="event_valid" onChange = {
+                                                                                            ({ target }) => {
+                                                                                                const { name, value } = target || {};
+                                                                                                handleChange({
+                                                                                                    target: { name, value }
+                                                                                                });
+                                                                                            }
+                                                                                        }></input>
+                                                                                            <label htmlFor="input-17">
+                                                                                                <span></span>
+                                                                                                Valid Over
+                                                                                            </label>
+                                                                                            
+                                                                                        </div>
+                                                                                        <div className="input-field">
+                                                                                            <input type="number" placeholder="15 Days" name="valid_date_range" onChange = {({ target }) => {
+                                                                                                const { name, value} = target || {};
+                                                                                                handleChange({
+                                                                                                    target: { name, value }
+                                                                                                });
+                                                                                            }} />
+                                                                                        </div>
                                                                                     </div>
+                                                                                    
+
                                                                                 </Col>
-                                                                                <Col md="4" lg="4">
-                                                                                    <div className="event-form-check">
-                                                                                        <input type="radio" id="input-8" name="is_time_block"></input>
-                                                                                        <label htmlFor="input-8">
-                                                                                            <span></span>
-                                                                                            Over Date Range
-                                                                                        </label>
-                                                                                        
+                                                                                <Col md="5" lg="5">
+                                                                                    <div className="event-field-inline-range">
+                                                                                        <div className="event-form-check">
+                                                                                            <input type="radio" id="input-18" value="valid_date_range" name="event_valid" onChange = {
+                                                                                            ({ target }) => {
+                                                                                                const { name, value } = target || {};
+                                                                                                handleChange({
+                                                                                                    target: { name, value }
+                                                                                                });
+                                                                                            }
+                                                                                        }></input>
+                                                                                            <label htmlFor="input-18">
+                                                                                                <span></span>
+                                                                                                Over Date Range
+                                                                                            </label>
+                                                                                            
+                                                                                        </div>
+                                                                                        { values.event_valid === "valid_date_range" && <div className="range-field">
+                                                                                            <DateRangePicker
+                                                                                                initialSettings={{ startDate: moment(), endDate: moment().add(14, 'd') }}
+                                                                                                onCallback= { (start, end, label) => {
+                                                                                                    const startDate = moment(start).format('DD/MM/yyyy');
+                                                                                                    const endDate = moment(end).format('DD/MM/yyyy');
+                                                                                                    
+                                                                                                    handleChange({
+                                                                                                        target: { name: "event_valid_period", value: startDate + '-'+ endDate  }
+                                                                                                    });
+                                                                                                }}
+                                                                                                >
+                                                                                                <input type="text" />
+                                                                                            </DateRangePicker>
+                                                                                        </div> }
                                                                                     </div>
+                                                                                    
                                                                                 </Col>
                                                                             </Row>
                                                                             
@@ -516,6 +664,13 @@ class AddNewEventAvailability extends Component {
                                                                         </FormGroup> 
                                                                     </Col> 
                                                                 </Row>
+                                                            </div>
+                                                            <div className="event-field-group border-zero">
+                                                                
+                                                                <div className="availbility-container">
+                                                                    <EventAvailbilityComponent errors={ errors } touched={ touched } staff = { selectedStaff }/>
+                                                                </div>
+                                                                
                                                             </div>
                                                         </Col>
                                                     </Row>                 

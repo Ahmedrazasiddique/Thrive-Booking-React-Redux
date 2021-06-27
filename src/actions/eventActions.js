@@ -41,8 +41,22 @@ export const getEventTypes = (options) => dispatch => {
 
 
 export const saveEventType = (options) => dispatch => {
-    const { onSuccess, onError, data } = options || {};
-    axios.post('admin/event/save-event-type-page', data)
+    const { onSuccess, onError, data, eventId } = options || {};
+
+    let formData = data;
+
+    if(eventId) {
+        formData = {
+            ...data,
+            id: eventId
+        }
+    }
+
+    console.log({
+        data,
+        formData
+    })
+    axios.post('admin/event/save-event-type-page', formData)
     .then( res => {
         const { data: resData } = res || {};
         const { data } = resData || {};
@@ -90,16 +104,14 @@ export const saveAdHocEvent = (options) => {
     const { onSuccess, onError, data } = options || {};
     axios.post('admin/create-adhoc-event', data)
     .then( res => {
-        console.log({
-            res
-        })
-        // const { data: resData } = res || {};
-        // const { data } = resData || {};
-        // if(onSuccess) {
-        //     const { data: event } = data || {};
-        //     const { id } = event || {};
-        //     onSuccess(id);
-        // }
+        const { data: resData } = res || {};
+        const { data, message } = resData || {};
+
+        if(onSuccess) {
+            const { data: event } = data || {};
+            const { id } = event || {};
+            onSuccess(message);
+        }
     })
     .catch(error => {
         const { data: errorData } = error.response;
@@ -111,6 +123,30 @@ export const saveAdHocEvent = (options) => {
     });
 }
 
+
+// list events
+
+export const getEvents = (options) => async dispatch => {
+    const { onSuccess, onError, data } = options || {};
+    const { bussinessId } = data || {};
+    axios.get(`admin/events/${ bussinessId }`)
+    .then(res => {
+        const { data: resData } = res || {};
+        const { data } = resData || {};
+        if(onSuccess) {
+            onSuccess (data);
+        }
+    })
+    .catch(error => {
+        const { data: errorData } = error.response;
+        const message = errorData.message || error.message || fallBackErrorMessage;
+        
+        if(onError) {
+            onError(message);
+        } 
+    });
+
+}
 
 export const getEventStaffList = (options) => dispatch => {
     const { data, onSuccess, onError } = options || {};
@@ -136,3 +172,71 @@ export const getEventStaffList = (options) => dispatch => {
 
 }
 
+
+export const getStaffSchedule = (options) => async dispatch => {
+    const { data, onSuccess, onError } = options || {};
+    const { id } = data || {};
+
+    axios.get(`/admin/schedule/get-staff-schedule/${ id }`)
+    .then( res => {
+        const { data: resData } = res || {};
+        const { data } = resData || {};
+        const { schedules } = data || {};
+        if(onSuccess) {
+            onSuccess(schedules);
+        }
+    })
+    .catch(err => {
+        if(onError) {
+            onError(err);
+        } 
+    });
+}
+
+
+// get base event details
+
+
+export const getEventTypeDetails = (options) => async dispatch => {
+    const { data, onSuccess, onError } = options || {};
+    const { id } = data || {};
+
+    axios.get(`/admin/event/event-type-page/${ id }`)
+    .then( res => {
+        const { data: resData } = res || {};
+        const { data } = resData || {};
+
+        if(onSuccess) {
+            onSuccess(data);
+        }
+    })
+    .catch(err => {
+        if(onError) {
+            onError(err);
+        } 
+    });
+}
+
+
+// get event details
+
+
+export const getEventDetails = (options) => async dispatch => {
+    const { data, onSuccess, onError } = options || {};
+    const { id, type:eventType } = data || {};
+
+    axios.get(`/admin/event/${eventType}-details-page/${ id }`)
+    .then( res => {
+        const { data: resData } = res || {};
+        const { data } = resData || {};
+
+        if(onSuccess) {
+            onSuccess(data);
+        }
+    })
+    .catch(err => {
+        if(onError) {
+            onError(err);
+        } 
+    });
+}
