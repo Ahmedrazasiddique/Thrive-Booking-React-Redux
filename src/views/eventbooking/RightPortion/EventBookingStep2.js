@@ -231,27 +231,30 @@ class EventBookingStep2 extends Component {
               </div>
                <div className="row sub_div">
                    
-               {eventData.staffs.length>0?eventData.staffs.map((item, index) => (
+              
                <div className="col-12 main_add" style={{padding: "15px;"}}>
                   <div className="col-12">
                       <div className="row main_staff_div">
+                        
+               {eventData.staffs.length>0?eventData.staffs.map((item, index) => (
                           <div className="col-2 main_staff">
-                              <div className="row" onClick={()=>this.selectStaff(item.id,((item.first_name) + " " +(item.last_name)))}>
-                                  <div className="col-12">
+                              <div className="row" >
+                                  <div className="col-12" onClick={()=>this.selectStaff(item.id,((item.first_name) + " " +(item.last_name)))} id={item.id} style={{font_size: "14px;"}}>
                                    <img src={Four}/>
                                   </div>
                                   <div className="col-12">
-                                   <span onClick={()=>this.selectStaff(item.id,((item.first_name) + " " +(item.last_name)))} id={item.id} style={{font_size: "14px;"}}>{(item.first_name) + " " +(item.last_name)}</span>
+                                   <span >{(item.first_name) + " " +(item.last_name)}</span>
                                   </div>
                               </div>
 
 
                           </div>
                          
+                  )):[]}
                       </div>
                   </div>
                </div>
-               )):[]}
+            
               </div></>:<></>
              
   }

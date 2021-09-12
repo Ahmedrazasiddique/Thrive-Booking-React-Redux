@@ -3,22 +3,24 @@ import { Card, CardHeader, CardTitle, CardBody } from "reactstrap";
 import Chart from "react-apexcharts";
 
 class KpiOne extends React.Component {
+
+  componentDidMount() {
+
+    //const {getDashboardKpis} = this.props;
+   // getDashboardKpis(0);
+console.log("data",this.props.data);
+
+  }
+
   state = {
     options: {
       chart: {
-        id: "areaChart",
+        id: "barChart",
+        type: 'bar'
       },
       xaxis: {
-        type: "datetime",
-        categories: [
-          "2020-09-18T00:00:00",
-          "2020-09-18T01:00:00",
-          "2020-09-18T02:00:00",
-          "2020-09-18T03:00:00",
-          "2020-09-18T04:00:00",
-          "2020-09-18T05:00:00",
-          "2020-09-18T06:00:00",
-        ],
+       // type: "datetime",
+        categories: this.props.data?this.props.data.xAxis:[],
       },
       stroke: {
         curve: "smooth",
@@ -30,7 +32,7 @@ class KpiOne extends React.Component {
         text: "Monthly Net MRR",
         align: "left",
       },
-      colors: this.props.themeColors,
+      colors: "#ffb863",
       grid: {
         row: {
           colors: ["#f3f3f3", "transparent"],
@@ -46,33 +48,19 @@ class KpiOne extends React.Component {
         },
       },
     },
-    series: [
-      {
-        name: "series1",
-        data: [31, 40, 28, 51, 42, 109, 100],
-      },
-      {
-        name: "series2",
-        data: [11, 32, 45, 32, 34, 52, 41],
-      },
-    ],
+    series: this.props.data?this.props.data.series:[],
   };
 
   render() {
     return (
-      <Card className="TopPortionSuperAdmin">
-        <CardHeader>
-          <CardTitle>Kpi One</CardTitle>
-        </CardHeader>
-        <CardBody>
           <Chart
             options={this.state.options}
             series={this.state.series}
-            type="area"
+           // type="area"
             height={200}
+            type= {'bar'}
           />
-        </CardBody>
-      </Card>
+      
     );
   }
 }

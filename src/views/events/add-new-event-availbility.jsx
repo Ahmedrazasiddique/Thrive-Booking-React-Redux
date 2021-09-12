@@ -97,6 +97,7 @@ class AddNewEventAvailability extends Component {
     }
     render() {
         const { activeTab, staff, selectedStaff } = this.state;
+        const businessId = localStorage.getItem('businessId');
         return (
             <div className="create-event-wrapper">
                 <div className="create-event-container">
@@ -668,7 +669,7 @@ class AddNewEventAvailability extends Component {
                                                             <div className="event-field-group border-zero">
                                                                 
                                                                 <div className="availbility-container">
-                                                                    <EventAvailbilityComponent errors={ errors } touched={ touched } staff = { selectedStaff }/>
+                                                                    <EventAvailbilityComponent businessId={ businessId } errors={ errors } touched={ touched } staff = { selectedStaff }/>
                                                                 </div>
                                                                 
                                                             </div>

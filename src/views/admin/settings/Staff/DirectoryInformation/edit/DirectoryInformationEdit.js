@@ -15,7 +15,7 @@ import { User, Info, Share } from "react-feather";
 import AccountTab from "./Account";
 import InfoTab from "./Information";
 import SocialTab from "./Social";
-//import "../../../../../../../src/assets/scss/pages/users.scss";
+import "../../../../../../../src/assets/scss/pages/users.scss";
 import { connect } from "react-redux";
 import {
   getSingleUserByIDDirectoryInformation,
@@ -29,7 +29,7 @@ class DirectoryInformationEdit extends React.Component {
     activeTab: "1",
   }
   componentDidMount() {
-    debugger
+     
     console.log()
    // alert(new URLSearchParams(this.props.location.search).get("your_query_param_key"))
     const { getSingleUserByIDDirectoryInformation } = this.props;

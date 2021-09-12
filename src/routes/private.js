@@ -48,6 +48,10 @@ import Calendar from "../views/staff/Calendar/Calendar";
 
 // Super Admin
 import SuperAdminDashboard from "../views/super-admin/dashboard/Dashboard";
+import SubcriberDetailsMain from "../views/super-admin/SubscriberDetails/SubcriberDetailsMain";
+import PlanManager from "../views/super-admin/PlanManager/PlanManager";
+import ReferalProgram from "../views/super-admin/ReferalProgram/ReferalProgram";
+import MainPromoPage from "../views/super-admin/PromoCode/MainPromoPage";
 
 // Customer
 import CustomerDashboard from "../views/customer/dashboard/Dashboard";
@@ -62,6 +66,9 @@ import AddNewEventAdvanced from "../views/events/add-new-event-advanced";
 import AddAdHocComponent from "../views/events/add-ad-hoc-event";
 import EventSuccessPage from "../views/events/event-success-page";
 import ListEventsView from "../views/events/list-view-events";
+import MyCalendar from "../views/admin/settings/MyCalender/MyCalendar";
+
+import AdminRefferalList from "../views/admin/settings/AdminRefferal/AdminRefferalList";
 
 export const USER_TYPES = {
   admin: encryptUserRole("admin").toString(CryptoJS.enc.Hex),
@@ -231,6 +238,37 @@ const routes = [
     path: "/super-admin/dashboard",
     userType: USER_TYPES.superAdmin,
   },
+  
+  {
+    component: SubcriberDetailsMain,
+    exact: true,
+    path: "/super-admin/subscriber",
+    userType: USER_TYPES.superAdmin,
+  },
+
+  {
+    component: PlanManager,
+    exact: true,
+    path: "/super-admin/plan-manager",
+    userType: USER_TYPES.superAdmin,
+  },
+
+  {
+    component: ReferalProgram,
+    exact: true,
+    path: "/super-admin/referral-program",
+    userType: USER_TYPES.superAdmin,
+  },
+
+  {
+    component: MainPromoPage,
+    exact: true,
+    path: "/super-admin/coupon-details",
+    userType: USER_TYPES.superAdmin,
+  },
+
+  
+
 
   // customer routes
   {
@@ -255,6 +293,12 @@ const routes = [
     component: MyThriveLink,
     exact: true,
     path: "/admin/settings/my-thrive-link",
+    userType: USER_TYPES.admin,
+  },
+  {
+    component: MyCalendar,
+    exact: true,
+    path: "/admin/settings/my-calendar",
     userType: USER_TYPES.admin,
   },
   {
@@ -402,6 +446,13 @@ const routes = [
   },
 
   {
+    component: AddAdHocComponent,
+    exact: true,
+    path: "/admin/events/create/:id/ad-hoc",
+    userType: USER_TYPES.admin
+  },
+
+  {
     component: EventSuccessPage,
     exact: true,
     path: "/admin/events/success",
@@ -413,6 +464,23 @@ const routes = [
     path: "/admin/events/list",
     userType: USER_TYPES.admin,
   },
+
+  {
+    //component: React.lazy(() =>
+    //  import("../views/admin/settings/SMSNotification")
+    //),
+    component: AdminRefferalList,
+    exact: true,
+    path: "/admin/settings/admin-refferal",
+    userType: USER_TYPES.admin,
+  },
+  {
+    //component: React.lazy(() => import("../views/admin/profile/Profile")),
+    component: AdminProfile,
+    exact: true,
+    path: "/super-admin/profile",
+    userType: USER_TYPES.superAdmin,
+  }
 ];
 
 export default routes;

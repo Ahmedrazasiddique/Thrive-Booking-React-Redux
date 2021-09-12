@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { User, Info, Share } from "react-feather";
-//import "../../../../../frontend/src/assets/scss/pages/users.scss";
+import "../../../../../frontend/src/assets/scss/pages/users.scss";
 import AdminTemplates from "./EmailTemplates/AdminTemplates";
 import ClientTemplates from "./EmailTemplates/ClientTemplates";
 import StaffTemplates from "./EmailTemplates/StaffTemplates";
@@ -70,67 +70,59 @@ class EmailTemplate extends React.Component {
   };
   render() {
     return (
-      <Row>
+      <div class="eventdetailsaddbox rd_noshadow">
+      <div class="boxheader rd_floatingheaderthig">
+        <div class="rd_inputselectheader">
+            <div class="rd_selectheaderrdt2 rd_selectheaderrdt2profile">
         <Loader isShowLoader={this.state.isShowLoader}></Loader>
-        <Col sm="12">
-          <Card>
-            <CardBody className="pt-2">
-              <Nav tabs>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "1",
+       
+                    <button  className={classnames({
+                      active: this.state.activeTab === "1"
                     })}
                     onClick={() => {
-                      this.toggle("1");
-                    }}
-                  >
-                    <User size={16} />
-                    <span className="align-middle ml-50">Client Templates</span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "2",
+                      this.toggle("1")
+                    }}>Client Templates</button>
+                    <button  className={classnames({
+                      active: this.state.activeTab === "2"
                     })}
                     onClick={() => {
-                      this.toggle("2");
-                    }}
-                  >
-                    <Info size={16} />
-                    <span className="align-middle ml-50">Admin Templates</span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "3",
+                      this.toggle("2")
+                    }}>Admin Templates</button>
+                    <button  className={classnames({
+                      active: this.state.activeTab === "3"
                     })}
                     onClick={() => {
-                      this.toggle("3");
-                    }}
-                  >
-                    <Share size={16} />
-                    <span className="align-middle ml-50">Staff Templates</span>
-                  </NavLink>
-                </NavItem>
-              </Nav>
+                      this.toggle("3")
+                    }}>Staff Templates</button>
+                  </div>
+
+            </div>
+          </div>
 
               <TabContent activeTab={this.state.activeTab}>
+                
                 <TabPane tabId="1">
+                  
+          <div class="rd_vacationfilterpart rd_vacationfilterpart3">
+          <div class="rd_remplate_part">
                   {this.state.adminTemplates.map(
                     (clientEmailTemplateData, index) => (
-                      <div>
+                      
+                  
                         <ClientTemplates
                           Tags={this.state.tags}
                           ClientEmailTemplateData={clientEmailTemplateData}
                         />
-                      </div>
+                     
+                      
                     )
                   )}
+                   </div>
+                   </div>
                 </TabPane>
                 <TabPane tabId="2">
+                <div class="rd_vacationfilterpart rd_vacationfilterpart3">
+                <div class="rd_remplate_part">
                   {this.state.clientTemplates.map(
                     (adminEmailTemplateData, index) => (
                       <div>
@@ -141,8 +133,12 @@ class EmailTemplate extends React.Component {
                       </div>
                     )
                   )}
+                  </div>
+                  </div>
                 </TabPane>
                 <TabPane tabId="3">
+                <div class="rd_vacationfilterpart rd_vacationfilterpart3">
+                <div class="rd_remplate_part">
                   {this.state.staffTemplates.map(
                     (staffEmailTemplateData, index) => (
                       <div>
@@ -153,13 +149,12 @@ class EmailTemplate extends React.Component {
                       </div>
                     )
                   )}
+                  </div>
+                  </div>
                 </TabPane>
                 <ToastContainer />
               </TabContent>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+           </div>
     );
   }
 }

@@ -1,0 +1,135 @@
+.modal .modal-content {
+  max-width: 1170px;
+  margin: auto;
+}
+.pricing-modal-container {
+  max-width: 1170px;
+  margin: auto;
+  padding: 30px 0px;
+  border-radius: 10px;
+  background-color: white;
+  position: relative;
+}
+.remove-modal {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
+}
+.pricing-btns {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+  grid-gap: 20px;
+}
+.pricing-btns button.active {
+  box-shadow: 0 6px 10px 0 rgba(12, 71, 103, 0.22);
+  background-color: #0c4767;
+  color: white;
+}
+.pricing-btns button {
+  background-color: white;
+  border: solid 1px #e0e0e0;
+  color: #626262;
+  box-shadow: none;
+  padding: 15px 50px;
+  font-weight: 500;
+  border-radius: 5px;
+}
+
+.pricing-table {
+  border-collapse: separate;
+  border-spacing: 20px 0;
+  width: 100%;
+  padding: 20px;
+  margin-top: 30px;
+}
+.pricing-table .fill-h {
+  font-size: 18px;
+}
+.pricing-table .big-font {
+  font-size: 25px;
+  font-weight: 500;
+}
+.pricing-table .chose-plan .btns {
+  margin-top: 35px;
+}
+.pricing-table .chose-plan .monthly {
+  box-shadow: 0 6px 10px 0 rgba(253, 153, 38, 0.22);
+  background-color: #fd9926;
+  color: white;
+}
+.pricing-table .plan {
+  border-radius: 0;
+  border: 0;
+}
+.pricing-table .plan button {
+  padding: 18px 65px;
+}
+.pricing-table .active-plan-value {
+  top: -23px;
+}
+.pricing-table td {
+  text-align: center;
+  color: #0C4767;
+  border-left: 1px solid #E0E0E0;
+  border-right: 1px solid #E0E0E0;
+}
+.pricing-table tr th:first-child {
+  width: 370px;
+}
+.pricing-table tr td {
+  width: 250px;
+  font-weight: 500;
+  font-size: 16px;
+}
+.pricing-table .border-top {
+  border-top: 1px solid #E0E0E0;
+  padding: 0;
+}
+.pricing-table .border-bottom {
+  border-bottom: 1px solid #E0E0E0;
+  background-color: white;
+
+}
+.pricing-table .active-border {
+  border-color: #FD9926 !important;
+}
+.pricing-table td, .pricing-table th {
+  padding: 18px 0;
+  text-align: center;
+  border-left: 1px solid #E0E0E0;
+  border-right: 1px solid #E0E0E0;
+}
+.pricing-table tr:nth-child(odd){background-color: #FCFCFC;}
+.pricing-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+}
+.names {
+  font-size: 16px;
+  color: #0C4767;
+  text-align: start !important;
+  background-color: white;
+  border: none !important;
+}
+.names span {
+  font-size: 12px;
+}
+.pricing-table td h1 {
+  color: #0C4767;
+  font-size: 18px;
+  font-weight: bold;
+}
+.pricing-table td button {
+  border: 1px solid #E0E0E0;
+  color: #626262;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 16px 78px;
+  margin-top: 10px;
+}
+.pricing-table button:hover {
+  color: #626262;
+}

@@ -52,13 +52,29 @@ const UserType = (props) => {
   const getRoleIcon = (role) => {
     switch (role) {
       case "customer":
-        return <Icon.Users className="success" size={100} />;
+        return (
+          <a href="#" class="rd_splashcard rd_splashcardadmin">
+            {" "}
+          </a>
+        );
       case "admin":
-        return <Icon.Settings className="success" size={100} />;
+        return (
+          <a href="#" class="rd_splashcard rd_splashcardadmin">
+            {" "}
+          </a>
+        );
       case "staff":
-        return <Icon.Shield className="success" size={100} />;
+        return (
+          <a href="#" class="rd_splashcard rd_splashcardstaff">
+            {" "}
+          </a>
+        );
       default:
-        return <Icon.Users className="success" size={100} />;
+        return (
+          <a href="#" class="rd_splashcard rd_splashcardsuperadmin">
+            {" "}
+          </a>
+        );
     }
   };
 
@@ -93,6 +109,18 @@ const UserType = (props) => {
   if (!isEmpty(roles) && roles.length > 1) {
     userRoles = roles.map((role, index) => {
       return (
+        <div
+          className={`rd_carditem ${
+            role == userType ? "rd_splashitemselected" : ""
+          }`}
+          key={index}
+          onClick={() => setUserType(role)}
+        >
+          {getRoleIcon(role)}
+        </div>
+      );
+      {
+        /*
         <Col xl="4" lg="4" sm="6" key={index} onClick={() => setUserType(role)}>
           <Card
             className={classnames("fonticon-container", {
@@ -109,7 +137,8 @@ const UserType = (props) => {
             </CardBody>
           </Card>
         </Col>
-      );
+          */
+      }
     });
   }
 
@@ -119,6 +148,25 @@ const UserType = (props) => {
     userBusinesses = businesses.map((business, index) => {
       const [businessName, businessId] = business;
       return (
+        <div
+          className={`rd_carditem rd_carditemsub ${
+            businessId == userBusiness ? "rd_splashitemselected" : ""
+          }`}
+          key={businessId}
+        >
+          <a
+            href="#"
+            onClick={() => setUserBusiness(businessId)}
+            className={
+              businessId == 1
+                ? "rd_splashcard rd_splashcardhairsalon"
+                : "rd_splashcard rd_splashcardacademy"
+            }
+          ></a>
+        </div>
+      );
+      {
+        /*
         <Col
           xl="3"
           lg="3"
@@ -139,46 +187,46 @@ const UserType = (props) => {
             </CardBody>
           </Card>
         </Col>
-      );
+        */
+      }
     });
   } else if (!isEmpty(businesses) && Object.keys(businesses).length === 1) {
     setUserBusiness(businesses[Object.keys(businesses)[0]]);
   }
 
   return (
-    <Container>
-      {userRoles && (
-        <Col lg="12" md="12" className="mt-1">
-          <Row>{userRoles}</Row>
-        </Col>
-      )}
+    <div class="container">
+      <div class="eventdetailsaddbox rd_noshadow">
+        <div class="rd_pasevencontth rd_pasevencontth2">
+          <h4>Create New Events</h4>
+          {userRoles && <div class="rd_eventcardscontainer">{userRoles}</div>}
 
-      {userBusinesses && userType === "admin" && (
-        <Fragment>
-          <hr />
-          <Col md="12" className="text-center mt-2">
-            <h2>Select Business Type</h2>
-          </Col>
-          <Col lg="12" md="12" className="mt-2">
-            <Row>{userBusinesses}</Row>
-          </Col>
-        </Fragment>
-      )}
+          {userBusinesses && userType === "admin" && (
+            <>
+              <h4>Select Business Type</h4>
+              <div class="rd_eventcardscontainer">{userBusinesses}</div>
+            </>
+          )}
 
-      <Col md="12" className="text-right mt-2 mb-2">
-        <Button.Ripple
-          color="dark"
-          className="mr-1"
-          size="lg"
-          onClick={onCloseHandler}
-        >
-          Cancel
-        </Button.Ripple>
-        <Button.Ripple color="success" size="lg" onClick={onContinueHandler}>
-          Continue
-        </Button.Ripple>
-      </Col>
-    </Container>
+          <Col md="12" className="text-right mt-2 mb-2">
+            <button
+            className="rd_mainbuttonstylelight"
+              type="button"
+              onClick={onCloseHandler}
+            >
+              Cancel
+            </button>
+            <button
+              className="rd_mainbuttonstyleorange"
+              type="button"
+              onClick={onContinueHandler}
+            >
+              Continue
+            </button>
+          </Col>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -19,12 +19,13 @@ export const getMyDiscountList = (filter) => (dispatch) => {
         payload: res.data,
       });
     })
-    .catch((err) =>
+    .catch((err) => {
       dispatch({
         type: Discount_ERROR,
-        payload: err.response.data.data,
-      })
-    );
+        //payload: err.response.data.data,
+        payload: err,
+      });
+    });
 };
 
 export const updateMyDiscount = (promoData) => (dispatch) => {

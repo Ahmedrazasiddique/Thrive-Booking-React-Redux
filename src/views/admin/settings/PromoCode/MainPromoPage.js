@@ -94,7 +94,9 @@ class MainPromoPage extends React.Component {
                   <PromoCodeList />
                 </TabPane>
                 <TabPane tabId="2">
+                <div class="eventdetailsaddbox rd_noshadow">
                   <AddNewPromoCode></AddNewPromoCode>
+                  </div>
                 </TabPane>
                 <TabPane tabId="3">
                   <SpecialOffer></SpecialOffer>

@@ -11,7 +11,7 @@ import {
   Form,
 } from "reactstrap";
 import Select from "react-select";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { HelpCircle } from "react-feather";
 import Flatpickr from "react-flatpickr";
 import { connect } from "react-redux";
@@ -37,39 +37,34 @@ const AddNewPromoCode = (props) => {
   console.log("new data", props.PromoRecord);
   console.log("PromoRecord", PromoRecord);
   const handleClickReset = () => {
-    setIsStateChange(true)
+    setIsStateChange(true);
     setPromoRecord(initialState);
   };
 
   useEffect(() => {
-   
     setPromoRecord(props.PromoRecord);
   }, [props.PromoRecord]);
 
   useEffect(() => {
-    
-      if (props.IsDataSubmitedSuccessfullyPromoCode) {
-        toast.success("Update Successfully");
-        setIsStateChange(false)
-      }
-      setIsShowLoader(false);
-      
-  },[props.IsDataSubmitedSuccessfullyPromoCode]);
-
-  useEffect(() => {
-    
-    if (props.IsError) {
-      toast.error(props.ErrorMessage);
-      setIsStateChange(false)
+    if (props.IsDataSubmitedSuccessfullyPromoCode) {
+      toast.success("Action Success");
+      setIsStateChange(false);
+      props.ChangeTab();
     }
     setIsShowLoader(false);
-  
-},[props.IsError]);
+  }, [props.IsDataSubmitedSuccessfullyPromoCode]);
+
+  useEffect(() => {
+    if (props.IsError) {
+      toast.error(props.ErrorMessage);
+      setIsStateChange(false);
+    }
+    setIsShowLoader(false);
+  }, [props.IsError]);
 
   const handleChange = (e) => {
-    setIsStateChange(true)
+    setIsStateChange(true);
     if (e.label) {
-    
       setPromoRecord((PromoRecord) => ({
         ...PromoRecord,
         ["coupon_type"]: e.value,
@@ -85,7 +80,7 @@ const AddNewPromoCode = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    setIsShowLoader(true)
+    setIsShowLoader(true);
     const formData = new FormData(event.target);
     if (PromoRecord.id) {
       // values.id=PromoRecord.id;
@@ -107,168 +102,112 @@ const AddNewPromoCode = (props) => {
   const onExpiryDateChange = (event) => {};
 
   return (
-    <CardBody>
-      <Loader isShowLoader={isShowLoader}></Loader>
+    <div class="rd_vacationfilterpart rd_vacationfilterpart3">
+
+<Loader isShowLoader={isShowLoader}></Loader>
       <Form onSubmit={handleSubmit}>
-        <FormGroup row>
-          <Col sm="4">
-            <h5>Coupon Code </h5>
-          </Col>
-          <Col sm="8">
-            <Input
-              value={PromoRecord.coupon_code}
-              className="form-control"
-              type="text"
+    <div class="rd_profilerd_erpart">
+        <div class="rd_vacationflex2">
+            <p>Coupon Code</p>
+              <div class="rd_profilethingco">
+                <input type="text"  value={PromoRecord.coupon_code}
               name="coupon_code"
               id="couponCode"
               placeholder="Coupon code"
               onChange={handleChange}
               required
-            />
-          </Col>
-        </FormGroup>
+                class="rd_adddayofinput" 
+                placeholder="Coupon Code"/>
 
-        <FormGroup row>
-          <Col sm="4">
-            <h5>Coupon Type </h5>
-          </Col>
-          <Col sm="8">
-            <Select
+              </div>
+        </div>
+        <div class="rd_vacationflex2">
+              <p>Coupon Type</p>
+              <div class="rd_profilethingco">
+              <Select
               classNamePrefix="select"
               options={couponType}
-              name="coupon_type"
+              name="coupon_payout_type"
               value={getDropdownValue(
                 couponType,
-                PromoRecord.coupon_type,
+                PromoRecord.coupon_payout_type,
                 "value"
-              )}  
+              )}
               onChange={handleChange}
               required
             />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col sm="4">
-            <h5>
-              Value <HelpCircle id="valueCricle" size={12} />{" "}
-            </h5>
-            <UncontrolledTooltip placement="top" target="valueCricle">
-              Test Tooltip !
-            </UncontrolledTooltip>
-          </Col>
-          <Col sm="8">
-            <Input
-              value={PromoRecord.coupon_value}
-              className="form-control"
+              </div>
+      </div>
+      <div class="rd_vacationflex2">
+            <p>Value</p>
+            <div class="rd_profilethingco">
+            
+                <input value={PromoRecord.coupon_value}
+              className="rd_adddayofinput"
               type="text"
               name="coupon_value"
               id="couponValue"
               placeholder="Coupon value"
               onChange={handleChange}
               required
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col sm="4">
-            <h5>
-              Limit <HelpCircle id="limitCricle" size={12} />{" "}
-            </h5>
-            <UncontrolledTooltip placement="top" target="limitCricle">
-              Test Tooltip !
-            </UncontrolledTooltip>
-          </Col>
-          <Col sm="8">
-            <Input
-              value={PromoRecord.coupon_limit}
-              className="form-control"
+                />
+                
+                </div>
+           
+        </div>
+
+      </div>
+
+      <div class="rd_profilerd_erpart">
+        <div class="rd_vacationflex2">
+            <p>Limit</p>
+              <div class="rd_profilethingco">
+                <input type="text" class="rd_adddayofinput"  value={PromoRecord.coupon_limit}
+             
               type="text"
               name="coupon_limit"
               id="coupon_limit"
               placeholder="Coupon limit"
               onChange={handleChange}
-              required
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col sm="4">
-            <h5>
-              Expiry Date <HelpCircle id="expriyDateCricle" size={12} />{" "}
-            </h5>
-            <UncontrolledTooltip placement="top" target="expriyDateCricle">
-              Test Tooltip !
-            </UncontrolledTooltip>
-          </Col>
-          <Col sm="8">
-            <InputGroup>
+              required/>
+
+              </div>
+        </div>
+        <div class="rd_vacationflex2">
+              <p>Expiry Date </p>
+              <div class="rd_profilethingco">
               <Flatpickr
                 className="form-control"
                 value={PromoRecord.coupon_expiry}
                 name="coupon_expiry"
               />
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    id="expriyDateCricle"
-                  >
-                    <rect
-                      x="3"
-                      y="4"
-                      width="18"
-                      height="18"
-                      rx="2"
-                      ry="2"
-                    ></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                  </svg>{" "}
-                </span>
               </div>
-            </InputGroup>
-          </Col>
-        </FormGroup>
+      </div>
+      <div class="rd_vacationflex2">
+            <div class="rd_addsvaebtn">
+            {isStateChange ? (
+            
+            <button>Add New</button>
+            ) : (
+              <></>
+            )}
+            </div>
+        </div>
 
-        <Row>
-          <Col className="d-flex justify-content-end flex-wrap" sm="12">
-         {isStateChange? <Button.Ripple className="mr-1" color="primary">
-              Save Changes
-            </Button.Ripple>
-:<></>}
-
-            <Button.Ripple
-              onClick={handleClickReset}
-              type="button"
-              color="flat-warning"
-            >
-              Reset
-            </Button.Ripple>
-          </Col>
-        </Row>
-      </Form>
-
-      <ToastContainer />
-    </CardBody>
+      </div>
+</Form>
+</div>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
     //  PromoCodeData: state.promoCode.entity,
-    IsDataSubmitedSuccessfullyPromoCode: state.promoCode.IsDataSubmitedSuccessfullyPromoCode,
+    IsDataSubmitedSuccessfullyPromoCode:
+      state.promoCode.IsDataSubmitedSuccessfullyPromoCode,
     IsPromosAddedSuccess: state.discount.IsPromosAddedSuccess,
     IsError: state.promoCode.IsError,
-    ErrorMessage:state.promoCode.data?state.promoCode.data.message:""
+    ErrorMessage: state.promoCode.data ? state.promoCode.data.message : "",
   };
 };
 

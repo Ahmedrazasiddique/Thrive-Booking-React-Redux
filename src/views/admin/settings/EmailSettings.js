@@ -5,8 +5,7 @@ import {
   CardTitle,
   CardBody,
   FormGroup,
-  Button,
-  Row,
+  Table,
   Col,
   Input,
   Form,
@@ -26,6 +25,7 @@ const EmailSettings = (props) => {
   const [EmailSettingsData, setEmailSettingsData] = useState({});
   const [reminderComponent, setReminderComponent] = useState(0);
   const [isShowLoader, setIsShowLoader] = useState(true);
+  const [reminderCount, setReminderCount] = useState(3);
 
   const [adminEmailNotificationChk, setAdminEmailNotificationChk] = useState(
     true
@@ -206,30 +206,26 @@ const EmailSettings = (props) => {
   ];
 
   return (
-    <Card>
+      <div className="eventdetailsaddbox rd_noshadow">
+          <div className="boxheader rd_floatingheaderthig">
+            <div className="rd_inputselectheader">
+                <div className="rd_selectheaderrdt2">
+                    <h3><strong>Email Settings</strong></h3>
+                  </div>
+            </div>
+          </div>
       <Loader isShowLoader={isShowLoader}></Loader>
-      <CardHeader>
-        <CardTitle>Email Settings</CardTitle>
-      </CardHeader>
-      <CardBody>
+      
         <Form onSubmit={handleSubmit}>
-          <Row>
-            <Col sm="4">
-              <div className="permissions border px-2">
-                <div className="title pt-2 pb-0">
-                  <Server size={19} />
-                  <span className="text-bold-500 font-medium-2 ml-50">
-                    SMTP Settings
-                  </span>
-                  <hr />
-                </div>
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>SMTP Hostname </h5>
-                  </Col>
-                  <Col sm="8">
-                    <Input
-                      className="form-control"
+         
+           
+          <div className="rd_vacationfilterpart rd_vacationfilterpart2 rd_vacationfilterpartema">
+          <h4 className="rd_setsmt"><strong>SMTP Settings</strong></h4>
+          <div className="rd_vacationflex2 rd_vacationflexspecial">
+                <p>SMTP Hostname</p>
+                <div className="rd_adddayof">
+                <Input
+                      className="rd_adddayofinput"
                       type="text"
                       name="smtp_host_name"
                       id="smtpHostName"
@@ -237,15 +233,14 @@ const EmailSettings = (props) => {
                       value={EmailSettingsData.smtp_host_name}
                       onChange={handleInputChange}
                     />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>SMTP Username </h5>
-                  </Col>
-                  <Col sm="8">
-                    <Input
-                      className="form-control"
+                   
+                </div>
+            </div>
+            <div className="rd_vacationflex2 rd_vacationflexspecial">
+                <p>SMTP Username</p>
+                <div className="rd_adddayof">
+                <Input
+                      className="rd_adddayofinput"
                       type="text"
                       name="smtp_username"
                       id="smtpUserName"
@@ -253,15 +248,13 @@ const EmailSettings = (props) => {
                       value={EmailSettingsData.smtp_username}
                       onChange={handleInputChange}
                     />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>SMTP Password </h5>
-                  </Col>
-                  <Col sm="8">
-                    <Input
-                      className="form-control"
+                </div>
+            </div>
+            <div className="rd_vacationflex2 rd_vacationflexspecial">
+                <p>SMTP Password</p>
+                <div className="rd_adddayof">
+                <Input
+                      className="rd_adddayofinput"
                       type="password"
                       name="smtp_password"
                       id="smtpPasswardName"
@@ -269,16 +262,13 @@ const EmailSettings = (props) => {
                       onChange={handleInputChange}
                       value={EmailSettingsData.smtp_password}
                     />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>SMTP Port </h5>
-                  </Col>
-                  <Col sm="8">
-                    <Input
-                      className="form-control"
+                </div>
+            </div>
+            <div className="rd_vacationflex2 rd_vacationflexspecial">
+                <p>SMTP Port</p>
+                <div className="rd_adddayof">
+                <Input
+                      className="rd_adddayofinput"
                       type="number"
                       name="smtp_port"
                       id="smtpPort"
@@ -286,15 +276,13 @@ const EmailSettings = (props) => {
                       value={EmailSettingsData.smtp_port}
                       onChange={handleInputChange}
                     />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>Encrypted Type </h5>
-                  </Col>
-                  <Col sm="8">
-                    <Input
+                </div>
+            </div>
+            <div className="rd_vacationflex2 rd_vacationflexspecial">
+                <p>Encrypted Type</p>
+                <div className="rd_adddayof">
+                <Input
+                    className="rd_adddayofinput"
                       type="select"
                       onChange={handleInputChange}
                       value={EmailSettingsData.encryption_type}
@@ -305,44 +293,35 @@ const EmailSettings = (props) => {
                       <option>TLS</option>
                       <option>SSL</option>
                     </Input>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>
-                      Smtp Authentication <HelpCircle size={12} />
-                    </h5>
-                  </Col>
-                  <Col sm="3">
-                    <label className="react-toggle-wrapper">
-                      <Toggle
-                        checked={smtpNotificationChk}
-                        onChange={handleSwitchChange}
-                        id="smtpNotificationChk"
-                        value="yes"
-                        defaultChecked={smtpNotificationChk}
-                      />
-                    </label>
-                  </Col>
-                </FormGroup>
-              </div>
-            </Col>
-
-            <Col sm="4">
-              <div className="permissions border px-2">
-                <div className="title pt-2 pb-0">
-                  <Send size={19} />
-                  <span className="text-bold-500 font-medium-2 ml-50">
-                    Sender Settings
-                  </span>
-                  <hr />
+                   
                 </div>
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>Administrator Email </h5>
-                  </Col>
-                  <Col sm="8">
-                    <Input
+            </div>
+
+            <div className="rd_vacationflex2 rd_vacationflexspecial">
+              <div className="box_content rd_box_contentspecialemailset">
+                <div className="form-check form-switch">
+                   <label className="form-check-label" for="smtpNotificationChk">Encrypted Type</label>
+                <input className="form-check-input" 
+                type="checkbox" 
+                checked={smtpNotificationChk}
+                onChange={handleSwitchChange}
+                id="smtpNotificationChk"
+                value="yes"
+                defaultChecked={smtpNotificationChk}/>
+                   
+                
+                </div>
+              </div>
+          </div>
+                
+              </div>
+            
+              <div className="rd_vacationfilterpart rd_vacationfilterpart2 rd_vacationfilterpartema">
+            <h4 className="rd_setsmt"><strong>Sender Settings</strong></h4>
+            <div className="rd_vacationflex1dot3">
+                <p>Admin Email</p>
+                <div className="rd_adddayof rd_adddayofemail">
+                <Input
                       className="form-control"
                       type="text"
                       name="administrator_email"
@@ -352,88 +331,75 @@ const EmailSettings = (props) => {
                       value={EmailSettingsData.administrator_email}
                     />
                     {!isEmailValid ? (
-                      <div class="field-error text-danger">Invalid Email</div>
+                      <div className="field-error text-danger">Invalid Email</div>
                     ) : (
                       <></>
                     )}
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>
-                      Admin Email <HelpCircle size={12} /> Notification
-                    </h5>
-                  </Col>
-                  <Col sm="3">
-                    <label className="react-toggle-wrapper">
-                      <Toggle
-                        checked={adminEmailNotificationChk}
-                        onChange={handleSwitchChange}
-                        id="adminEmailNotificationChk"
-                        value="yes"
-                        defaultChecked={adminEmailNotificationChk}
-                      />
-                    </label>
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>
-                      Client Email <HelpCircle size={12} /> Notification
-                    </h5>
-                  </Col>
-                  <Col sm="3">
-                    <label className="react-toggle-wrapper">
-                      <Toggle
-                        checked={clientEmailNotificationChk}
+                </div>
+            </div>
+          <div className="rd_vacationflex2">
+              <div className="box_content rd_box_contentspecialemailset">
+              <div className="form-check form-switch">
+                
+              <label className="form-check-label" for="adminEmailNotificationChk">Admin Email Notification</label>
+                <input className="form-check-input" 
+                type="checkbox" 
+                checked={adminEmailNotificationChk}
+                onChange={handleSwitchChange}
+                id="adminEmailNotificationChk"
+                value="yes"
+                defaultChecked={adminEmailNotificationChk}/>
+                
+                </div>
+              </div>
+          </div>
+          <div className="rd_vacationflex2">
+            <div className="box_content rd_box_contentspecialemailset">
+            <div className="form-check form-switch">
+            <label className="form-check-label" for="clientEmailNotificationChk"> Client Email  Notification</label>
+                <input className="form-check-input" 
+                type="checkbox" 
+                 
+                checked={clientEmailNotificationChk}
                         onChange={handleSwitchChange}
                         id="clientEmailNotificationChk"
                         value="yes"
-                        defaultChecked={clientEmailNotificationChk}
-                      />
-                    </label>
-                  </Col>
-                </FormGroup>
+                        defaultChecked={clientEmailNotificationChk}/>
+                   
+                
+                </div>
 
-                <FormGroup row>
-                  <Col sm="4">
-                    <h5>
-                      Staff Email <HelpCircle size={12} /> Notification
-                    </h5>
-                  </Col>
-                  <Col sm="3">
-                    <label className="react-toggle-wrapper">
-                      <Toggle
-                        checked={staffEmailNotificationChk}
+            </div>
+        </div>
+        <div className="rd_vacationflex2">
+            <div className="box_content rd_box_contentspecialemailset">
+            <div className="form-check form-switch">
+            <label className="form-check-label" for="staffEmailNotificationChk"> Staff Email  Notification </label>
+                <input className="form-check-input" 
+                type="checkbox" 
+                checked={staffEmailNotificationChk}
                         onChange={handleSwitchChange}
                         id="staffEmailNotificationChk"
                         value="yes"
-                        defaultChecked={staffEmailNotificationChk}
-                      />
-                    </label>
-                  </Col>
-                </FormGroup>
-              </div>
-            </Col>
-
-            <Col sm="4">
-              <div className="permissions border px-2">
-                <div className="title pt-2 pb-0">
-                  <Mail size={19} />
-                  <span className="text-bold-500 font-medium-2 ml-50">
-                    Email Reminders
-                  </span>
-                  <hr />
+                        defaultChecked={staffEmailNotificationChk}/>
+                  
+                
                 </div>
+              
+            </div>
+        </div>
+        </div>
+
+{/*
+        <div className="rd_vacationfilterpart rd_vacationfilterpart2 rd_vacationfilterpartema">
+        
+        <h4 className="rd_setsmt"><strong>Email Reminders</strong></h4>
 
                 {reminderComponent
-                  ? reminderComponent.map((value, index) => (
+                  ? 
+                  reminderComponent.map((value, index) => (
                       <FormGroup row>
-                        <Col sm="3">
-                          {index === 0 ? <h5>Set Reminder </h5> : <></>}
-                        </Col>
+                       
 
                         <Col sm="2">
                           <Input
@@ -472,39 +438,28 @@ const EmailSettings = (props) => {
                         </Col>
                       </FormGroup>
                     ))
-                  : []}
-                <FormGroup row>
-                  <Col sm="3"></Col>
-                  <Col sm="8">
-                    <Button.Ripple
-                      onClick={AddReminder}
-                      className="mr-1"
-                      color="primary"
-                    >
-                      + Add Reminder
-                    </Button.Ripple>
-                  </Col>
-                </FormGroup>
-              </div>
-            </Col>
-          </Row>
+                          : [] }
+               
+           {reminderComponent.length==3?<></>:   
+           <button type="button" onClick={AddReminder} className="rd_blockbtnth">+ Add Reminder</button>
+}
 
-          <Row>
-            <Col className="d-flex justify-content-end flex-wrap" sm="12">
+           </div>
+*/}    
+
               {isEmailValid ? (
-                <Button.Ripple className="mr-1" color="primary">
-                  Save Changes
-                </Button.Ripple>
+               <div className="rd_alignrightb">
+            <button className="rd_blockbtnth">Save Changes</button>
+            </div>
               ) : (
                 <></>
               )}
-            </Col>
-          </Row>
+            
         </Form>
 
         <ToastContainer />
-      </CardBody>
-    </Card>
+        </div>
+   
   );
 };
 

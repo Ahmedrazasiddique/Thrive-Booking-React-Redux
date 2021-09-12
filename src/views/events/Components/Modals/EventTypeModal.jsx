@@ -14,7 +14,8 @@ class EventTypeModal extends Component {
         this.state = {
             isOpen: false,
             dropDownValue: "",
-            veneue: defaultValue
+            veneue: defaultValue,
+            shouldUpdate: true,
         }
     }
 
@@ -25,7 +26,8 @@ class EventTypeModal extends Component {
 
     onDropdownChange = (value) => {
        this.setState({
-           veneue: value
+           veneue: value,
+           shouldUpdate: false
        })
     }
 
@@ -34,11 +36,6 @@ class EventTypeModal extends Component {
         const { formValues: values, onToggle, onChange } = this.props || {};
 
         const { veneue: venue_id } = this.state || {};
-
-
-        console.log({
-            venue_id
-        })
 
         // const { venue_id } = values || {};
 
@@ -91,15 +88,21 @@ class EventTypeModal extends Component {
         }
 
         onChange("venue_id", venue_id);
+
+       
         
         onToggle();
+
+        this.setState({
+            shouldUpdate: true
+        })
     }
 
     componentDidUpdate(prevProps, nextProps) {
-        const { veneue: oldVeneue } = nextProps || {};
+        const { veneue: oldVeneue, shouldUpdate } = nextProps || {};
         const { defaultValue } = prevProps || {};
 
-        if(oldVeneue !== defaultValue) {
+        if(parseInt(oldVeneue) !== parseInt(defaultValue) && shouldUpdate) {
             this.setState({
                 veneue: defaultValue
             });
@@ -156,6 +159,7 @@ class EventTypeModal extends Component {
                                             onChange = {({ target }) => {
                                                 const { name, value } = target || {};
                                                 onChange(name, value);
+
                                             }}
                                         />
                                     </Col>

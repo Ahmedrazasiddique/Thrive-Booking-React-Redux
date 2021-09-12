@@ -1,85 +1,45 @@
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardBody,
-  ListGroup,
-  ListGroupItem,
-} from "reactstrap";
-import { DollarSign } from "react-feather";
 import "./DashboardCss/dashboardAdmin.scss";
 class BookingSales extends React.Component {
   state = {};
 
-  componentDidMount() {}
+  componentDidMount() {
+     
+    console.log("forth",this.props.data)
+  }
 
   componentDidUpdate(previousProps) {}
 
   render() {
     return (
       <>
-        <Card className="BooingSales">
-          <CardHeader>
-            <CardTitle>Booking Sales</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <ListGroup className="list-group-horizontal-sm">
-              <ListGroupItem className="col-md-4">
-                <div className="stats-card-body d-flex justify-content-center flex-column text-center pb-2 pt-2 card-body">
-                  <div className="title-section">
-                    <h2 className="text-bold-600 mt-1 mb-25">300</h2>
-                    <p className="mb-0">Total Event Booked</p>
-                  </div>
+         <div class="rd_vacationflex2">
+                <div class="rd_crmspecdi rd_crmspecdinobor">
+                    <h5><strong>Booking Sales</strong></h5>
+                    <h2><strong>{this.props.data.data.event_booked}</strong></h2>
+                    <p>Total Event Booked</p>
+                    <h2><strong>$ {this.props.data.data.total_revenue}</strong></h2>
+                    <p>Total Revenue</p>
                 </div>
-                <hr />
-                <div className="stats-card-body d-flex justify-content-center flex-column text-center pb-2 pt-2 card-body">
-                  <div className="title-section">
-                    <h2 className="text-bold-600 mt-1 mb-25">
-                      <DollarSign size={26}></DollarSign>1360
-                    </h2>
-                    <p className="mb-0">Total Revenue </p>
-                  </div>
+            </div>
+            <div class="rd_vacationflex2">
+                <div class="rd_crmspecdi rd_crmspecdinobor">
+                    <h5><strong>Total Bookings</strong></h5>
+                    <h2><strong>{this.props.data.data.event_cancelled}</strong></h2>
+                    <p>Cancelled Events</p>
+                    <h2><strong>$ {this.props.data.data.revenue_lost_from_cancellation}</strong></h2>
+                    <p>Revenue Loss due to Cancellations</p>
                 </div>
-              </ListGroupItem>
-              <ListGroupItem className="col-md-4">
-                <div className="stats-card-body d-flex justify-content-center flex-column text-center pb-2 pt-2 card-body">
-                  <div className="title-section">
-                    <h2 className="text-bold-600 mt-1 mb-25">17</h2>
-                    <p className="mb-0">Cancelled Events</p>
-                  </div>
+            </div>
+            <div class="rd_vacationflex2">
+                <div class="rd_crmspecdi rd_crmspecdinobor rd_crmspecdinoborf">
+                    <h5><strong>Total Bookings</strong></h5>
+                    <h2><strong> {this.props.data.data.no_show}</strong></h2>
+                    <p>No-Shows</p>
+                    <h2><strong>$ {this.props.data.data.revenue_lost_from_no_show}</strong></h2>
+                    <p>Revenue Loss from No-Shows</p>
                 </div>
-                <hr />
-                <div className="stats-card-body d-flex justify-content-center flex-column text-center pb-2 pt-2 card-body">
-                  <div className="title-section">
-                    <h2 className="text-bold-600 mt-1 mb-25">
-                      <DollarSign size={26}></DollarSign>26.7k
-                    </h2>
-                    <p className="mb-0">Revenue Loss due to Cancellations</p>
-                  </div>
-                </div>
-              </ListGroupItem>
-
-              <ListGroupItem className="col-md-4">
-                <div className="stats-card-body d-flex justify-content-center flex-column text-center pb-2 pt-2 card-body">
-                  <div className="title-section">
-                    <h2 className="text-bold-600 mt-1 mb-25">17</h2>
-                    <p className="mb-0">No-Shows</p>
-                  </div>
-                </div>
-                <hr />
-                <div className="stats-card-body d-flex justify-content-center flex-column text-center pb-2 pt-2 card-body">
-                  <div className="title-section">
-                    <h2 className="text-bold-600 mt-1 mb-25">
-                      <DollarSign size={26}></DollarSign>1360
-                    </h2>
-                    <p className="mb-0">Revenue Loss from No-Shows </p>
-                  </div>
-                </div>
-              </ListGroupItem>
-            </ListGroup>
-          </CardBody>
-        </Card>
+            </div>
       </>
     );
   }

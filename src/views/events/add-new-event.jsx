@@ -24,7 +24,7 @@ let initialValues = {
     event_name: "",
     no_of_attendies: 1,
     event_format_id: 1,
-    venue_id: "",
+    venue_id: 1,
     event_url: "",
     venue_location: "",
     venue_location_notes: "",
@@ -87,11 +87,6 @@ class AddNewEvent extends Component {
                         ...details
                     }
 
-
-                    console.log({
-                        initialValues
-                    });
-
                    _this.setState({
                        pageLoading: false,
                        isEdit: true,
@@ -99,7 +94,10 @@ class AddNewEvent extends Component {
                    })
                 },
                 onError: function(error) {
-                    console.error(error);
+                    
+                    _this.setState({
+                        pageLoading: false
+                    });
                 }
             }) 
         }
@@ -202,9 +200,6 @@ class AddNewEvent extends Component {
         const { type } = locationParse || {};
 
         const { eventTypes, venues, errorMessage, isLoading, pageLoading, isOpen } = this.state;
-        console.log({
-            pageLoading
-        })
         return (
             <div className="create-event-wrapper">
                 <div className="create-event-container">
@@ -225,7 +220,7 @@ class AddNewEvent extends Component {
 
                                         const { eventId, isEdit } = this.state || {};
                                         
-                                        const { event_name, venue_location, venue_location_notes, venue_location_status,  no_of_attendies, event_format_id, venue_id, event_url, invitee_call_status, host_phone_no } = data || {};
+                                        const { event_name, venue_location, venue_other_display_status, venue_other_notes, venue_location_notes, venue_location_status,  no_of_attendies, event_format_id, venue_id, event_url, invitee_call_status, host_phone_no } = data || {};
 
                                         if(parseInt(venue_id) === 1) {
                                             // const { venue_location, venue_location_notes, venue_location_status} = values || {};
@@ -235,16 +230,22 @@ class AddNewEvent extends Component {
                                                 return;
                                             }
                                 
-                                            if(venue_location_notes === "") {
-                                                alert("Venue locatation notes is required.");
-                                                return;
-                                            }
+                                            // if(venue_location_notes === "") {
+                                            //     alert("Venue locatation notes is required.");
+                                            //     return;
+                                            // }
                                 
                                             if(venue_location_status === "") {
                                                 alert("Venue locatation status is required.");
                                                 return;
                                             }
                                         }
+
+                                        if(parseInt(event_format_id) === 2 && parseInt(no_of_attendies) < 2) {
+                                            alert("No of attendies should be greater than 1.");
+                                            return;
+                                        }
+
                                 
                                         if(parseInt(venue_id) === 2) {
                                             // const { invitee_call_status, host_phone_no } = values || {};
@@ -285,6 +286,14 @@ class AddNewEvent extends Component {
                                                 ...defaultValue,
                                                 invitee_call_status,
                                                 host_phone_no
+                                            }
+                                        }
+
+                                        if(venue_id === "7" || venue_id === 7) {
+                                            defaultValue = {
+                                                ...defaultValue,
+                                                venue_other_notes,
+                                                venue_other_display_status
                                             }
                                         }
 
@@ -352,7 +361,8 @@ class AddNewEvent extends Component {
                                                         <Col md="6" lg="6">
                                                             <FormField
                                                                 showLabel
-                                                                placeholder="Select Event Type"
+                                                                placeholder="Select Event Format"
+                                                                showPlaceholder = { false }
                                                                 type="select"
                                                                 name="event_format_id"
                                                                 label="Select Event Format *"
@@ -364,14 +374,14 @@ class AddNewEvent extends Component {
                                                         </Col>
                                                     </Row>
                                                     <Row>
-                                                       { values.event_format_id === "2" &&  <Col md="4" lg="4">
+                                                       { (values.event_format_id === "2" || values.event_format_id === 2 )  &&  <Col md="4" lg="4">
                                                             <div className="form-group">
                                                                 <label>
                                                                     No. of Attendees *
                                                                     <ToolTip/>
                                                                 </label>
                                                                 <NumberField 
-                                                                    defaultValue = { values.no_of_attendies }
+                                                                    defaultValue = { parseInt(values.no_of_attendies) }
                                                                     onChange = {(value) => {
                                                                         handleChange({
                                                                             target: { name: "no_of_attendies", value }

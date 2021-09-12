@@ -24,7 +24,7 @@ import {
 
 class MainPage extends Component {
   state = {
-    dataLoadedTest:false,
+    dataLoadedTest:true,
     isConfirmCalendar:false,
     isFreeEvent:false,
     singleEventDetails: {},
@@ -159,6 +159,13 @@ class MainPage extends Component {
         "last_name":"new",
         "profile_image":"",
 
+      },
+      {
+        "id":2,
+        "first_name":"sana test",
+        "last_name":"new",
+        "profile_image":"",
+
       }]
       }
       },
@@ -241,9 +248,9 @@ class MainPage extends Component {
     if (previousProp !== this.props) {
       if (this.props.GetEventByIDSuccess) {
        
-       this.setState({singleEventTestData:this.props.SingleEventDetails}) //using test data right now
+     //  this.setState({singleEventTestData:this.props.SingleEventDetails}) //using test data right now
         this.setState({ isShowLoader: false });
-        this.setState({ dataLoadedTest: true });
+      //  this.setState({ dataLoadedTest: true });
         
       }
       if (this.props.PaidEventSuccess) {
@@ -573,30 +580,30 @@ const {isShowLoader ,isFreeEvent,isPaidEventPage,isDataPosted,dataLoadedTest} =t
     {!this.props.GetEventByIDSuccess?
    <EventBookingStep1 bookNow = {this.bookNow}></EventBookingStep1>:<></>}
 {
-  this.props.GetEventByIDSuccess && dataLoadedTest&& !this.state.isConfirmCalendar?
+  this.props.GetEventByIDSuccess && !this.state.isConfirmCalendar?
   <EventBookingStep2 eventTestData={this.state.singleEventTestData.data} confirmCalendar={this.confirmCalendar} eventData = {this.props.SingleEventDetails}></EventBookingStep2> 
   
   :<></>
 
 }
-{  this.state.isConfirmCalendar &&  dataLoadedTest&& !isFreeEvent && !isPaidEventPage?
+{  this.state.isConfirmCalendar && !isFreeEvent && !isPaidEventPage?
   <EventBookingStep3 isFreeOrPaidEvent = {this.state.singleEventTestData.data.is_event_paid=="E"?true:false} scheduleEventFree={this.scheduleEventFree} goToPaidEventPage={this.goToPaidEventPage} getSecondStepData= {this.getSecondStepData}eventTestData={this.state.singleEventTestData.data} hideLoader={this.hideLoader}  eventData = {this.props.SingleEventDetails}></EventBookingStep3> 
   
   :<></>
   
   }
   {
-    dataLoadedTest&&isFreeEvent?
+    isFreeEvent?
     <EventBookingFinal eventTestData={this.state.singleEventTestData.data}></EventBookingFinal>
     :<></>
   }
     {
-   dataLoadedTest&& isDataPosted?
+    isDataPosted?
     <EventBookingFinal eventTestData={this.state.singleEventTestData.data}></EventBookingFinal>
     :<></>
   }
   {
-  dataLoadedTest&&  isPaidEventPage && !isDataPosted?
+    isPaidEventPage && !isDataPosted?
     <EventBookingStepPaid checkCart={this.checkCart} updateQuantity={this.updateQuantity} removeAddOnAndPricing={this.removeAddOnAndPricing} getAddOnAndPricing={this.getAddOnAndPricing} eventTestData={this.state.singleEventTestData.data}></EventBookingStepPaid>
     :<></>
   }

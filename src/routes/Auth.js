@@ -29,7 +29,7 @@ const Auth = (props) => {
 
   const Layout = appRoute.template ? appRoute.template : Template;
 
-  return <Layout Component={appRoute.component} route={route} />;
+  return <Layout Component={appRoute.component} route={route} props={props} />;
 };
 
 Auth.propTypes = {
@@ -38,6 +38,7 @@ Auth.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  SectionClass: state.layout.sectionClass,
 });
 
 export default connect(mapStateToProps, {})(Auth);

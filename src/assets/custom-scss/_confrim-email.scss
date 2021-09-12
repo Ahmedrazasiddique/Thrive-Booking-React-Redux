@@ -1,0 +1,40 @@
+.confirm-email {
+  flex-grow: 1 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+}
+.confirm-email img {
+  width: 129px;
+  height: 129px;
+}
+.confirm-email h1 {
+  font-size: 40px;
+  font-weight: bold;
+  color: #0C4767;
+  padding: 20px 0px;
+  margin: 0;
+}
+.confirm-email p {
+  color: #626262;
+}
+/*RESPONSIVE REQUIREMENTS*/
+@media screen and (max-width: 950px) {
+  .confirm-email {
+    position: relative;
+    bottom: 220px;
+    margin: 0 15px;
+    padding: 65px 0;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px 0 rgba(131, 134, 163, 0.06);
+  }
+}
+@media screen and (max-width: 600px) {
+  .confirm-email h1 {
+    font-size: 30px;
+    padding: 15px 0;
+  }
+}

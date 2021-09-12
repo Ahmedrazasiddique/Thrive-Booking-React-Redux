@@ -6,6 +6,23 @@ import {
   IsDataSubmitedSuccessfullyPromoCode,
 } from "../constants/promoCode";
 
+
+export const getMyPromoCodeListForGrid =  async (filter) => {
+  
+  /*dispatch({
+    type: BookingHistory_START,
+  });
+  */
+  return axios
+    .post("admin/settings/promos" , filter)
+    
+    
+   
+    
+};
+
+
+
 export const getMyPromoCodeList = (filter) => (dispatch) => {
   dispatch({
     type: PromoCode_START,

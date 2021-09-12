@@ -13,6 +13,7 @@ import navigationConfig from "../../../config/adminMenuConfig";
 import AdminTopNav from "./AdminTopNav";
 import * as Icon from "react-feather";
 import Settings from "../../../views/admin/partials/Settings";
+import AdminNavExtended from "./AdminNavExtended";
 
 class AdminNav extends React.Component {
   constructor(props) {
@@ -338,6 +339,14 @@ class AdminNav extends React.Component {
 
   render() {
     return (
+      <>  <AdminTopNav {...this.props} />
+       <Settings
+          toggleSettings={this.onToggleSettings}
+          settingState={this.state.showSettings}
+        />
+        <AdminNavExtended {...this.props}></AdminNavExtended>
+      </>
+      /*
       <React.Fragment>
         <AdminTopNav {...this.props} />
         <Settings
@@ -417,6 +426,7 @@ class AdminNav extends React.Component {
           </div>
         </div>
       </React.Fragment>
+      */
     );
   }
 }

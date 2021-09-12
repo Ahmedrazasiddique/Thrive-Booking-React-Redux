@@ -15,7 +15,7 @@ class PreviewTemplate extends React.Component {
   };
 
   render() {
-    //debugger
+    // 
     return (
       <Modal
         isOpen={this.props.ModalOpenPreview}
@@ -32,9 +32,7 @@ class PreviewTemplate extends React.Component {
           {this.props.PreviewTemplateData}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.props.toggleModalPreview}>
-            Accept
-          </Button>{" "}
+         
         </ModalFooter>
       </Modal>
     );

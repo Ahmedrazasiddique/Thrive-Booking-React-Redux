@@ -1,434 +1,433 @@
-import React from "react"
+
 import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  FormGroup,
-  Label,
+  
   Input,
-  Row,
-  Col,
-  UncontrolledDropdown,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  Collapse,
-  Spinner,
-  Button
-} from "reactstrap"
-import { Link } from "react-router-dom";
-import { AgGridReact } from "ag-grid-react"
-import {
-  Edit,
-  Trash2,
-  ChevronDown,
-  RotateCw,
-  X
-} from "react-feather"
-import classnames from "classnames"
-import "../../../../../../src/assets/scss/plugins/tables/_agGridStyleOverride.scss"
-import "../../../../../../src/assets/scss/pages/users.scss"
-
-class StaffPayment extends React.Component {
-  state = {
-    ModalOpenBreaks:false,
-    rowData: [{
-      id: 313,
-      clientName: "zoetic150",
-      email: "danae@demeter.com",
-      phoneNo: "123214",
-      zipCode: "us121er",
-      city: "dallas",
-      state: "sindh",
-      dateTime: "2020-06-29 20:06:05",
-     
-    },],
-    pageSize: 20,
-    isVisible: true,
-    reload: false,
-    collapse: true,
-    status: "Opened",
-    role: "All",
-    selectStatus: "All",
-    verified: "All",
-    department: "All",
-    defaultColDef: {
-      sortable: true
-    },
-    searchVal: "",
-    columnDefs: [
-      {
-        headerName: "ID",
-        field: "id",
-       hide:true,
-        filter: true,
-     
-      },
-      {
-        headerName: "Client Name",
-        field: "clientName",
-        filter: true,
-        width: 250,
-        cellRendererFramework: params => {
-          return (
  
-		<Link
-      		to={"/admin/settings/staff/directory-information/view/"+	params.data.id}
-          className="d-flex align-items-center cursor-pointer"
-    	>
-	{	params.data.name}
-    	</Link>
-          
-          )
-        }
-      },
-      {
-        headerName: "Email",
-        field: "email",
-        filter: true,
-      
-      },
-      {
-        headerName: "Phone #",
-        field: "phoneNo",
-        filter: true,
-      
-      },
-      {
-        headerName: "Zip Code",
-        field: "zipCode",
-        filter: true,
-       
-       
-      },
-      {
-        headerName: "City",
-        field: "city",
-        filter: true,
-       
-      },
-      {
-        headerName: "State",
-        field: "state",
-        filter: true,
-      
-      }, {
-        headerName: "Date & Time",
-        field: "dateTime",
-        filter: true,
-     
-      },
-     
-      {
-        headerName: "Actions",
-        field: "transactions",
-        width: 150,
-        cellRendererFramework: params => {
-          return (
-            <div className="actions cursor-pointer">
-              <Edit
-                className="mr-50"
-                size={15}
-                onClick={()=>this.props.onEditClick(this.gridApi.getSelectedRows())}
-              />
-              <Trash2
-                size={15}
-                onClick={() => {
-                  let selectedData = this.gridApi.getSelectedRows()
-                  this.gridApi.updateRowData({ remove: selectedData })
-                }}
-              />
-            </div>
-          )
-        }
-      }
-    
-    ]
-  }
-  toggleModalPreview = () => {
-    this.setState(prevState => ({
-      ModalOpenBreaks: !prevState.ModalOpenBreaks
-      }))
-  }
+} from "reactstrap";
+import classnames from "classnames";
+import "../../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
+import { connect } from "react-redux";
+import {
+  getStaffPayment,
+} from "../../../../../actions/bookingHistoryAction";
+import Loader from "../../../../../components/Loader/Loader";
+
+import React, { useEffect, useState } from 'react';
+import { AgGridColumn, AgGridReact } from 'ag-grid-react';
+
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 
-  async componentDidMount() {
-    
-  }
-
-  onGridReady = params => {
-    this.gridApi = params.api
-    this.gridColumnApi = params.columnApi
-  }
-
-  filterData = (column, val) => {
-    var filter = this.gridApi.getFilterInstance(column)
-    var modelObj = null
-    if (val !== "all") {
-      modelObj = {
-        type: "equals",
-        filter: val
-      }
-    }
-    filter.setModel(modelObj)
-    this.gridApi.onFilterChanged()
-  }
-
-  filterSize = val => {
-    if (this.gridApi) {
-      this.gridApi.paginationSetPageSize(Number(val))
-      this.setState({
-        pageSize: val
-      })
-    }
-  }
-  updateSearchQuery = val => {
-    this.gridApi.setQuickFilter(val)
-    this.setState({
-      searchVal: val
-    })
-  }
-
-  refreshCard = () => {
-    this.setState({ reload: true })
-    setTimeout(() => {
-      this.setState({
-        reload: false,
-        role: "All",
-        selectStatus: "All",
-        verified: "All",
-        department: "All"
-      })
-    }, 500)
-  }
-
-  toggleCollapse = () => {
-    this.setState(state => ({ collapse: !state.collapse }))
-  }
-  onEntered = () => {
-    this.setState({ status: "Opened" })
-  }
-  onEntering = () => {
-    this.setState({ status: "Opening..." })
-  }
-
-  onEntered = () => {
-    this.setState({ status: "Opened" })
-  }
-  onExiting = () => {
-    this.setState({ status: "Closing..." })
-  }
-  onExited = () => {
-    this.setState({ status: "Closed" })
-  }
-  removeCard = () => {
-    this.setState({ isVisible: false })
-  }
-
-  render() {
-    const { rowData, columnDefs, defaultColDef, pageSize } = this.state
-    return (
-      <Row className="app-user-list">
-        
-        <Col sm="12">
-          <Card
-            className={classnames("card-action card-reload", {
-              "d-none": this.state.isVisible === false,
-              "card-collapsed": this.state.status === "Closed",
-              closing: this.state.status === "Closing...",
-              opening: this.state.status === "Opening...",
-              refreshing: this.state.reload
-            })}
+function StaffPayment(props) {
+  const [gridApi, setGridApi] = useState(null);
+  const [gridColumnApi, setGridColumnApi] = useState(null);
+  const [para, setPara] = useState(null);
+  const [totalCount, setTotalCount] = useState(null);
+  const [loader, setLoader] = useState(false);
+  
+  const [filter, setFilter] = useState({
+    pageSize: 10,
+    pageNumber: 1,
+    sortField: "id",
+    sortOrder: "asc",
+   filter:{customer_email:"",staff:"",customer:"",booking_date:"",booking_time:"",status:"A"}
+  });
+  const [columnDefs, setColumnDefs] = useState([
+    {
+      headerName: "ID",
+      field: "id",
+      hide: true,
+      filter: false,
+    },
+    /*{
+      headerName: "Staff Name",
+      field: "staffName",
+      filter: false,
+      width: 250,
+      cellRendererFramework: (params) => {
+        return (
+          <Link
+            to={
+              "/admin/settings/staff/directory-information/view/" +
+              params.data.id
+            }
+            className="d-flex align-items-center cursor-pointer"
           >
-            <CardHeader>
-              <CardTitle>Filters</CardTitle>
-              <div className="actions">
-                <ChevronDown
-                  className="collapse-icon mr-50"
-                  size={15}
-                  onClick={this.toggleCollapse}
-                />
-                <RotateCw
-                  className="mr-50"
-                  size={15}
-                  onClick={() => {
-                    this.refreshCard()
-                    this.gridApi.setFilterModel(null)
-                  }}
-                />
-                <X size={15} onClick={this.removeCard} />
-              </div>
-            </CardHeader>
-            <Collapse
-              isOpen={this.state.collapse}
-              onExited={this.onExited}
-              onEntered={this.onEntered}
-              onExiting={this.onExiting}
-              onEntering={this.onEntering}
-            >
-              <CardBody>
-                {this.state.reload ? (
-                  <Spinner color="primary" className="reload-spinner" />
-                ) : (
-                  ""
-                )}
-                <Row>
-                  <Col lg="3" md="6" sm="12">
-                    <FormGroup className="mb-0">
-                      <Label for="role">Client Name</Label>
-                      <Input
-                        type="select"
-                        name="role"
-                        id="role"
-                        value={this.state.role}
-                        onChange={e => {
-                          this.setState(
-                            {
-                              role: e.target.value
-                            },
-                            () =>
-                              this.filterData(
-                                "role",
-                                this.state.role.toLowerCase()
-                              )
-                          )
-                        }}
-                      >
-                        <option value="All">All</option>
-                        <option value="User">User</option>
-                        <option value="Staff">Staff</option>
-                        <option value="Admin">Admin</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col lg="3" md="6" sm="12">
-                    <FormGroup className="mb-0">
-                      <Label for="status">City</Label>
-                      <Input
-                        type="select"
-                        name="status"
-                        id="status"
-                        value={this.state.selectStatus}
-                        onChange={e => {
-                          this.setState(
-                            {
-                              selectStatus: e.target.value
-                            },
-                            () =>
-                              this.filterData(
-                                "status",
-                                this.state.selectStatus.toLowerCase()
-                              )
-                          )
-                        }}
-                      >
-                        <option value="All">All</option>
-                        <option value="Active">Active</option>
-                        <option value="Blocked">Blocked</option>
-                        <option value="Deactivated">Deactivated</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col lg="3" md="6" sm="12">
-                    <FormGroup className="mb-0">
-                    <Label for="department">Phone #</Label>
-                    <Input
-                        placeholder="search by phone #..."
-                        onChange={e => this.updateSearchQuery(e.target.value)}
-                        value={this.state.value}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col lg="3" md="6" sm="12">
-                    <FormGroup className="mb-0">
-                      <Label for="department">Date & Time</Label>
-                      <Input
-                        placeholder="search by date #..."
-                        onChange={e => this.updateSearchQuery(e.target.value)}
-                        value={this.state.value}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Collapse>
-          </Card>
-        </Col>
-        <Col sm="12">
-          <Card>
-            <CardBody>
-              <div className="ag-theme-material ag-grid-table">
-                <div className="ag-grid-actions d-flex justify-content-between flex-wrap mb-1">
-                  <div className="sort-dropdown">
-                    <UncontrolledDropdown className="ag-dropdown p-1">
-                      <DropdownToggle tag="div">
-                        1 - {pageSize} of 150
-                        <ChevronDown className="ml-50" size={15} />
-                      </DropdownToggle>
-                      <DropdownMenu right>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(20)}
-                        >
-                          20
-                        </DropdownItem>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(50)}
-                        >
-                          50
-                        </DropdownItem>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(100)}
-                        >
-                          100
-                        </DropdownItem>
-                        <DropdownItem
-                          tag="div"
-                          onClick={() => this.filterSize(150)}
-                        >
-                          150
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                  </div>
-                  <div className="filter-actions d-flex">
-                  <Button color="primary" onClick={this.toggleModalPreview}>
-            Add New
-          </Button>{" "}
-                
-                  </div>
-                </div>
-                {this.state.rowData !== null ? (
-                 
-                      <AgGridReact
-                        gridOptions={{}}
-                        rowSelection="multiple"
-                        defaultColDef={defaultColDef}
-                        columnDefs={columnDefs}
-                        rowData={rowData}
-                        onGridReady={this.onGridReady}
-                        colResizeDefault={"shift"}
-                        animateRows={true}
-                        floatingFilter={true}
-                        pagination={true}
-                        pivotPanelShow="always"
-                        paginationPageSize={pageSize}
-                        resizable={true}
-                       
-                      />
-                    
-                
-                ) : null}
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    )
-  }
-}
+            {params.data.name}
+          </Link>
+        );
+      },
+    */  
+    {
+      headerName: "Booking date",
+      field: "booking_date",
+      filter: false,
+    },
+    {
+      headerName: "Booking time",
+      field: "booking_time",
+      filter: false,
+    },
+    {
+      headerName: "Event Format",
+      field: "event_format",
+      filter: false,
+    },
+    {
+      headerName: "Event Format ID",
+      field: "event_format_id",
+      filter: false,
+    },
+    {
+      headerName: "Status",
+      field: "booking_status",
+      filter: false,
+     
+    },
+    {
+      headerName: "Invitee name",
+      field: "invitee_first_name",
+      filter: false,
+    },
+    {
+      headerName: "Invitee Last Name",
+      field: "invitee_last_name",
+      filter: false,
+    },
+    {
+      headerName: "Invitee Email",
+      field: "invitee_email",
+      filter: false,
+    },
 
-export default StaffPayment
+    {
+    headerName: "Staff first name",
+    field: "staff_first_name",
+    filter: false,
+  },
+  {
+    headerName: "Staff last name",
+    field: "staff_last_name",
+    filter: false,
+  }
+  
+  
+
+  ]);
+
+  const perPage = 3;
+  const setPageNumberToOne = (name,value) => setFilter({...filter, pageNumber:1});
+  const setFilterNew = (name,value) => setFilter({...filter
+    
+    ,filter:{...filter.filter,[name]:value}
+  
+  }
+    
+    );
+  
+
+    useEffect(() => {
+
+    },[loader]);
+
+ const filterSize = (val) => {
+  //setIsOtherEventCalled(0)
+  //setPageNumberToOne(parseInt(val.target.value))
+  //props.getBookingHistory(filter);
+ }
+
+ const onChange = (val) => {
+  //setIsOtherEventCalled(0)
+  //setPageNumberToOne(val.target.name,val.target.value)
+  setFilterNew(val.target.name,val.target.value)
+  updateDataSource ()
+  //props.getBookingHistory(filter);
+ }
+
+
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
+  };
+
+  const updateDataSource = () => {
+    
+    let currentPage = 0;
+
+    const dataSource = {
+      getRows: (params) => {
+        currentPage = params.endRow / 10;
+        let sortModel = params.sortModel[0];
+        let filterModel = params.filterModel;
+       //
+        const data = fetchData(currentPage, sortModel, filterModel);
+        data.then((res) => {
+          
+      //    let totalRows = Number(res.headers["x-total-count"]);
+          params.successCallback(res.data.entity, res.data.totalCount);
+        });
+      }
+    };
+
+    const fetchData = async (actualPage, sortModel, filterModel) => {
+      let sortForUrl = "";
+      if (sortModel) {
+        sortForUrl = `&_sort=${sortModel.colId}&_order=${sortModel.sort}`;
+      }
+
+      /*
+      let filterForUrl = "";
+      if (Object.keys(filterModel).length > 0) {
+        // check if the filter object is not empty
+        let filterName = Object.keys(filterModel)[0];
+        let filterValue = filterModel[filterName].filter;
+        filterForUrl = `&${filterName}_like=${filterValue}`;
+      }
+      */
+      
+      const response = await getStaffPayment(filter);
+      const data = response;
+      return data;
+    };
+
+    return dataSource;
+  };
+
+    const getRowNodeId = (row) => {
+      return row.id.toString();
+    };
+
+  /*
+  useEffect(() => {
+    if (gridApi) {
+      
+    props.getBookingHistory(filter);
+      
+      const dataSource = {
+        getRows: (params) => {
+
+           
+          setPara(params)
+          // Use startRow and endRow for sending pagination to Backend
+          // params.startRow : Start Page
+          // params.endRow : End Page
+          const page = params.endRow / filter.pageSize;
+       //   setFilter({...filter,pageNumber:page})
+          props.getBookingHistory({...filter,pageNumber:page});
+        
+
+        }
+      }
+
+      gridApi.setDatasource(dataSource);
+    
+    }
+    
+  }, [gridApi,filter.pageSize,filter.pageNumber]);
+*/
+
+  const avatarFormatter = ({ value }) => {
+    return <img src={value} width="50px" height="50px" />
+  }
+
+
+  return (
+    <div class="eventdetailsaddbox rd_noshadow rd_noboxheader">
+      
+      <Loader isShowLoader={loader}></Loader>
+   
+      <div class="rd_vacationfilterpart rd_vacationfilterpart3">
+                <div class="rd_crmpatopthcon">
+                <div class="rd_profilerd_erpart">
+               
+                    <div class="rd_vacationflex2">
+                          <p>Status</p>
+                          <div class="rd_profilethingco">
+                              <div class="input-group">
+                                  <Input type="text" class="form-control noshadfoc" 
+                                 type="select"
+                                 name="status"
+                                 id="status"
+                                 onChange={onChange}
+                                 /*
+                                 value={this.state.selectStatus}
+                                 onChange={(e) => {
+                                   this.setState(
+                                     {
+                                       selectStatus: e.target.value,
+                                     },
+                                     () =>
+                                       this.filterData(
+                                         "status",
+                                         this.state.selectStatus.toLowerCase()
+                                       )
+                                   );
+                                 }}
+                                 */
+                                >
+                                <option value="A">Active</option>
+                                <option value="C">Confirm</option>
+                                <option value="R">Reject</option>
+                                <option value="CC">Cancel by Client</option>
+                                <option value="CS">Cancel by service provider</option>
+                                <option value="CO">Completed</option>
+                                <option value="MN">MARK AS NOSHOW</option>
+                                  <div class="input-group-prepend rd_dropdownbtn">
+                                      <button class="input-group-text"></button>
+                                    </div>
+                                </Input>
+                            </div>
+                      
+                    
+                    </div>
+                    </div>
+                    <div class="rd_vacationflex2">
+                            <p>Client</p>
+                            <div class="rd_profilethingco">
+                              <input type="text" value = {filter.filter.customer_email} name="customer_email" id="" class="rd_adddayofinput" 
+                               onChange={onChange}
+                              // onChange={(e) => this.updateSearchQuery(e.target.value)}
+                             //  value={this.state.value}
+                              
+                              placeholder="Search by Client"/>
+          
+                            </div>
+                    </div>
+                    <div class="rd_vacationflex2">
+                          <p>Staff</p>
+                          <div class="rd_profilethingco">
+                              <input type="text" value = {filter.filter.staff} name="staff" id="" class="rd_adddayofinput" 
+                               onChange={onChange}
+                              // onChange={(e) => this.updateSearchQuery(e.target.value)}
+                             //  value={this.state.value}
+                              
+                              placeholder="Search by Staff"/>
+          
+                            </div>  
+                      </div>
+
+                      <div class="rd_vacationflex2">
+                          <p>Customer</p>
+                          <div class="rd_profilethingco">
+                              <input type="text" value = {filter.filter.customer} name="customer" id="" class="rd_adddayofinput" 
+                               onChange={onChange}
+                              // onChange={(e) => this.updateSearchQuery(e.target.value)}
+                             //  value={this.state.value}
+                              
+                              placeholder="Search by customer"/>
+          
+                            </div>  
+                      </div>
+
+                      <div class="rd_vacationflex2">
+                          <p>Booking Date</p>
+                          <div class="rd_profilethingco">
+                              <input type="text" value = {filter.filter.booking_date} name="booking_date" id="" class="rd_adddayofinput" 
+                               onChange={onChange}
+                              // onChange={(e) => this.updateSearchQuery(e.target.value)}
+                             //  value={this.state.value}
+                              
+                              placeholder="Search by booking date"/>
+          
+                            </div>  
+                      </div>
+
+                      <div class="rd_vacationflex2">
+                          <p>Booking Time</p>
+                          <div class="rd_profilethingco">
+                              <input type="text" value = {filter.filter.booking_time} name="booking_time" id="" class="rd_adddayofinput" 
+                               onChange={onChange}
+                              // onChange={(e) => this.updateSearchQuery(e.target.value)}
+                             //  value={this.state.value}
+                              
+                              placeholder="Search by booking time"/>
+          
+                            </div>  
+                      </div>
+              
+              
+            
+      </div>
+      </div>
+       </div>
+       
+       <div class="rd_vacationfilterpart rd_vacationfilterpart3">
+       <div class="rd_inputbookstaf2">
+         
+       <div style={{display:'none'}} class="rd_inputbookstaf rd_inputbookstafm">
+                  <div class="rd_profilethingco">
+                      <div class="input-group">
+                          <Input 
+                          type="text"
+                          type="select"
+                          class="form-control noshadfoc" 
+                          id="inlineFormInputGroupUsername" placeholder="50-0 To 0"
+                          onChange={filterSize}
+                          >
+                           <option value="5" >5</option>
+                          <option value="10" >10</option>
+                          <option value="20" >20</option>
+                          <option value="30" >30</option>
+
+                          <div class="input-group-prepend rd_dropdownbtn">
+                              <button class="input-group-text"></button>
+                            </div>
+                            </Input>
+                            </div>
+                        </div>
+                        </div>
+                        {/*
+                    <div class="rd_inputbookstaf rd_inputbookstafm">
+                      <div class="rd_profilethingco">
+                          <div class="input-group">
+                              <input type="text" class="form-control noshadfoc" 
+                              id="inlineFormInputGroupUsername" placeholder="Search Invitee"
+                              onChange={(e) => this.updateSearchQuery(e.target.value)}
+                              value={this.state.searchVal}/>
+                              <div class="input-group-prepend rd_dropdownbtn">
+                                  <button class="input-group-text"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        */}
+              </div>
+            <div className="ag-theme-material ag-grid-table">
+           
+               <AgGridReact
+                columnDefs={columnDefs}
+          onGridReady={onGridReady}
+          rowModelType={"infinite"}
+          datasource={updateDataSource()}
+          getRowNodeId={getRowNodeId}
+          cacheBlockSize={10}
+          rowBuffer={0}
+          paginationPageSize={10}
+          cacheOverflowSize={2}
+          maxConcurrentDatasourceRequests={1}
+          maxBlocksInCache={10}
+          infiniteInitialRowCount={10}
+          pagination={true}
+          paginationAutoPageSize={false}
+        ></AgGridReact>
+            </div>
+         </div>
+     
+      </div>
+  );
+}
+const mapStateToProps = (state) => {
+  return {
+    BookingHistoryData: state.bookingHistory.data,
+    BookingHistorySuccess: state.bookingHistory.BookingHistorySuccess,
+    IsError: state.bookingHistory.IsError,
+  };
+};
+
+const actionMethods = {
+ // getBookingHistory: getBookingHistory,
+
+};
+
+export default connect(mapStateToProps, actionMethods)(StaffPayment);

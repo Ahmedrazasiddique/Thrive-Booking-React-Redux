@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { history } from "../../../history";
 import SuperAdminTopNav from "./SuperAdminTopNav";
 import * as Icon from "react-feather";
+import SuperAdminNavExtended from "./SuperAdminNavExtended";
 
 class SuperAdminNav extends React.Component {
   constructor(props) {
@@ -336,6 +337,15 @@ class SuperAdminNav extends React.Component {
 
   render() {
     return (
+      <>
+      <SuperAdminTopNav {...this.props} />
+      
+      <SuperAdminNavExtended {...this.props}></SuperAdminNavExtended>
+      </>
+      );
+    }
+  }
+      {/*
       <React.Fragment>
         <SuperAdminTopNav {...this.props} />
 
@@ -455,7 +465,6 @@ class SuperAdminNav extends React.Component {
           </div>
         </div>
       </React.Fragment>
-    );
-  }
-}
+                */}
+  
 export default SuperAdminNav;

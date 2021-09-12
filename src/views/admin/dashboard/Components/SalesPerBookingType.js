@@ -16,98 +16,78 @@ import "./DashboardCss/dashboardAdmin.scss";
 class SalesPerBookingType extends React.Component {
   state = {
     options: {
-      colors: this.props.themeColors,
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          endingShape: "rounded",
-          columnWidth: "55%",
-        },
+      chart: {
+        id: "barChart",
+      },
+      xaxis: {
+       // type: "datetime",
+        categories: this.props.xAxis?this.props.xAxis:[],
+      },
+      stroke: {
+        curve: "smooth",
       },
       dataLabels: {
         enabled: false,
       },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
+    
+      colors: "#ffb863",
+      grid: {
+        row: {
+          colors: ["#f3f3f3", "transparent"],
+          opacity: 0.5,
+        },
       },
       legend: {
         offsetY: -10,
       },
-      xaxis: {
-        categories: [
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-        ],
-      },
-      yaxis: {
-        title: {
-          text: "$ (thousands)",
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
       tooltip: {
-        y: {
-          formatter: function (val) {
-            return "$ " + val + " thousands";
-          },
+        x: {
+          format: "dd/MM/yy HH:mm",
         },
       },
     },
-    series: [
-      {
-        name: "Hair Cut",
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-      },
-      {
-        name: "Hair Style",
-        data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-      },
-    ],
+    series: this.props.series?this.props.series:[],
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log("last portion data",this.props.data)
+  }
 
   componentDidUpdate(previousProps) {}
 
   render() {
     return (
       <>
-        <Card className="TopPortion">
-          <CardHeader>
-            <CardTitle>Sales Per Booking</CardTitle>
-            <UncontrolledDropdown>
-              <DropdownToggle
-                tag="small"
-                className="text-bold-500 cursor-pointer"
-              >
-                Day <ChevronDown size={10} />
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Weekly</DropdownItem>
-                <DropdownItem>Monthly</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </CardHeader>
-          <CardBody>
-            <Chart
+       <div class="rd_crmspecdispecial">
+                <div class="rd_flexthing">
+                    <div class="rd_flexthingitem2">
+                        <div class="rd_contentchart1thign">
+                            <h3><strong>Sales Per Booking</strong></h3>
+                            <p>
+                                <span class="rd_purpledot">
+
+                                </span>
+                                Hair Cut
+                            </p>
+                            <p>
+                                <span class="rd_ocbluedot">
+
+                                </span>
+                                Hair Style
+                            </p>
+                        </div>
+                    </div>
+                    <div class="rd_flexthingitem3">
+                    <Chart
               options={this.state.options}
               series={this.state.series}
               type="bar"
               height={350}
             />
-          </CardBody>
-        </Card>
+                    </div>
+                </div>
+            </div>
+         
       </>
     );
   }

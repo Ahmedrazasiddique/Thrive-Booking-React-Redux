@@ -7,24 +7,28 @@ import "./DashboardCss/dashboard.scss";
 class SubscriberActionFeed extends React.Component {
   state = {};
 
-  componentDidMount() {}
+  componentDidMount() {
+
+    console.log("feeds",this.props.subcriberFeeds)
+  }
 
   componentDidUpdate(previousProps) {}
 
   render() {
     return (
       <>
-        <Card className="TopPortionSuperAdmin">
-          <CardHeader>
-            <CardTitle>Subscriber Action Feed</CardTitle>
-          </CardHeader>
-
-          <ScrollBar>
-            <CardBody>
-              <ListGroup></ListGroup>
-            </CardBody>
-          </ScrollBar>
-        </Card>
+                            <div class="rd_specialflexthgndahs">
+                                <p>Subscriber action feed</p>
+                                <button>filter by</button>
+                            </div>
+                            <div class="rd_notficationcontthing">
+                              {this.props.data?this.props.data.map((obj,index)=>(
+                                <a href="#" class="rd_notifcitemcont">
+                                    {obj}
+                                </a>
+                              )):[]}
+                            </div>
+                      
       </>
     );
   }

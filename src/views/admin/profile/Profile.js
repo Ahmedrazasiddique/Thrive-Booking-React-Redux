@@ -16,7 +16,7 @@ import ProfileInfo from "./ProfileInfo"
 import CardInfo from "./CardInfo"
 import ProfileChangePassword from "./ChangePassword"
 
-//import "../../../../../frontend/src/assets/scss/pages/users.scss"
+import "../../../../../frontend/src/assets/scss/pages/users.scss"
 class Profile extends React.Component {
   state = {
     activeTab: "1"
@@ -29,54 +29,36 @@ class Profile extends React.Component {
   }
   render() {
     return (
-      <Row>
-        <Col sm="12">
-          <Card>
-            <CardBody className="pt-2">
-              <Nav tabs>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
+      <div class="eventdetailsaddbox rd_noshadow">
+          <div class="boxheader rd_floatingheaderthig">
+            <div class="rd_inputselectheader">
+                <div class="rd_selectheaderrdt2 rd_selectheaderrdt2profile">
+                    <button  className={classnames({
                       active: this.state.activeTab === "1"
                     })}
                     onClick={() => {
                       this.toggle("1")
-                    }}
-                  >
-                    <User size={16} />
-                    <span className="align-middle ml-50">Profile</span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
+                    }}>Profile</button>
+                    <button  className={classnames({
                       active: this.state.activeTab === "2"
                     })}
                     onClick={() => {
                       this.toggle("2")
-                    }}
-                  >
-                    <Info size={16} />
-                    <span className="align-middle ml-50">Payment Info</span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
+                    }}>Payment Info</button>
+                    <button  className={classnames({
                       active: this.state.activeTab === "3"
                     })}
                     onClick={() => {
                       this.toggle("3")
-                    }}
-                  >
-                    <Share size={16} />
-                    <span className="align-middle ml-50">Change Password</span>
-                  </NavLink>
-                </NavItem>
-              </Nav>
+                    }}>Change Password</button>
+                  </div>
+
+            </div>
+          </div>
+             
               
               <TabContent activeTab={this.state.activeTab}>
-            
+             
                <TabPane tabId="1">
                <ProfileInfo/>
                 </TabPane>
@@ -87,10 +69,8 @@ class Profile extends React.Component {
                <ProfileChangePassword/>
                 </TabPane>
               </TabContent>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+           
+     </div>
     )
   }
 }

@@ -149,17 +149,18 @@ useEffect(() => {
     
         
       
-        <CardBody>
+      <div className="rd_vacationfilterpart rd_vacationfilterpart3">
+        <Form onSubmit={handleSubmit}>
+      <div className="rd_profilerd_erpart">
           <Loader isShowLoader={isShowLoader}></Loader>
       
-                <Form onSubmit={handleSubmit}>
-                <Row>
-                  <Col sm="6">
-                  <Col sm="12">
-                    <Label for="firstName">First Name <ErrorSpan></ErrorSpan></Label>
-                    <FormGroup className="has-icon-left position-relative">
-                      <Input
-                       className="form-control"
+                
+               
+                  <div className="rd_vacationflex2">
+                  <p>First Name *</p>
+                  <div className="rd_profilethingco">
+                      <input
+                       className="rd_adddayofinput"
                         type="text"
                         name="first_name"
                         id="first_name"
@@ -168,37 +169,13 @@ useEffect(() => {
                         onChange={handleInputChange}
                         required
                       />
-                      <div className="form-control-position">
-                        <User size={15} />
-                      </div>
-                     
+                      
+                    </div>
 
-                    </FormGroup>
-                  </Col>
-                  <Col sm="12">
-                    <Label for="lastName">Last Name <ErrorSpan></ErrorSpan></Label>
-                    <FormGroup className="has-icon-left position-relative">
-                      <Input
-                        className="form-control"
-                        type="text"
-                        name="last_name"
-                        id="last_name"
-                        placeholder="Last Name"
-                        value={MyProfileData.last_name}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      <div className="form-control-position">
-                        <User size={15} />
-                      </div>
-                   
-                    </FormGroup>
-                  </Col>
-                  <Col sm="12">
-                    <Label for="IconsMobile">Email <ErrorSpan></ErrorSpan></Label>
-                    <FormGroup className="has-icon-left position-relative">
-                      <Input
-                       className="form-control"
+                    <p>Email *</p>
+                      <div class="rd_profilethingco">
+                      <input
+                       className="rd_adddayofinput"
                         type="text"
                         name="email"
                         id="email"
@@ -207,18 +184,31 @@ useEffect(() => {
                         onChange={handleInputChange}
                         required
                       />
-                      <div className="form-control-position">
-                        <Mail size={15} />
+    
                       </div>
-                   
-                      {!isEmailValid? <div class="field-error text-danger">Invalid Email</div>:<></>}
-                    </FormGroup>
-                  </Col>
-
-                  <Col sm="12">
-                    <Label for="IconsMobile">Phone</Label>
-                    <FormGroup className="has-icon-left position-relative">
-                      <Input
+    
+                  </div>
+                  <div className="rd_vacationflex2">
+                      <p>Last Name *</p>
+                      <div class="rd_profilethingco">
+                      <input
+                        className="rd_adddayofinput"
+                        type="text"
+                        name="last_name"
+                        id="last_name"
+                        placeholder="Last Name"
+                        value={MyProfileData.last_name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                      </div>
+    
+    
+                      
+                      <p>Phone Number</p>
+                      <div  class="rd_profilethingco">
+                      <input
+                      className="rd_adddayofinput"
                         type="text"
                         name="text"
                         id="phone"
@@ -227,66 +217,28 @@ useEffect(() => {
                         value={MyProfileData.phone}
                         onChange={handleInputChange}
                       />
-                      <div className="form-control-position">
-                        <Smartphone size={15} />
+    
                       </div>
-                    
-                      {!isPhoneValid? <div class="field-error text-danger">Invalid Phone #</div>:<></>}
-                    </FormGroup>
-                  </Col>
-                  <Col sm="12">
-                  <Media>
-          <Media className="mr-1" left href="#">
-            <Media
-              className="rounded-circle"
-              object
-              src={!isImageChangedEventCalled?(baseURLImages)+profileImageUrl:profileImageUrl}
-              alt="User"
-              height="64"
-              width="64"
-            />
-          </Media>
-          <Media className="mt-25" body>
-            <div className="d-flex flex-sm-row flex-column justify-content-start px-0">
-              <Button.Ripple
-                tag="label"
-                className="mr-50 cursor-pointer"
-                color="primary"
-                outline
-              >
-                Upload Photo
-                <Input type="file" accept=".png,.jpg" onChange={onSelectFile} name="profile_image" id="uploadImg" hidden />
-              </Button.Ripple>
-            </div>
-            <p className="text-muted mt-50">
-              <small>Allowed JPG, GIF or PNG. Max size of 800kB</small>
-            </p>
-          </Media>
-        </Media>
-                  </Col>
+    
+                      
 
-                  </Col>
-
-                  <Col sm="6">
-                  <Row>
-                  <Col sm="12">
-                    <Label for="address">Address</Label>
-                    <FormGroup className="has-icon-left position-relative">
+              </div>
+              <div className="rd_vacationflex2">
+                  <p>Address</p>
+    
+                  <div  className="rd_profilethingco">
+                  <textarea name="address_line_1"     value={MyProfileData.address_line_1}
+                        onChange={handleInputChange} id="address" className="rd_areaprofilepagethi"></textarea>
                      
-                    <textarea name="address_line_1"     value={MyProfileData.address_line_1}
-                        onChange={handleInputChange} id="address" class="form-control textAreaCss"></textarea>
-                     
-                    </FormGroup>
-                  </Col>
-                  <br/>
-                  </Row>
-                  <Row>
-                    
-                  <Col sm="6">
-                    <Label for="city">City</Label>
-                    <FormGroup className="has-icon-left position-relative">
-                      <Input
-                       className="form-control"
+                  </div>
+              </div>
+              </div>
+              <div class="rd_profilerd_erpart rd_profilerd_erpart2">
+                <div class="rd_vacationflex2">
+                    <p>City</p>
+                      <div class="rd_profilethingco">
+                      <input
+                       className="rd_adddayofinput"
                         type="text"
                         name="city"
                         id="city"
@@ -294,16 +246,14 @@ useEffect(() => {
                         value={MyProfileData.city}
                         onChange={handleInputChange}
                       />
-                      <div className="form-control-position">
-                        <Flag size={15} />
+    
                       </div>
-                    </FormGroup>
-                  </Col>
-                  <Col sm="6">
-                    <Label for="state">State</Label>
-                    <FormGroup className="has-icon-left position-relative">
-                      <Input
-                       className="form-control"
+                </div>
+                <div class="rd_vacationflex2">
+                    <p>State</p>
+                      <div class="rd_profilethingco">
+                      <input
+                       className="rd_adddayofinput"
                         type="text"
                         name="state"
                         id="state"
@@ -311,19 +261,15 @@ useEffect(() => {
                         value={MyProfileData.state}
                         onChange={handleInputChange}
                       />
-                      <div className="form-control-position">
-                        <Circle size={15} />
+                        
+    
                       </div>
-                    </FormGroup>
-                  </Col>
-                 
-                  </Row>
-                  <Row>
-                  <Col sm="6">
-                    <Label for="zip">Zip</Label>
-                    <FormGroup className="has-icon-left position-relative">
-                      <Input
-                       className="form-control"
+                </div>
+                <div class="rd_vacationflex2">
+                    <p>Zip Number</p>
+                      <div class="rd_profilethingco">
+                      <input
+                        className="rd_adddayofinput"
                         type="number"
                         name="zip"
                         id="zip"
@@ -331,33 +277,57 @@ useEffect(() => {
                         value={MyProfileData.zip}
                         onChange={handleInputChange}
                       />
-                      <div className="form-control-position">
-                        <Hash size={15} />
+    
                       </div>
-                    </FormGroup>
-                  </Col>
-                  <Col sm="6">
-                    <Label for="country">Country</Label>
-                    <FormGroup className="has-icon-left position-relative">
-                    <Select
+                </div>
+                <div class="rd_vacationflex2">
+                    <p>Country</p>
+                      <div class="rd_profilethingco">
+                      <Select
                    
-                        className="country"
-                        classNamePrefix="select"
-                        defaultValue={MyProfileData.country}
-                        value={countryValue}
-                        options={countries}
-                        name="country_id" 
-                        onChange={changeCountry}
+                   className="country"
+                   classNamePrefix="select"
+                   defaultValue={MyProfileData.country}
+                   value={countryValue}
+                   options={countries}
+                   name="country_id" 
+                   onChange={changeCountry}
 
-                       
+                  
+                   
+                 />
                         
-                      />
-                    
-                    </FormGroup>
-                  </Col>
-                  </Row>
+                      </div>
+                </div>
 
-                  </Col>
+              </div>
+
+              <div class="rd_profileimagepart">
+                <div class="rd_imagethincontg">
+                    <p>User</p>
+
+                    <img src={!isImageChangedEventCalled?(baseURLImages)+profileImageUrl:profileImageUrl} alt=""/>
+                </div>
+                <div class="rd_imagethincontgbtnt">
+                    <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
+                    <FormGroup className="has-icon-left position-relative">
+                    <label
+                
+                className="CustomButton"
+                outline
+              >
+                Upload Photo
+                <Input type="file" accept=".png,.jpg" onChange={onSelectFile} name="profile_image" id="uploadImg" hidden />
+              </label>
+                   { /*<label  className="CustomButton" type="button">Remove</label>*/}
+                    </FormGroup>
+                </div>
+            </div>
+
+                 
+
+                
+                
                 
                 
                   <Col className="d-flex justify-content-end flex-wrap" sm="12">
@@ -366,14 +336,14 @@ useEffect(() => {
             </Button.Ripple>:<></>}
          
           </Col>
-                </Row>
+                
               </Form>
            
       
        
 
           <ToastContainer />
-        </CardBody>
+        </div>
        
      
     );

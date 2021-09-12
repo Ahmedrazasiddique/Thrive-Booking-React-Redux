@@ -75,23 +75,22 @@ class DirectoryInformation extends React.Component {
         },
       },
       {
+        headerName: "First Name",
+        field: "first_name",
+        filter: true,
+      },
+      {
+        headerName: "Last Name",
+        field: "last_name",
+        filter: true,
+      },
+      {
         headerName: "Email",
         field: "email",
         filter: true,
-      },
-      {
-        headerName: "Address",
-        field: "address_line_1",
-        filter: true,
-      },
-      {
-        headerName: "Notes",
-        field: "notes",
-        filter: true,
-      },
-      {
-        headerName: "City",
-        field: "city",
+      }, {
+        headerName: "Event Assigned",
+        field: "event_assigned",
         filter: true,
       },
       {
@@ -100,6 +99,21 @@ class DirectoryInformation extends React.Component {
         filter: true,
         width: 100,
       },
+      {
+        headerName: "City",
+        field: "city",
+        filter: true,
+      },
+      
+     
+      {
+        headerName: "Country",
+        field: "country",
+        filter: true,
+      },
+     
+    
+      
 /*
       {
         headerName: "Actions",
@@ -283,9 +297,9 @@ class DirectoryInformation extends React.Component {
                   </Col>
                   <Col lg="3" md="6" sm="12">
                   <FormGroup className="mb-0">
-                      <Label for="department">Status</Label>
+                      <Label for="department">Event</Label>
                       <Input
-                        placeholder="search by status #..."
+                        placeholder="search by event #..."
                         onChange={(e) => this.updateSearchQuery(e.target.value)}
                         value={this.state.value}
                       />

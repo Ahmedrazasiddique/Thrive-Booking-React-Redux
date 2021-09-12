@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { User, Info } from "react-feather";
-//import "../../../../../frontend/src/assets/scss/pages/users.scss";
+import "../../../../../frontend/src/assets/scss/pages/users.scss";
 import AdminSmsTemplate from "./SmsTemplates/AdminSmsTemplate";
 import ClientSmsTemplate from "./SmsTemplates/ClientSmsTemplate";
 import { connect } from "react-redux";
@@ -69,43 +69,30 @@ class SMSTemplate extends React.Component {
   };
   render() {
     return (
-      <Row>
+      <div class="eventdetailsaddbox rd_noshadow">
+      <div class="boxheader rd_floatingheaderthig">
+        <div class="rd_inputselectheader">
+            <div class="rd_selectheaderrdt2 rd_selectheaderrdt2profile">
         <Loader isShowLoader={this.state.isShowLoader}></Loader>
-        <Col sm="12">
-          <Card>
-            <CardBody className="pt-2">
-              <Nav tabs>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "1",
+             
+
+              <button  className={classnames({
+                      active: this.state.activeTab === "1"
                     })}
                     onClick={() => {
-                      this.toggle("1");
-                    }}
-                  >
-                    <User size={16} />
-                    <span className="align-middle ml-50">
-                      Client Sms Templates
-                    </span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "2",
+                      this.toggle("1")
+                    }}> Client Sms Templates</button>
+                    <button  className={classnames({
+                      active: this.state.activeTab === "2"
                     })}
                     onClick={() => {
-                      this.toggle("2");
-                    }}
-                  >
-                    <Info size={16} />
-                    <span className="align-middle ml-50">
-                      Admin Sms Templates
-                    </span>
-                  </NavLink>
-                </NavItem>
-              </Nav>
+                      this.toggle("2")
+                    }}> Admin Sms Templates</button>
+                   
+                  </div>
+
+            </div>
+          </div>
 
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
@@ -134,10 +121,7 @@ class SMSTemplate extends React.Component {
                 </TabPane>
               </TabContent>
               <ToastContainer />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+              </div>
     );
   }
 }

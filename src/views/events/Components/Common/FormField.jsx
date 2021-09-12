@@ -16,6 +16,7 @@ const FormField = (props) => {
     showLabel:showlabel,
     placeholder,
     options,
+    showPlaceholder,
     multiple,
     fieldClasses,
   } = props;
@@ -36,11 +37,14 @@ const FormField = (props) => {
             "is-invalid"}`}
           {...props}
         >
-          <option value="">Choose {name}</option>
+          { showPlaceholder && <option value="">{ placeholder || `Choose ${name}` }</option> }
           {(options || []).map((option, index) => {
-            const { label, value } = option;
+            const { label, value:optionValue } = option;
+            
             return (
-              <option value={value} key={index}>
+              <option 
+                value={optionValue} 
+                key={index}>
                 {label}
               </option>
             );

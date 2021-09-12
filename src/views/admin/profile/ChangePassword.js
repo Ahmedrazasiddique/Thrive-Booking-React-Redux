@@ -76,12 +76,14 @@ const ProfileChangePassword = (props) => {
           >
             {(formikprops, errors, touched) => (
               <Form>
-                <Row>
-                  <Col md="4" sm="6">
-                    <FormGroup>
-                      <h6 for="oldPassword">Old Password <ErrorSpan></ErrorSpan></h6>
+                <div class="rd_vacationfilterpart rd_vacationfilterpart3">
+              <div class="rd_profilerd_erpart">
+              <div class="rd_vacationflex2">
+                    <p>Old Password *</p>
+                      <div class="rd_profilethingco">
+                    
                       <Field
-                        className="form-control"
+                        className="form-control rd_adddayofinput"
                         type="password"
                         name="password"
                         placeholder="Old Password"
@@ -89,26 +91,28 @@ const ProfileChangePassword = (props) => {
                         required
                       />
                     
-                    </FormGroup>
-                  </Col>
-                  <Col md="4" sm="6">
-                    <FormGroup>
-                      <h6 for="newPassword">New Password <ErrorSpan></ErrorSpan></h6>
+                    </div>
+                    </div>
+                  
+                    <div class="rd_vacationflex2">
+                      <p>New Password *</p>
+                      <div class="rd_profilethingco">
                       <Field
-                        className="form-control"
+                        className="form-control rd_adddayofinput"
                         type="password"
                         name="new_password"
                         placeholder="New Password"
                         formikprops={formikprops}
                         required
                       />
-                    
-                    </FormGroup>
-                  </Col>  <Col md="4" sm="6">
-                    <FormGroup>
-                      <h6 for="confirmPassword">Confirm Password <ErrorSpan></ErrorSpan></h6>
+                      </div>
+                    </div>
+
+                    <div class="rd_vacationflex2">
+                <p>Confirm Password *</p>
+                <div class="rd_profilethingco">
                       <Field
-                        className="form-control"
+                        className="form-control rd_adddayofinput"
                         type="password"
                         name="confirm_password"
                         placeholder="Confirm Password"
@@ -120,8 +124,9 @@ const ProfileChangePassword = (props) => {
                       <div className="field-error text-danger">{msg}</div>
                     )}
                   </ErrorMessage>
-                    </FormGroup>
-                  </Col>
+                  </div>
+                    </div>
+</div>
 
                   <Col className="d-flex justify-content-end flex-wrap" sm="12">
             <Button.Ripple className="mr-1" color="primary">
@@ -129,8 +134,7 @@ const ProfileChangePassword = (props) => {
             </Button.Ripple>
            
           </Col>
-                
-                </Row>
+                </div>
               
               </Form>
             )}

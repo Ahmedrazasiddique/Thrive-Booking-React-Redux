@@ -9,7 +9,7 @@ import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../../../../../src/assets/scss/plugins/extensions/editor.scss";
 import Prism from "prismjs";
-import "prismjs/components/prism-jsx.min";
+import "prismjs/components/prism-jsx";
 import TagModal from "./TagModal";
 import PreviewTemplate from "./PreviewTemplate";
 import { Eye, RefreshCcw, Tag, Save, Plus, Minus } from "react-feather";

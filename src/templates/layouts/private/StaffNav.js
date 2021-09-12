@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { history } from "../../../history";
 import StaffTopNav from "./StaffTopNav";
 import * as Icon from "react-feather";
+import StaffNavExtended from "./StaffNavExtended";
 
 class StaffNav extends React.Component {
   constructor(props) {
@@ -336,6 +337,14 @@ class StaffNav extends React.Component {
 
   render() {
     return (
+      <>  <StaffTopNav {...this.props} />
+     
+       <StaffNavExtended {...this.props}></StaffNavExtended>
+     </> 
+   );
+ }
+}
+      {/*
       <React.Fragment>
         <StaffTopNav {...this.props} />
 
@@ -425,7 +434,6 @@ class StaffNav extends React.Component {
           </div>
         </div>
       </React.Fragment>
-    );
-  }
-}
+                */}
+               
 export default StaffNav;

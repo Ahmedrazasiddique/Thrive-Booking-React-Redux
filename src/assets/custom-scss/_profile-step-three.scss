@@ -1,0 +1,45 @@
+.profile-step {
+  padding: 0 150px !important;
+}
+.profile-step-three .form-checks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  color: #0C4767;
+}
+.profile-step-three .form-check {
+  padding-bottom: 15px;
+  cursor: pointer;
+}
+.profile-step-three .form-check label {
+  color: #0C4767;
+  font-size: 16px;
+  font-weight: 500;
+}
+.profile-step-three .tag-button-label  {
+  height: 50px;
+}
+.profile-step-three .tag-button-label input[type=checkbox] {
+  display: none;
+}
+.profile-step-three .tag-button-label input[type=checkbox]:checked + .tag-button .unchecked {
+  display: none;
+}
+
+.profile-step-three .tag-button-label input[type=checkbox]:not(:checked) + .tag-button .checked {
+  display: none;
+}
+.profile-step-three .tag-button-label {
+  width: 50%;
+}
+.profile-step-three .tag-button-label .tag-button {
+  height: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: #0C4767;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 16px;
+}
+

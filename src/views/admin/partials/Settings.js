@@ -58,7 +58,7 @@ const Settings = (props) => {
       to: "/admin/settings/seo",
     },
     {
-      title: t("SETTINGS.GOOGLE_CALENDAR"),
+      title: t("Calendar Integrations"),
       icon: (<Icon.Calendar size={20} className="mr-2 fonticon-wrap" />),
       to: "/admin/settings/google-calendar",
     },
@@ -73,7 +73,7 @@ const Settings = (props) => {
       to: "/admin/settings/email-settings",
     },
     {
-      title: t("My Thrive Link"),
+      title: t("My Octo Link"),
       icon: (<Icon.Home size={20} className="mr-2 fonticon-wrap" />),
       to: "/admin/settings/my-thrive-link",
     },
@@ -96,16 +96,17 @@ const Settings = (props) => {
 
       <div className="header d-flex justify-content-between px-2 pt-2">
         <div className="title">
-          <h4 className="text-uppercase mb-0">Select Section</h4>
+          <h4 className="text-uppercase mb-0">Setting</h4>
         </div>
+        {/*
           <div
             className="close-icon cursor-pointer"
             onClick={() => props.toggleSettings(false)}
           >
             <Icon.X size={24} />
           </div>
+        */}
       </div>
-      <hr />
       <PerfectScrollbar
           options={{
             wheelPropagation: false,

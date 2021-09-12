@@ -18,6 +18,12 @@ import "./DashboardCss/dashboard.scss";
 
 class Subscriber extends React.Component {
   state = {
+    cl:["#45c48a",
+     "#ffb863",
+    "#255a77",
+     "#9c8cfc",
+     "#FFC085",
+    "#f29292"],
     options: {
       chart: {
         dropShadow: {
@@ -31,8 +37,13 @@ class Subscriber extends React.Component {
           show: false,
         },
       },
-      colors: [this.props.primary, this.props.warning, this.props.danger],
-      fill: {
+      colors: ["#45c48a",
+      "#ffb863",
+     "#255a77",
+      "#9c8cfc",
+      "#FFC085",
+     "#f29292"],
+      /*fill: {
         type: "gradient",
         gradient: {
           gradientToColors: [
@@ -41,7 +52,7 @@ class Subscriber extends React.Component {
             this.props.dangerLight,
           ],
         },
-      },
+      }*/
       dataLabels: {
         enabled: false,
       },
@@ -49,9 +60,9 @@ class Subscriber extends React.Component {
       stroke: {
         width: 5,
       },
-      labels: ["Sales Meetings", "Demo Meetings", "Onboarding meetings"],
+      labels: this.props.data.labels,
     },
-    series: [690, 258, 343, 700],
+    series: this.props.data.series,
   };
 
   componentDidMount() {}
@@ -61,24 +72,7 @@ class Subscriber extends React.Component {
   render() {
     return (
       <>
-        {" "}
-        <Card className="SbLeft">
-          <CardHeader>
-            <CardTitle>Subcribers</CardTitle>
-            <UncontrolledDropdown>
-              <DropdownToggle
-                tag="small"
-                className="text-bold-500 cursor-pointer"
-              >
-                summary <ChevronDown size={10} />
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>individual plans</DropdownItem>
-                <DropdownItem>team plans</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </CardHeader>
-          <CardBody className="pt-0">
+      
             <Chart
               options={this.state.options}
               series={this.state.series}
@@ -86,262 +80,18 @@ class Subscriber extends React.Component {
               height={290}
             />
 
-            <ListGroup flush>
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-primary"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Active Users </span>
-                </div>
-                <div className="product-result">
-                  <span>690</span>
-                </div>
-              </ListGroupItem>
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-warning"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Free Subscribers</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Paid Subscribers</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>{" "}
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Total Users</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>
-            </ListGroup>
-          </CardBody>
-        </Card>
+<div class="rd_contentchart1thign">
+
+{this.props.data.labels.map((person, index) => (
+                            <p>
+                                <span style={{backgroundColor:this.state.cl[index]}} className="rd_bluedot">
+
+                                </span>
+                                {person}
+                            </p>
+                     ))}             
+                        </div>
+        
       </>
     );
   }

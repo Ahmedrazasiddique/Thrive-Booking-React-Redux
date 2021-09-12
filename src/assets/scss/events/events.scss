@@ -82,6 +82,7 @@ $font-family-sofia-light: "Sofia Light";
   .event-card-body {
     padding: 49px 18px 40px 20px;
     width: 100%;
+
     .form-group {
       label {
         font-family: "Sofia Pro";
@@ -1373,6 +1374,17 @@ $font-family-sofia-light: "Sofia Light";
 
       .card-body {
         padding: 15px;
+        .image-wrapper {
+          max-width: 100%;
+          max-height: 300px;
+
+          text-align: center;
+          margin-bottom: 30px;
+          img {
+            max-width: 100%;
+            max-height: 300px;
+          }
+        }
         h3 {
           font-size: 26px;
           font-family: $font-family-sofia;
@@ -1417,6 +1429,310 @@ $font-family-sofia-light: "Sofia Light";
   &.day-selector {
     span {
       width: 80px !important;
+    }
+  }
+}
+
+.tabs-wrapper {
+  &.event-availbility {
+    width: 100%;
+    .tabs-container {
+      width: 100%;
+      .nav.nav-tabs {
+        display: flex;
+        justify-content: flex-end;
+        span.icon {
+          margin-right: 10px;
+        }
+      }
+
+      .list-view-wrapper {
+        width: 100%;
+        .list-view {
+          width: 100%;
+          display: flex;
+          padding: 20px 16px;
+          border-bottom: 1px solid rgba(77, 80, 85, 0.1);
+          justify-content: space-evenly;
+          align-items: center;
+          .title-section {
+            display: flex;
+            align-items: center;
+            .form-check-box {
+              input[type="checkbox"] {
+                appearance: none;
+                display: none;
+                &:checked + label {
+                  color: $app-color;
+                  span {
+                    border-color: $app-color;
+                    position: relative;
+                    background-color: $app-color;
+                    &::after {
+                      content: "";
+                      position: absolute;
+                      left: 4px;
+                      top: 1px;
+                      width: 5px;
+                      height: 10px;
+                      background-color: $app-color;
+                      border: solid $white-color;
+                      border-width: 0px 3px 3px 0px;
+                      transform: rotate(45deg);
+                    }
+                  }
+                }
+              }
+
+              label {
+                span {
+                  width: 18px;
+                  height: 18px;
+                  border: 2px solid $primary-color;
+                  border-radius: 3px;
+                  display: inline-block;
+                  margin-right: 10px;
+                }
+              }
+            }
+
+            span.day-title {
+              margin-left: 30px;
+              font-size: 18px;
+              font-family: $font-family-sofia-light;
+              font-weight: bold;
+              color: #000000;
+              letter-spacing: 2px;
+              text-transform: uppercase;
+            }
+          }
+
+          .action-wrapper {
+            span.icon {
+              margin-right: 15px;
+              cursor: pointer;
+              // display: block;
+              position: relative;
+              .schedule-dropdown {
+                width: 200px;
+                min-height: 200px;
+                background: #ffffff;
+                border: 1px solid transparent;
+                border-radius: 5px;
+                position: absolute;
+                left: 0px;
+                top: 30px;
+                box-sizing: border-box;
+                // padding: -px 12;
+                background: #ffffff;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 6px;
+                box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+                z-index: 100;
+                .schedule {
+                  padding: 15px;
+                  display: flex;
+                  width: 100%;
+                  border-bottom: 1px solid rgba(77, 80, 85, 0.1);
+                  align-items: center;
+                  .form-check-box {
+                    display: flex;
+                    align-items: center;
+                    input[type="checkbox"] {
+                      appearance: none;
+                      display: none;
+                      &:checked + label {
+                        color: $app-color;
+                        span {
+                          border-color: $app-color;
+                          position: relative;
+                          background-color: $app-color;
+                          &::after {
+                            content: "";
+                            position: absolute;
+                            left: 3px;
+                            top: 1px;
+                            width: 5px;
+                            height: 8px;
+                            background-color: $app-color;
+                            border: solid $white-color;
+                            border-width: 0px 3px 3px 0px;
+                            transform: rotate(45deg);
+                          }
+                        }
+                      }
+                    }
+
+                    label {
+                      display: flex;
+                      span {
+                        width: 15px;
+                        height: 15px;
+                        border: 2px solid $primary-color;
+                        border-radius: 3px;
+                        display: inline-block;
+                        margin-right: 10px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .schedule-section {
+            min-width: 70%;
+            display: flex;
+            // justify-content: space-between;
+            align-items: center;
+            .time-dropdown {
+              min-width: 40%;
+            }
+
+            span {
+              margin: 0px 20px;
+              font-size: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.availbility-container-wrapper {
+  position: relative;
+}
+
+.event-day {
+  .card {
+    padding: 20px 0px;
+    width: 200px;
+    border-radius: 8px;
+    p {
+      margin: 0px;
+    }
+    ul {
+      padding: 0px;
+      margin: 0px;
+      li {
+        list-style: none;
+        padding: 10px 15px;
+        width: 100%;
+        font-size: 16px;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        font-weight: 500;
+        font-family: "Sofia Light";
+        cursor: pointer;
+        &:hover {
+          background-color: #e0e0e0;
+        }
+        svg {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
+.event-modal {
+  &.modal-sm {
+    .modal-content {
+      padding: 15px 0px;
+      .modal-title {
+        font-size: 20px;
+      }
+      .modal-body {
+        padding-left: 0px;
+        padding-right: 0px;
+      }
+      .close {
+        display: none;
+      }
+    }
+
+    .modal-footer {
+      width: 100%;
+      .action-items {
+        display: flex;
+        justify-content: space-evenly;
+
+        button {
+          &:first-child {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+.calendar-wrapper {
+  font-family: "Sofia Light";
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+
+  .DayPicker {
+    width: 100%;
+    .DayPicker-Caption {
+      font-family: "Sofia Pro";
+      font-size: 16px;
+    }
+    .DayPicker-Months {
+      justify-content: start !important;
+    }
+    .DayPicker-Month {
+      width: 100%;
+    }
+    .DayPicker-Weekday {
+      font-size: 18px;
+    }
+    .DayPicker-Day {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 10px;
+      padding: 12px;
+      font-size: 18px;
+      // display: inline-block;
+    }
+  }
+}
+
+.time-interval-wrapper {
+  width: 100%;
+  background-color: #f9f9f9;
+  border: 1px solid #dadada;
+  padding: 20px 10px;
+  label {
+    font-size: 15px;
+    font-family: "Sofia Pro";
+    margin-bottom: 15px;
+  }
+  .form-group {
+    font-family: "Sofia Light";
+    margin-bottom: 0px;
+  }
+
+  .row {
+    align-items: center;
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0px;
+    }
+  }
+
+  .icons {
+    width: 100%;
+    // display: flex;
+    align-items: center;
+    max-width: 100%;
+    text-align: left;
+    margin-right: 10px;
+    span {
+      padding-right: 5px;
+      cursor: pointer;
     }
   }
 }

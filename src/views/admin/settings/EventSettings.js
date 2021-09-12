@@ -168,38 +168,40 @@ class EventSettings extends React.Component {
 
   render() {
     return (
-      <Card>
+        <div className="eventdetailsaddbox rd_noshadow">
         <Loader isShowLoader={this.state.isShowLoader}></Loader>
-        <CardHeader>
-          <CardTitle>Event Settings</CardTitle>
-        </CardHeader>
-        <CardBody>
+        <div class="rd_supertoptwocom">
+                <div class="boxheader rd_floatingheaderthig">
+                    <div class="rd_inputselectheader">
+                        <div class="rd_selectheaderrdt2 rd_selectheaderrdt2profile">
+                            <h3>
+                                <strong>
+                                    Event Settings
+                                </strong>
+                            </h3>
+                          </div>
+        
+                    </div>
+                  </div>
+            </div>
           {this.state.EventSuccessLocal ? (
             <Form onSubmit={this.handleSubmit}>
-              <Row>
-                <Col sm="6">
-                  <div className="permissions border px-2">
-                    <div className="title pt-2 pb-0">
-                      <Settings size={19} />
-                      <span className="text-bold-500 font-medium-2 ml-50">
-                        Appointment Setting
-                      </span>
-                      <hr />
-                    </div>
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>
-                          Default Interval{" "}
-                          <HelpCircle id="defaultIntervalTp" size={12} /> Time
-                        </h5>
-                        <UncontrolledTooltip
-                          placement="top"
-                          target="defaultIntervalTp"
-                        >
-                          Test Tooltip !
-                        </UncontrolledTooltip>
-                      </Col>
-                      <Col sm="9">
+              
+              <div className="rd_vacationfilterpart rd_vacationfilterpart2 rd_vacationfilterpartema border px-2">
+              <div className="row col-sm-12 ">
+                <br/>
+                <div class="rd_speciheh3">
+                <h3>
+                    Appointment Setting
+                </h3>
+            </div>
+                  <div className="col-sm-8">
+                    
+                   
+                  <div className="rd_vacationflex2">
+                    <p >Default Interval  Time</p>
+                      <div className="rd_profilethingco">
+                      
                         <CustomTimePicker
                           nameDD={[
                             "",
@@ -213,19 +215,14 @@ class EventSettings extends React.Component {
                           datahours={this.state.datahours}
                           minutes={this.state.minutes}
                         ></CustomTimePicker>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>
-                          Cancellation <HelpCircle id="cbt" size={12} /> Buffer
-                          Time
-                        </h5>
-                        <UncontrolledTooltip placement="top" target="cbt">
-                          Test Tooltip !
-                        </UncontrolledTooltip>
-                      </Col>
-                      <Col sm="9">
+                      </div>
+                      </div>
+                   
+                  <div className="rd_vacationflex2">
+                    <p>Cancellation Buffer
+                          Time</p>
+                      <div className="rd_profilethingco">
+                     
                         <CustomTimePicker
                           isDaysToShow={true}
                           nameDD={[
@@ -239,13 +236,12 @@ class EventSettings extends React.Component {
                           datahours={this.state.datahours}
                           minutes={this.state.minutes}
                         ></CustomTimePicker>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>Reschedule Buffer Time</h5>
-                      </Col>
-                      <Col sm="9">
+                      </div>
+                      </div>
+                      <div className="rd_vacationflex2">
+                    <p>Reschedule Buffer Time</p>
+                    <div className="rd_profilethingco">
+                     
                         <CustomTimePicker
                           isDaysToShow={true}
                           nameDD={[
@@ -259,13 +255,11 @@ class EventSettings extends React.Component {
                           datahours={this.state.datahours}
                           minutes={this.state.minutes}
                         ></CustomTimePicker>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>Min Adv. Booking Time</h5>
-                      </Col>
-                      <Col sm="9">
+                      </div></div>
+                      <div className="rd_vacationflex2">
+                    <p>Min Adv. Booking Time</p>
+                    <div className="rd_profilethingco">
+                      
                         <CustomTimePicker
                           isDaysToShow={true}
                           disabled={false}
@@ -279,13 +273,11 @@ class EventSettings extends React.Component {
                           datahours={this.state.datahours}
                           minutes={this.state.minutes}
                         ></CustomTimePicker>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>Max Adv. Booking Time</h5>
-                      </Col>
-                      <Col sm="9">
+                      </div></div>
+                      <div className="rd_vacationflex2">
+                    <p>Max Adv. Booking Time</p>
+                    <div className="rd_profilethingco">
+                      
                         <CustomTimePicker
                           isDaysToShow={true}
                           disabled={false}
@@ -299,56 +291,42 @@ class EventSettings extends React.Component {
                           datahours={this.state.datahours}
                           minutes={this.state.minutes}
                         ></CustomTimePicker>
-                      </Col>
-                    </FormGroup>
+                    </div></div>
 
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>
-                          Guest User <HelpCircle id="guco" size={12} /> Checkout
-                        </h5>
-                        <UncontrolledTooltip placement="top" target="guco">
-                          Test Tooltip !
-                        </UncontrolledTooltip>
-                      </Col>
-                      <Col sm="9">
-                        <label className="react-toggle-wrapper">
-                          <Toggle
-                            checked={this.state.guestUserCheckOut}
+                    <div class="rd_borderboxthgn">
+                        <div class="box_content">
+                            <div class="form-check form-switch">
+                            <label class="form-check-label" for="">Guest User Checkout</label>
+                                <input class="form-check-input" style={{float:"right"}} type="checkbox" 
+                  id="flexSwitchCheckChecked3" 
+                  checked={this.state.guestUserCheckOut}
                             onChange={this.handleSwitchChange}
                             defaultChecked={
                               this.state.EventData
                                 .guest_user_checkout_status === "E"
                                 ? true
                                 : false
-                            }
-                          />
-                        </label>
-                      </Col>
-                    </FormGroup>
-                  </div>
-                </Col>
-
-                <Col sm="6">
-                  <div className="permissions border px-2">
-                    <div className="title pt-2 pb-0">
-                      <Calendar size={19} />
-                      <span className="text-bold-500 font-medium-2 ml-50">
-                        Calendar Setting
-                      </span>
-                      <hr />
+                            }/>
+                               
+                              </div>
+                        </div>
                     </div>
+                    
+                   
+                    
+                   
+                  </div>
+                  
+                  <div className="col-sm-4">
+                  <div class="rd_rightboxthingd">
+                        <h3>
+                            Calendar Setting
+                        </h3>
 
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>
-                          Time Format <HelpCircle id="tm" size={12} />
-                        </h5>
-                        <UncontrolledTooltip placement="top" target="tm">
-                          Test Tooltip !
-                        </UncontrolledTooltip>
-                      </Col>
-                      <Col sm="4">
+                    <div className="rd_vacationflex2">
+                    <p>Time Format</p>
+                    <div className="rd_profilethingco">
+                         
                         <Select
                           classNamePrefix="select"
                           defaultValue={{
@@ -358,18 +336,12 @@ class EventSettings extends React.Component {
                           options={this.state.timeFormateOptions}
                           name={"time_format"}
                         />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>
-                          Date Picker <HelpCircle id="dpf" size={12} /> Format{" "}
-                        </h5>
-                        <UncontrolledTooltip placement="top" target="dpf">
-                          Test Tooltip !
-                        </UncontrolledTooltip>
-                      </Col>
-                      <Col sm="4">
+                      </div>
+                      </div>
+                      <div className="rd_vacationflex2">
+                    <p>Date Picker Format</p>
+                    <div className="rd_profilethingco">
+                         
                         <Select
                           classNamePrefix="select"
                           defaultValue={{
@@ -379,13 +351,12 @@ class EventSettings extends React.Component {
                           options={this.state.datePickerFormateOptions}
                           name={"date_picker_format"}
                         />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>Calendar Default View </h5>
-                      </Col>
-                      <Col sm="4">
+                        </div>
+                      </div>
+                      <div className="rd_vacationflex2">
+                    <p>Calendar Default View</p>
+                    <div className="rd_profilethingco">
+                       
                         <Select
                           classNamePrefix="select"
                           defaultValue={{
@@ -395,18 +366,11 @@ class EventSettings extends React.Component {
                           options={this.state.calenderDefaultViewOptions}
                           name={"calendar_default_view"}
                         />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col sm="3">
-                        <h5>
-                          Calendar First Day <HelpCircle id="cfd" size={12} />{" "}
-                        </h5>
-                        <UncontrolledTooltip placement="top" target="cfd">
-                          Test Tooltip !
-                        </UncontrolledTooltip>
-                      </Col>
-                      <Col sm="4">
+                       </div>
+                      </div>
+                      <div className="rd_vacationflex2">
+                    <p>Calendar First Day</p>
+                    <div className="rd_profilethingco"> 
                         <Select
                           classNamePrefix="select"
                           defaultValue={getDropdownValue(
@@ -417,26 +381,38 @@ class EventSettings extends React.Component {
                           options={this.state.calenderfirstDayOptions}
                           name={"calendar_first_day"}
                         />
-                      </Col>
-                    </FormGroup>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col className="d-flex justify-content-end flex-wrap" sm="12">
+                       </div>
+                      </div>
+                      </div>
+                 
+                  </div>  
+
+<br/>
+
+<br/>
+<br/>
+              
+</div>
+
+            <Col className="d-flex justify-content-end flex-wrap" sm="12">
                   <Button.Ripple className="mr-1" color="primary">
                     Save Changes
                   </Button.Ripple>
                 </Col>
-              </Row>
+            
+               </div>
+                
+             
+            
+
+              
             </Form>
           ) : (
             <></>
           )}
 
           <ToastContainer />
-        </CardBody>
-      </Card>
+      </div>
     );
   }
 }

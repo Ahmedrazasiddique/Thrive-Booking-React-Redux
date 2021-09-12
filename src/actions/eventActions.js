@@ -52,10 +52,6 @@ export const saveEventType = (options) => dispatch => {
         }
     }
 
-    console.log({
-        data,
-        formData
-    })
     axios.post('admin/event/save-event-type-page', formData)
     .then( res => {
         const { data: resData } = res || {};
@@ -79,7 +75,14 @@ export const saveEventType = (options) => dispatch => {
 
 export const saveEventDetails = (options) => {
     const { onSuccess, onError, data } = options || {};
-    axios.post('admin/event/save-event-details-page', data)
+
+    let formData = new FormData();
+
+    (Object.keys(data) || []).forEach((element) => {
+        formData.append(element, data[element]);
+    })
+
+    axios.post('admin/event/save-event-details-page', formData)
     .then( res => {
         const { data: resData } = res || {};
         const { data } = resData || {};
@@ -101,8 +104,24 @@ export const saveEventDetails = (options) => {
 
 
 export const saveAdHocEvent = (options) => {
-    const { onSuccess, onError, data } = options || {};
-    axios.post('admin/create-adhoc-event', data)
+    const { onSuccess, onError, data, eventId } = options || {};
+
+    let formData = data;
+
+    let apiUrl = 'admin/create-adhoc-event';
+
+    if(eventId) {
+        formData = {
+            ...data,
+            id: eventId
+        }
+
+        apiUrl = `admin/update-adhoc-event/${eventId}`;
+    }
+
+    // return false;
+
+    axios.post(apiUrl, formData)
     .then( res => {
         const { data: resData } = res || {};
         const { data, message } = resData || {};
@@ -237,6 +256,58 @@ export const getEventDetails = (options) => async dispatch => {
     .catch(err => {
         if(onError) {
             onError(err);
+        } 
+    });
+}
+
+// get adhoc events
+
+export const getAdHocEventDetails = (options) => async dispatch => {
+    const { data, onSuccess, onError } = options || {};
+    const { id } = data || {};
+
+    axios.get(`/admin/adhoc-event/${ id }`)
+    .then( res => {
+        const { data: resData } = res || {};
+        const { data } = resData || {};
+
+        if(onSuccess) {
+            onSuccess(data);
+        }
+    })
+    .catch(err => {
+        if(onError) {
+            onError(err);
+        } 
+    });
+}
+
+
+
+export const saveStaffSchedule = (options) => async dispatch => {
+    console.log({
+        options
+    });
+
+    const { onSuccess, onError, data } = options || {};
+
+    axios.post('/admin/schedule/save-staff-schedule', data)
+    .then( res => {
+        const { data: resData } = res || {};
+        const { data, message } = resData || {};
+
+        if(onSuccess) {
+            const { data: event } = data || {};
+            const { id } = event || {};
+            onSuccess(message);
+        }
+    })
+    .catch(error => {
+        const { data: errorData } = error.response;
+        const message = errorData.message || error.message || fallBackErrorMessage;
+        
+        if(onError) {
+            onError(message);
         } 
     });
 }

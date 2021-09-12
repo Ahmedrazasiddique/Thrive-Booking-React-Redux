@@ -265,7 +265,7 @@ const {eventTestData,eventSecondStepObj} =this.state;
                                     </div>
                                     <div className="col-10" id="country_input">
                                         <input required 
-                                        type="text" 
+                                        type="number" 
                                         style={{border: "1px solid #edeff2;"}} 
                                         name="phoneNoPost"
                                         className="form-control" 

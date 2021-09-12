@@ -38,24 +38,38 @@ nav {
     color: #0C4767;
     font-size: 16px;
     padding: 3px 0px;
+    font-weight: 500;
   }
   .links li a.active {
+    position: relative;
     font-weight: bold;
-    background-image: url('../../assets/fe-images/actvie-link-border.png');
-    background-repeat: no-repeat;
-    background-position: bottom;
+  }
+
+  .links li a.active:after {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    content: "";
+    height: 2px;
+    width: 80%;
+    background-color: #FD9926;
+    transform: translate(-50%, 4px);
   }
   .side-bnts {
     margin: 0;
     padding: 0;
   }
   .side-bnts .login {
+    width: auto;
+    height: auto;
     border-radius: 5px;
     background-color: #ffffff;
     color: #626262;
     border: 1px solid rgba(12, 71, 103, .3);
   }
   .side-bnts .signup {
+    width: auto;
+    height: auto;
     border-radius: 5px;
     box-shadow: 0 6px 10px 0 rgba(12, 71, 103, 0.22);
     background-color: #0c4767;

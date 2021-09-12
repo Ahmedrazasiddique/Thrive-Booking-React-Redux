@@ -1,22 +1,17 @@
 import React, { Fragment } from "react";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardBody,
-  FormGroup,
+  
   Button,
-  Row,
+  
   Col,
-  InputGroup,
-  InputGroupAddon,
+ 
   Form,
   Media,
 } from "reactstrap";
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Breadcrumbs from "../../../components/Breadcrumb";
+import defaultImage from '../../../assets/images/no-event-image.jpg'
 import { connect } from "react-redux";
 import {
   getCompanyData,
@@ -68,8 +63,11 @@ class Company extends React.Component {
         this.setState({
           languageValue: this.props.CompanyData.MainData.data.language,
         });
+        
         this.setState({
-          companyImageUrl: this.props.CompanyData.MainData.data.company_logo,
+          
+          companyImageUrl: this.props.CompanyData.MainData.data.company_logo
+         
         });
       }
       if (this.props.IsDataSubmitedSuccessfully) {
@@ -162,41 +160,52 @@ class Company extends React.Component {
     const { companyInfo, timeZones, languages, countries } = this.state;
 
     return (
-      <Fragment>
-        <Breadcrumbs
-          breadCrumbTitle="Company"
-          breadCrumbParent="Settings"
-          breadCrumbActive="Company"
-        />
-        <Card>
-          <Loader isShowLoader={this.state.isShowLoader}></Loader>
-          <CardHeader>
-            <CardTitle>Company Details</CardTitle>
-          </CardHeader>
-          <CardBody>
+       
+        <div class="eventdetailsaddbox rd_noshadow">
+        <Loader isShowLoader={this.state.isShowLoader}></Loader>
+            <div class="rd_supertoptwocom">
+                <h3 class="rd_mbdispno">Company</h3>
+                <div class="boxheader rd_floatingheaderthig">
+                    <div class="rd_inputselectheader">
+                        <div class="rd_selectheaderrdt2 rd_selectheaderrdt2profile">
+                            <h3>
+                                <span class="dashboardmenuicon"></span>
+                                <span class="rd_nextarrows"></span>
+                                Settings
+                                <span class="rd_nextarrows"></span>
+                                <a href="#">Company</a>
+                            </h3>
+                          </div>
+        
+                    </div>
+                  </div>
+            </div>
+            
+          <div class="rd_vacationfilterpart rd_vacationfilterpart3">
             <Form onSubmit={this.handleSubmit}>
-              <Row>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="companyName">
-                      Company Name <span className="RequiredMark">*</span>
-                    </h6>
-                    <input
-                      className="form-control"
+            <div class="rd_profilerd_erpart">
+                <div class="rd_vacationflex2">
+                    <p>Company name *</p>
+                      <div class="rd_profilethingco">
+                      
+                           <input type="text" id="" 
                       type="text"
                       name="company_name"
                       placeholder="Company Name"
                       onChange={this.handleInputChange}
                       value={companyInfo.company_name || ""}
                       required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="language">Language</h6>
-                    <Select
-                      className="language"
+                   
+                    className="rd_adddayofinput"/>
+    
+                      </div>
+                </div>
+                <div class="rd_vacationflex2">
+                      <p>Language *</p>
+                      <div class="rd_profilethingco">
+                        
+                        <Select
+                      className="language rd_adddayofinput"
                       classNamePrefix="select"
                       //   defaultValue={companyInfo.language}
                       value={this.state.languageValue || ""}
@@ -204,11 +213,13 @@ class Company extends React.Component {
                       options={languages}
                       onChange={this.changeLanguage}
                     />
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="timezone">TimeZone </h6>
+                          
+                      </div>
+              </div>
+              <div class="rd_vacationflex2">
+                    <p>TimeZone *</p>
+                    <div class="rd_profilethingco">
+                    <div class="">
                     <Select
                       classNamePrefix="select"
                       //  defaultValue={companyInfo.timezone}
@@ -217,40 +228,41 @@ class Company extends React.Component {
                       options={timeZones}
                       onChange={this.changeTime}
                     />
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="slugLanguage">
-                      Slug Language <span className="RequiredMark">*</span>
-                    </h6>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        http://domainName.com
-                      </InputGroupAddon>
-                      <input
-                        className="form-control"
+                        </div>
+                    </div>    
+                </div>
+
+              </div>
+             
+              <div class="rd_profilerd_erpart">
+                <div class="rd_vacationflex3">
+                    <p>Slug Url *</p>
+                    <div class="input-group">
+                        <div class="input-group-prepend rd_dropdownbtn">
+                            <div class="input-group-text rd_domainunofi">http://meetocto.com</div>
+                        </div>
+                      
+                        <input
+                        className="form-control noshadfoc"
                         type="text"
                         name="url_slug"
                         placeholder="URL Slug"
                         onChange={this.handleInputChange}
                         value={companyInfo.url_slug || ""}
                       />
-                    </InputGroup>
+                    </div>
                     {!this.state.isSlugUrlValid ? (
                       <div className="field-error text-danger">Invalid Url</div>
                     ) : (
                       <></>
                     )}
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="email">
-                      Email <span className="RequiredMark">*</span>
-                    </h6>
+                </div>
+                <div class="rd_vacationflex2">
+                    <p>Email *</p>
+                    <div class="rd_profilethingco">
+                    
                     <input
-                      className="form-control"
+                      className="rd_adddayofinput"
                       type="text"
                       name="company_email"
                       placeholder="Type your email"
@@ -258,22 +270,24 @@ class Company extends React.Component {
                       value={companyInfo.company_email || ""}
                       required
                     />
-                    {!this.state.isEmailValid ? (
+                      {!this.state.isEmailValid ? (
                       <div className="field-error text-danger">
                         Invalid Email
                       </div>
                     ) : (
                       <></>
                     )}
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="phone">
-                      Phone <span className="RequiredMark">*</span>
-                    </h6>
-                    <input
-                      className="form-control"
+                </div>
+              </div>
+              </div>
+               
+              <div class="rd_profilerd_erpart">
+                <div class="rd_vacationflex2">
+                    <p>Phone *</p>
+                    <div class="rd_profilethingco">
+                       
+                        <input
+                      className="rd_adddayofinput"
                       type="text"
                       name="phone_no"
                       placeholder="(012) 345 6789"
@@ -281,30 +295,30 @@ class Company extends React.Component {
                       value={companyInfo.phone_no || ""}
                       required
                     />
-                  </FormGroup>
-                </Col>
-                <Col sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="address">
-                      Address <span className="RequiredMark">*</span>
-                    </h6>
+                    </div>    
+                </div>
+                <div class="rd_vacationflex3">
+                    <p>Address *</p>
+                    <div className="rd_profilethingco">
                     <input
-                      className="form-control"
-                      type="textarea"
+                      className="rd_adddayofinput"
+                      type="text"
                       name="company_address"
                       onChange={this.handleInputChange}
                       value={companyInfo.company_address || ""}
                       required
                     />
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="address">
-                      City <span className="RequiredMark">*</span>
-                    </h6>
-                    <input
-                      className="form-control"
+                        
+                    </div> 
+                </div>
+              </div>
+            
+              <div class="rd_profilerd_erpart rd_profilerd_erpart2">
+                <div class="rd_vacationflex2">
+                    <p>City</p>
+                      <div class="rd_adddayofinput">
+                      <input
+                      className="rd_adddayofinput"
                       type="text"
                       name="company_city"
                       placeholder="City"
@@ -312,15 +326,15 @@ class Company extends React.Component {
                       value={companyInfo.company_city || ""}
                       required
                     />
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="address">
-                      State <span className="RequiredMark">*</span>
-                    </h6>
-                    <input
-                      className="form-control"
+                       
+    
+                      </div>
+                </div>
+                <div class="rd_vacationflex2">
+                    <p>State</p>
+                      <div class="rd_profilethingco">
+                      <input
+                      className="rd_adddayofinput"
                       type="text"
                       name="company_state"
                       placeholder="State"
@@ -328,11 +342,27 @@ class Company extends React.Component {
                       value={companyInfo.company_state || ""}
                       required
                     />
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="address">Country</h6>
+    
+                      </div>
+                </div>
+                <div class="rd_vacationflex2">
+                    <p>Zip Number</p>
+                      <div class="rd_profilethingco">
+                      <input
+                      className="rd_adddayofinput"
+                      type="number"
+                      name="company_zip_code"
+                      placeholder="Zip"
+                      onChange={this.handleInputChange}
+                      value={companyInfo.company_zip_code || ""}
+                      required
+                    />
+    
+                      </div>
+                </div>
+                <div class="rd_vacationflex2">
+                    <p>Country</p>
+                    <div class="">
                     <Select
                       className="country"
                       classNamePrefix="select"
@@ -342,50 +372,28 @@ class Company extends React.Component {
                       onChange={this.changeCountry}
                       name={"company_country_id"}
                     />
-                  </FormGroup>
-                </Col>
-                <Col md="6" sm="12">
-                  <FormGroup>
-                    <h6 htmlFor="address">
-                      Zip Code <span className="RequiredMark">*</span>
-                    </h6>
-                    <input
-                      className="form-control"
-                      type="number"
-                      name="company_zip_code"
-                      placeholder="Zip"
-                      onChange={this.handleInputChange}
-                      value={companyInfo.company_zip_code || ""}
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col sm="6">
-                  <FormGroup>
-                    <h6 htmlFor="companyLogo">Company Logo</h6>
+                    </div>
 
-                    <Media>
-                      <Media className="mr-1" left href="#">
-                        <Media
-                          className="rounded-circle"
-                          object
-                          src={
+                        
+                </div>
+
+              </div>
+              <div class="rd_profileimagepart">
+                <div class="rd_imagethincontg">
+                    <p>Company Logo</p>
+
+                    <img  src={
                             !this.state.isImageChangedEventCalled
                               ? baseURLImages + this.state.companyImageUrl
                               : this.state.companyImageUrl
-                          }
-                          alt="Company Logo"
-                          height="64"
-                          width="64"
-                        />
-                      </Media>
-                      <Media className="mt-25" body>
-                        <div className="d-flex flex-sm-row flex-column justify-content-start px-0">
-                          <Button.Ripple
-                            tag="label"
-                            className="mr-50 cursor-pointer"
-                            color="primary"
-                            outline
+                          } alt=""/>
+                </div>
+                <div class="rd_imagethincontgbtnt">
+                    <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
+                    <label
+                            
+                            className="newButtonClass"
+                           
                           >
                             Upload Photo
                             <input
@@ -396,17 +404,17 @@ class Company extends React.Component {
                               id="uploadImg"
                               hidden
                             />
-                          </Button.Ripple>
-                        </div>
-                        <p className="text-muted mt-50">
-                          <small>
-                            Allowed JPG, GIF or PNG. Max size of 800kB
-                          </small>
-                        </p>
-                      </Media>
-                    </Media>
-                  </FormGroup>
-                </Col>
+                          </label>  
+                          {/*<label type="button"   className="newButtonClass"
+                            
+                            >
+                     Remove
+                        </label>*/}
+                </div>
+            </div>
+
+             
+
                 <Col className="d-flex justify-content-end flex-wrap" sm="12">
                   {this.state.isEmailValid && this.state.isSlugUrlValid ? (
                     <Button.Ripple className="mr-1" color="primary">
@@ -416,13 +424,13 @@ class Company extends React.Component {
                     <></>
                   )}
                 </Col>
-              </Row>
+            
             </Form>
 
             <ToastContainer />
-          </CardBody>
-        </Card>
-      </Fragment>
+            </div>
+            </div>
+    
     );
   }
 }

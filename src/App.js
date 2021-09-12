@@ -6,7 +6,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { logoutUser, setCurrentUser } from "./actions/authActions";
 import Routes from "./routes/Routes";
 import "./components/RippleButton";
-
+import { ToastContainer, toast } from 'react-toastify';
 import "prismjs/themes/prism-tomorrow.css";
 
 // Check for token
@@ -32,6 +32,7 @@ if (localStorage.jwtToken) {
 const App = () => {
   return (
     <Provider store={store}>
+      <ToastContainer />
       <Routes />
     </Provider>
   );

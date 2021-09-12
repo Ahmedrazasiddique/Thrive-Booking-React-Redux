@@ -1,0 +1,203 @@
+.pricings {
+  padding-bottom: 30px;
+}
+.chose-plan h1 {
+  font-size: 50px;
+  font-weight: bold;
+  color: #0c4767;
+}
+.pricing-plans {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-gap: 1.5rem;
+  padding: 30px 0px;
+}
+.chose-plan .btns {
+  margin-top: 45px;
+}
+.chose-plan .btn {
+  width: auto;
+  font-size: 14px;
+  padding: 18px  25px;
+  font-weight: 500;
+}
+.chose-plan .monthly {
+  box-shadow: 0 6px 10px 0 rgba(69, 196, 138, 0.22);
+  background-color: #45c48a;
+  color: white;
+}
+.chose-plan .monthly:hover {
+  color: white;
+}
+.chose-plan .annully {
+  border: 1px solid #E0E0E0;
+  color: #626262;
+  margin-left: 10px;
+  color: #626262;
+}
+.chose-plan p {
+  color: #0C4767;
+  font-size: 16px;
+}
+.chose-plan .mt-5 {padding-top: 180px}
+.plan {
+  border-radius: 10px;
+  border: solid 1px #e0e0e0;
+  text-align: center;
+}
+.active-plan-value {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: -17px;
+  background-color: #FD9926;
+  font-size: 14px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: #ffffff;
+  padding: 5px 0px;
+}
+.active-plan {
+  border-color: #FD9926;
+  position: relative;
+}
+.active-plan button {
+  background-color: #FD9926;
+  border: none !important;
+  color: #fff !important;
+}
+.plan h1 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0c4767;
+  padding-top: 35px;
+}
+.plan img {
+  padding: 25px 0px;
+}
+.plan h2 {
+  font-size: 50px;
+  color: #FD9926;
+}
+.plan h2 span {
+  font-size: 20px;
+  color: #626262;
+}
+.plan button {
+  width: auto;
+  height: auto;
+  border: 1px solid #e0e0e0;
+  color: #626262;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 15px 50px;
+  margin: 20px 0px;
+}
+.plan .fill-h {
+  background-color: #F4F4F4;
+  font-size: 18px;
+  font-weight: bold;
+  color: #0c4767;
+  margin: 0;
+  padding: 14px 0px;
+}
+.plan h3 {
+  font-size: 25px !important;
+  color: #0c4767;
+  padding: 10px;
+}
+.plan h4 {
+  background-color: #FCFCFC;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius:10px;
+  font-size: 25px !important;
+  color: #0c4767;
+  padding: 10px;
+  margin-bottom: 0;
+}
+.pricing-btn {text-align: center;}
+.pricing-btn .more {
+  width: auto;
+  border-radius: 5px;
+  box-shadow: 0 6px 10px 0 rgba(12, 71, 103, 0.22);
+  background-color: #0c4767;
+  color: white;
+  padding: 15px 35px !important;
+  margin: 30px 0px;
+}
+.pricing-btn button:hover {color: white;}
+
+/*TOGGLE*/
+.toggle-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.toggle-section p {
+  color: #0C4767;
+  font-size: 16px;
+  margin: 0;
+}
+.toggle-section p:last-child {
+  color: #626262;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  margin: 25px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.pricings .slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #45C48A;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.switch input:checked + .slider {
+  background-color: rgba(69, 196, 138, .2);
+}
+
+.switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(18px);
+  -ms-transform: translateX(18px);
+  transform: translateX(18px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50% !important;
+}

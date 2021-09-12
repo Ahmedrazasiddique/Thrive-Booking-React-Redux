@@ -1,0 +1,113 @@
+.meetocto-link-input {display: flex;}
+.meetocto-link button {
+  height: auto;
+  background-color: #F4F4F4;
+  color: #626262;
+  border-radius: 0 !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+  padding: 0px 25px;
+  border: solid 1px #e0e0e0;;
+}
+.profile-step .meetocto-link-input input {
+  border-radius: 0 !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+.profile-step-2 form h1 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 30px;
+}
+.profile-step-2 .time-format-btns {
+  display: flex;
+  gap: 10px;
+}
+.profile-step-2 .time-format-btns button {
+  width: 100% !important;
+  height: 66px !important;
+  background-color: #ffffff;
+  border-radius: 5px;
+  color: #626262;
+  border: solid 1px #e0e0e0;
+  padding: 20px 30px;
+}
+.profile-step-2 .time-format-btns .activeBtn {
+  border-color: #fc9834;
+  background-color: rgba(252, 152, 52, 0.1);
+  color: #FD9926;
+}
+.profile-step-2 .week-btns {
+  display: flex;
+  gap: 18px;
+}
+.profile-step-2 .week-btns button {
+  border-radius: 5px;
+  border: solid 1px #e0e0e0;
+  background-color: #f4f4f4;
+  color: #626262;
+  font-size: 16px;
+  padding: 20px 21px;
+}
+.profile-step-2 .week-btns .activeBtn {
+  border-color: #fc9834;
+  background-color: #FD9926;
+  color: #ffffff;
+}
+.profile-step .business-hours-input {
+  display: flex;
+}
+.profile-step .business-hours-input input {
+  width: 167px;
+  border-radius: 0 !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
+.business-hours-input button {
+  background-color: #F4F4F4;
+  color: #626262;
+  border-radius: 0 !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  padding: 0px 25px;
+  border: solid 1px #e0e0e0;;
+}
+.profile-step-2 .availability-btns {
+  display: flex;
+  gap: 18px;
+}
+.profile-step-2 .availability-btns button {
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  color: #626262;
+  border: solid 1px #e0e0e0;
+  padding: 20px 21px;
+  font-size: 16px;
+}
+.profile-step-2 .availability-btns .activeBtn {
+  border-color: #fc9834;
+  background-color: rgba(252, 152, 52, 0.1);
+  color: #FD9926;
+}
+@media screen and (max-width: 650px) {
+  .meetocto-link button {
+    padding: 0 10px;
+  }
+  .profile-step-2 #timezone {
+    width: 100%;
+  }
+  .business-hours-input input {
+    max-width: 112px;
+  }
+  .business-hours-input button{
+    padding: 0 15px;
+  }
+  .profile-step-2 .week-btns, .profile-step-2 .availability-btns {
+    gap: 8px;
+  }
+  .profile-step-2 .week-btns button, .profile-step-2 .availability-btns button {
+    width: 43px !important;
+    height: 43px !important;
+    padding: 0;
+  }
+}

@@ -1,10 +1,17 @@
 .scheduling {
-  padding: 50px 0px;
+  padding: 50px 90px;
 }
 .scheduling p {
+  width: 520px;
+  margin: auto;
   color: #626262;
   font-size: 18px;
   text-align: center;
+  font-weight: 500;
+  padding-top: 8px;
+}
+.scheduling .row {
+  padding: 30px 0;
 }
 .scheduling .row .col-4 {
   padding: 0px 30px;
@@ -12,13 +19,57 @@
 .scheduling .row h1 {
   font-size: 20px;
   color: #0c4767;
+  font-weight: bold;
 }
 .scheduling .row p {
   text-align: start;
   font-size: 16px !important;
   color: #626262;
+  font-weight: 500;
+  padding-top: 0 !important;
 }
 .scheduling-desc {
   padding: 20px 30px !important;
 }
+.scheduling-img {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+.step-no {
+  position: absolute;
+  background-color: #45C48A;
+  color: #fff;
+}
+.step-1 , .step-2 , .step-3 {
+  position: relative;
+}
 
+.top-curve {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(10px, -90px);
+}
+
+.bottom-curve {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(10px, 100px);
+}
+
+.number-count {
+  position: absolute;
+  width: 27px;
+  height: 27px;
+  font-size: 18px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  background-color: #45C48A;
+  color: #fff;
+  border-radius: 50%;
+}

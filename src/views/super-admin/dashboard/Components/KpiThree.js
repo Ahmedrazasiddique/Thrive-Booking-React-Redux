@@ -6,19 +6,11 @@ class KpiThree extends React.Component {
   state = {
     options: {
       chart: {
-        id: "areaChart",
+        id: "barChart",
       },
       xaxis: {
-        type: "datetime",
-        categories: [
-          "2020-09-18T00:00:00",
-          "2020-09-18T01:00:00",
-          "2020-09-18T02:00:00",
-          "2020-09-18T03:00:00",
-          "2020-09-18T04:00:00",
-          "2020-09-18T05:00:00",
-          "2020-09-18T06:00:00",
-        ],
+       // type: "datetime",
+        categories: this.props.data?this.props.data.xAxis:[],
       },
       stroke: {
         curve: "smooth",
@@ -27,10 +19,10 @@ class KpiThree extends React.Component {
         enabled: false,
       },
       title: {
-        text: "Monthly Gross Churn Rate",
+        text: "Net MRR Gross Rate",
         align: "left",
       },
-      colors: this.props.themeColors,
+      colors: "#ffb863",
       grid: {
         row: {
           colors: ["#f3f3f3", "transparent"],
@@ -46,33 +38,18 @@ class KpiThree extends React.Component {
         },
       },
     },
-    series: [
-      {
-        name: "series1",
-        data: [31, 40, 28, 51, 42, 109, 100],
-      },
-      {
-        name: "series2",
-        data: [11, 32, 45, 32, 34, 52, 41],
-      },
-    ],
+    series: this.props.data?this.props.data.series:[],
   };
-
   render() {
     return (
-      <Card className="TopPortionSuperAdmin">
-        <CardHeader>
-          <CardTitle>Kpi Three</CardTitle>
-        </CardHeader>
-        <CardBody>
+     
           <Chart
             options={this.state.options}
             series={this.state.series}
-            type="area"
+            type="bar"
             height={200}
           />
-        </CardBody>
-      </Card>
+     
     );
   }
 }

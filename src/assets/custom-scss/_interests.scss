@@ -1,0 +1,67 @@
+.interests {padding: 30px 0px;}
+.interests p {
+  font-size: 20px;
+  text-align: center;
+  color: #0C4767;
+  font-weight: 500;
+}
+.interests .interest-btns {
+  width: 1113px;
+  margin: auto;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.interests .tag-button-label  {
+  height: 50px;
+}
+.tag-button-label input[type=checkbox] {
+  display: none;
+}
+.tag-button-label input[type=checkbox]:checked + .tag-button .unchecked {
+  display: none;
+}
+.interests .tag-button-label input[type=checkbox]:checked + .tag-button{
+  color: #ffffff;
+  background-color: #45C48A;
+  box-shadow: 0 6px 10px 0 rgba(12, 71, 103, 0.22);
+}
+.tag-button-label input[type=checkbox]:not(:checked) + .tag-button .checked {
+  display: none;
+}
+.interests .tag-button-label .tag-button {
+  width: auto;
+  height: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: #0C4767;
+  gap: 10px;
+  border-radius: 5px;
+  border: solid 1px #e0e0e0;
+  background-color: #f4f4f4;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 15px 25px;
+}
+.tag-text {
+  padding-top: 3px;
+}
+.started-btn {text-align: center}
+.started-btn button {
+  width: auto;
+  padding: 15px 0;
+  color: #ffff;
+  background: #FD9926;
+  box-shadow: 0 6px 10px 0 rgba(253, 153, 38, 0.22);
+  font-size: 16px;
+  padding: 15px 35px;
+  font-weight: bold;
+  margin: 30px 0px 60px 0px;
+}
+.started-btn button:hover {color: white;}
+.header-img {text-align: center}

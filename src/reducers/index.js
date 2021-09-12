@@ -20,6 +20,13 @@ import vacationReducer from "./vacationReducer";
 import crmReducer from "./crmReducer";
 import directoryInformationReducer from "./directoryInformationReducer";
 import bookingReducer from "./bookingReducer";
+import layoutReducer from "./layoutReducer";
+import bookingHistoryReducer from "./bookingHistoryReducer";
+import superAdminPromosReducer from "./superAdminPromosReducer";
+import myCalendarReducer from "./myCalendarReducer";
+import superAdminDashboardReducer from "./superAdminDashboardReducer";
+import planManagerReducer from "./planManagerReducer";
+import adminDashboardReducer from "./adminDashboardReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -41,5 +48,12 @@ export default combineReducers({
   vacation: vacationReducer,
   crm: crmReducer,
   directoryinformation:directoryInformationReducer,
-  booking:bookingReducer
+  booking:bookingReducer,
+  layout:layoutReducer,
+  bookingHistory:bookingHistoryReducer,
+  superadminpromos:superAdminPromosReducer,
+  mycalendar:myCalendarReducer,
+  superadmindashboard:superAdminDashboardReducer,
+  planManager:planManagerReducer,
+  adminDashboard:adminDashboardReducer
 });

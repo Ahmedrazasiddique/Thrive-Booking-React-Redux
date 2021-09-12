@@ -1,27 +1,15 @@
-import React from "react";
+import React  ,{useState,useEffect}from "react";
 import { Navbar } from "reactstrap";
 
 import {
-  UncontrolledDropdown,
-  DropdownToggle,
   DropdownItem,
-  DropdownMenu,
-  Badge,
-  Media,
 } from "reactstrap";
-import {
-  Bell,
-  PlusSquare,
-  DownloadCloud,
-  AlertTriangle,
-  CheckCircle,
-  File,
-} from "react-feather";
+
 import * as Icon from "react-feather";
 import DefaultProfileImage from "../../../assets/images/default-profile.png";
 import { Link } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
-
+import logo from "../../../assets/images/logo-new.svg";
 /*
 const handleNavigation = (e, path) => {
 	e.preventDefault()
@@ -30,7 +18,7 @@ const handleNavigation = (e, path) => {
 */
 const SuperAdminDropDown = (props) => {
   return (
-    <DropdownMenu right>
+    <div className="rd_menuthingcont">
       <Link to="/super-admin/profile" className="dropdown-item">
         <Icon.User size={14} className="mr-50" />
         <span className="align-middle">Profile</span>
@@ -51,12 +39,91 @@ const SuperAdminDropDown = (props) => {
         <Icon.Power size={14} className="mr-50" />
         <span className="align-middle">Log Out</span>
       </Link>
-    </DropdownMenu>
+    </div>
   );
 };
 
 const SuperAdminTopNav = (props) => {
+  const [toggleDD, setToggleDD] = useState(false);
+  
+  const toogleDropDown = (event) => {
+    
+    if(toggleDD){
+    setToggleDD(false)
+    }
+    else{
+    setToggleDD(true)
+    }
+  }
+  useEffect(() => {
+    
+  },[toggleDD]);
   return (
+    <header class="rd_headerthing">
+    <div class="topheadertext">
+      Your <span>Free</span> trial ends in 10 days <a href="#">Upgrade now</a>
+    </div>
+    <div class="headercont">
+      <div class="logocont">
+        <a href="#">
+          <img src={logo}  alt="MeetOcto Logo" />
+        </a>
+      </div>
+
+      <div class="notificationtabmen">
+        <div class="rd_flexrow">
+          <div class="rd_flexrowitem dispnonemobile">
+            <div class="buttonnotgcont">
+              <button class="rd_iconthing rd_settingico"><span>Quick setup</span></button>
+            </div>
+          </div>
+          <div class="rd_flexrowitem dispnonemobile">
+            <div class="buttonnotgcont">
+              <button class="rd_iconthing rd_supproticonbtn"><span>Support</span></button>
+            </div>
+          </div>
+          <div class="rd_flexrowitem dispnonemobile">
+            <div class="buttonnotgcont">
+              <button class="rd_iconthing rd_requesticonthtnb"><span>Request</span></button>
+            </div>
+          </div>
+          <div class="rd_flexrowitem dispnonemobile">
+            <div class="buttonnotgcont">
+              <button class="rd_iconthing notbtnnav notifiexist"><span>Notification</span></button>
+            </div>
+          </div>
+          <div class="rd_flexrowitem dispnonemobile">
+            <div class="buttonnotgcont">
+              <button class="rd_addneewnottopba "><span>Create new</span></button>
+            </div>
+          </div>
+          <div class="rd_flexrowitem dispnonemobile">
+            <div class="menumobileham">
+              <button class="humbergermenu"></button>
+            </div>
+            <div class="accountdiccon">
+              <div class="imageaccountnav">
+                <img src="assets/images/Oval.png" alt="" />
+              </div>
+              <div class="accountnamenavbar" onClick={toogleDropDown}>
+                <p>
+                  <strong> Buff Brown </strong>
+                </p>
+
+                <button class="detaiaccountmo">Sign me out</button>
+              </div>
+              {toggleDD?
+            
+            <SuperAdminDropDown {...props} />:<></>}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+    );
+  };
+    {/*
     <React.Fragment>
       <div className="content-overlay" />
       <div className="header-navbar-shadow" />
@@ -70,7 +137,6 @@ const SuperAdminTopNav = (props) => {
               <div className="bookmark-wrapper"></div>
               <div className="logo d-flex align-items-center">
                 <div className="brand-logo mr-50"></div>
-                {/* <h2 className="text-primary brand-text mb-0">Vuexy</h2> */}
               </div>
               <ul className="nav navbar-nav navbar-nav-user float-right">
                 <UncontrolledDropdown
@@ -80,7 +146,6 @@ const SuperAdminTopNav = (props) => {
                   <DropdownToggle
                     tag="a"
                     data-toggle="dropdown"
-                    //  aria-expanded={this.state.dropdownNotification}
                     className="nav-link nav-link-label"
                   >
                     <Bell size={21} />
@@ -300,7 +365,7 @@ const SuperAdminTopNav = (props) => {
                       <span className="user-name text-bold-600">
                         Super Admin
                       </span>
-                      {/* <span className="user-status">Available</span> */}
+                     
                     </div>
                     <span data-tour="user">
                       <img
@@ -320,7 +385,8 @@ const SuperAdminTopNav = (props) => {
         </div>
       </Navbar>
     </React.Fragment>
-  );
-};
+                  */  }
+
+ 
 
 export default SuperAdminTopNav;

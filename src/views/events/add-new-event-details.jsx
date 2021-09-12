@@ -1,6 +1,7 @@
 
 import React, { Component, Fragment } from 'react';
 import FormField from "./Components/Common/FormField";
+import { Link } from 'react-router-dom';
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Tooltip from './Components/Common/ToolTip';
@@ -10,6 +11,7 @@ import { Row, Col, Alert, Button, Input, FormGroup, InputGroup, InputGroupAddon,
 import SidebarProgress from './Components/Sidebar/sidebar-progress';
 import NumberField from './Components/Common/NumberField';
 import { saveEventDetails, getEventDetails } from '../../actions/eventActions';
+import Loader from '../../components/Loader/Loader';
 import ToggleField from './Components/Common/ToggleField';
 import FileUploadField from './Components/Common/FileUploadField';
 import qs from 'query-string';
@@ -17,19 +19,19 @@ import ColorSelectorField from './Components/Common/ColorSelectorField';
 import SectionPricing from './Components/Sections/section-pricing';
 import SectionAddOns from './Components/Sections/section-add-ons';
 
-const initialValues = {
+let initialValues = {
     event_image: "",
     event_color: "",
     event_description: "",
     max_no_of_booking: 0,
-    is_max_no_bookings: "D",
+    max_no_booking_status: "D",
     recurring_booking_status: "D",
     allow_rescheduling_status: "D",
     attendee_cancellation_status: "D",
-    attendee_cancellation: "",
-    email_reminder_status: "D",
-    sms_reminder_status: "D",
-    email_followup_status: "D",
+    cancellation_policy: "",
+    ita_booking_page_status: "D",
+    ita_confirmation_page_status: "D",
+    ita_reminder_email_status: "D",
     instruction_to_attendee: "",
 
 }
@@ -65,7 +67,8 @@ class AddNewEventDetails extends Component {
         ],
         payments_type: "",
         payments_price: "",
-        payments_flat_type: "percent"
+        payments_flat_type: "percent",
+        pageLoading: false
     }
 
     componentDidMount() {
@@ -80,10 +83,15 @@ class AddNewEventDetails extends Component {
         const { id } = params || {};
 
         if(id) {
+            this.setState({
+                pageLoading: true
+            });
+
+            const _this = this;
             getEventDetails({
                 data: {
                     id,
-                    type
+                    type: type === "paid-event" ? type : "event"
                 },
                 onSuccess: function(response) {
                    if(type === "free-event") {
@@ -100,13 +108,13 @@ class AddNewEventDetails extends Component {
                         }
                     }
 
-                    console.log({
-                        paidValues
+                    _this.setState({
+                        pageLoading: false
                     })
                 },
                 onError: function(error) {
-                    console.log({
-                        error
+                    _this.setState({
+                        pageLoading: false
                     });
                 }
             })
@@ -124,8 +132,7 @@ class AddNewEventDetails extends Component {
         const { params } = match || {};
         const { id } = params || {};
 
-        const { isLoading, errorMessage, pricing, add_ons, payments_type, payments_price, payments_flat_type } = this.state;
-
+        const { isLoading, pageLoading, errorMessage, pricing, add_ons, payments_type, payments_price, payments_flat_type } = this.state;
         return (
             <div className="create-event-wrapper">
                 <div className="create-event-container">
@@ -135,14 +142,13 @@ class AddNewEventDetails extends Component {
                                 <div className="event-card-head">
                                     <h3 className="event-title">Event Details</h3>
                                 </div>
-                                <Formik
+                                { pageLoading ? <Loader isShowLoader={true}/> : <Formik
                                    
-                                    initialValues={ type === "paid-event" ? paidValues : initialValues }
+                                    initialValues={ type === "paid-event" ? paidValues :initialValues }
                                     enableReinitialize
                                     onSubmit={(data) => {
                                         
-
-                                        const { max_no_of_booking, event_color, is_max_no_bookings } = data || {};
+                                        const { max_no_of_booking, event_description, event_image: file, event_color, is_max_no_bookings } = data || {};
 
                                         if(event_color === "") {
                                             alert("Event color is required field.");
@@ -154,6 +160,10 @@ class AddNewEventDetails extends Component {
                                             return;
                                         }
 
+                                        this.setState({
+                                            isLoading: true
+                                        })
+
                                         const { saveEventDetails } = this.props;
 
                                         const { pricing, add_ons } = this.state;
@@ -164,28 +174,6 @@ class AddNewEventDetails extends Component {
                                         }
 
                                         if(type === "paid-event") {
-
-                                            // const payments = (payments_type || []).map((e) => {
-                                            //     console.log({
-                                            //         e,
-                                            //         payments_type,
-                                            //         payments_price
-                                            //     })
-                                            //     if(payments_price[e]) {
-                                            //         return {
-                                            //             payment_type: e,
-                                            //             payment_type_flat_percent: payments_flat_type[e],
-                                            //             price: payments_price[e]
-                                            //         }
-                                            //     }
-
-                                            //     return {
-                                            //         payment_type: e,
-                                            //         payment_type_flat_percent: payments_flat_type[e],
-                                            //         price: payments_price[e]
-                                            //     }
-                                            // });
-
                                             const payments = [
                                                 {
                                                     payment_type: payments_type,
@@ -202,21 +190,13 @@ class AddNewEventDetails extends Component {
                                                 id: parseInt(id)
                                             }
                                         }
-
-
-                                        // console.log({
-                                        //     data,
-                                        //     newData
-                                        // });
-
-                                        // return false;
-
-                                        this.setState({
-                                            isLoading: true
-                                        })
+                                        
                                         
                                         saveEventDetails({
-                                            data: newData,
+                                            data: {
+                                                ...newData,
+                                                'event_image': file
+                                            },
                                             onSuccess: (eventId) => {
                                                 history.push(`/admin/events/create/${eventId}/step-3?type=${type}`)
                                             },
@@ -238,6 +218,8 @@ class AddNewEventDetails extends Component {
                                             handleChange,
                                             
                                         } = formProps;
+
+
                                         return (
                                             <Form>
                                                 <div className="event-card-body">
@@ -250,6 +232,7 @@ class AddNewEventDetails extends Component {
                                                                 </label>
                                                                 <FileUploadField 
                                                                     name = "event_image"
+                                                                    value = { values.event_image }
                                                                     accept="image/*" placeholder = "Choose Images" onChange= { (file) => {
                                                                     handleChange({
                                                                         target: { name: "event_image", value: file }
@@ -263,7 +246,7 @@ class AddNewEventDetails extends Component {
                                                                     Event Color
                                                                     <Tooltip/>
                                                                 </label>
-                                                                <ColorSelectorField name = "event_color" onChange = {
+                                                                <ColorSelectorField name = "event_color" value={ values.event_color } onChange = {
                                                                     (name, value) => {
                                                                         handleChange({
                                                                             target: { name, value }
@@ -281,10 +264,13 @@ class AddNewEventDetails extends Component {
                                                                         Description / Instruction
                                                                         <Tooltip/>
                                                                     </label>
-                                                                    <TextEditor name="description" value={ values.event_description } onChange = {({ target }) => {
-                                                                            const { name, value } = target || {};
+                                                                    <TextEditor name="event_description" value={ values.event_description } onChange = {(value) => {
+                                                                            
+                                                                            console.log({
+                                                                                value
+                                                                            })
                                                                             handleChange({
-                                                                                target: { name, value }
+                                                                                target: { name: 'event_description', value }
                                                                             });
                                                                     }} />
                                                                     {/* <Input 
@@ -307,16 +293,17 @@ class AddNewEventDetails extends Component {
                                                                 <div className="">
                                                                     <div className="form-group event-form-group d-flex justify-content-between">
                                                                         <label>
-                                                                                Max no. of Bookings
+                                                                            Max no. of Bookings
+                                                                            <Tooltip/>
                                                                         </label>
                                                                         <ToggleField 
                                                                             classes = {"text-right"} 
                                                                             labelText=""
-                                                                            value = { values.is_max_no_bookings }
+                                                                            value = { values.max_no_booking_status }
                                                                             onChange = { (value) => {
                                                                                 handleChange({
                                                                                     target: {
-                                                                                        name: "is_max_no_bookings",
+                                                                                        name: "max_no_booking_status",
                                                                                         value
                                                                                     }
                                                                                 })
@@ -324,11 +311,11 @@ class AddNewEventDetails extends Component {
                                                                         />
                                                                         
                                                                     </div>
-                                                                    { values.is_max_no_bookings === "E" && <div className="form-group">
+                                                                    { values.max_no_booking_status === "E" && <div className="form-group">
                                                                         <Row>
                                                                             <Col md="6">
                                                                                 <NumberField 
-                                                                                    defaultValue = { values.max_no_of_booking }
+                                                                                    defaultValue = { parseInt(values.max_no_of_booking) || 0 }
                                                                                     onChange = {(value) => {
                                                                                     handleChange({
                                                                                         target: { name: "max_no_of_booking", value }
@@ -341,12 +328,13 @@ class AddNewEventDetails extends Component {
                                                                        
                                                                     <div className="form-group event-form-group d-flex justify-content-between">
                                                                         <label>
-                                                                                Allow Recurring Booking?
+                                                                            Allow Recurring Booking?
+                                                                            <Tooltip/>
                                                                         </label>
                                                                         <ToggleField 
                                                                             labelText="" 
                                                                             classes = {"text-right"} 
-                                                                            value = { values.recurring_booking_status }
+                                                                            value = { values.recurring_booking_status || "" }
                                                                             onChange = { (value) => {
                                                                                 handleChange({
                                                                                     target: {
@@ -359,7 +347,8 @@ class AddNewEventDetails extends Component {
                                                                     </div>
                                                                     <div className="form-group event-form-group d-flex justify-content-between">
                                                                         <label>
-                                                                                Allow Rescheduling?
+                                                                            Allow Rescheduling?
+                                                                            <Tooltip/>
                                                                         </label>
                                                                         <ToggleField 
                                                                             labelText=""
@@ -377,7 +366,8 @@ class AddNewEventDetails extends Component {
                                                                     </div>
                                                                     <div className="form-group event-form-group d-flex justify-content-between">
                                                                         <label>
-                                                                                Allow Attendee Cancellation?
+                                                                            Allow Attendee Cancellation?
+                                                                            <Tooltip/>
                                                                         </label>
                                                                         <ToggleField 
                                                                             labelText=""
@@ -614,11 +604,11 @@ class AddNewEventDetails extends Component {
                                                                 <Col md="6" lg="6">
                                                                     <FormField
                                                                         type="text"
-                                                                        name="attendee_cancellation"
+                                                                        name="cancellation_policy"
                                                                         label="Cancellation Policy"
                                                                         placeholder="From Text"
                                                                         showLabel={true}
-                                                                        value={values.attendee_cancellation}
+                                                                        value={values.cancellation_policy}
                                                                         errors={errors}
                                                                         touched={touched}
                                                                     />
@@ -640,7 +630,7 @@ class AddNewEventDetails extends Component {
                                                                 <Col md="3" lg="3">
                                                                     <div className="form-group event-form-group">
                                                                         <div className="form-check-box">
-                                                                            <input id="booking_page" type="checkbox" name="sms_reminder_status" value={ values.sms_reminder_status } onChange = { (event) => {
+                                                                            <input id="booking_page" type="checkbox" checked={ values.ita_booking_page_status === "E" ? true : false } name="ita_booking_page_status" value={ values.ita_booking_page_status } onChange = { (event) => {
                                                                                 const { target } = event || {};
                                                                                 const { name, value } = target || {};
                                                                                 let defaultValue = "D";
@@ -668,7 +658,7 @@ class AddNewEventDetails extends Component {
                                                                 <Col md="3" lg="3">
                                                                     <div className="form-group event-form-group">
                                                                         <div className="form-check-box">
-                                                                            <input id="confirmation_page" type="checkbox" name="email_followup_status" value={ values.email_followup_status } onChange = { (event) => {
+                                                                            <input id="confirmation_page" type="checkbox" checked={ values.ita_confirmation_page_status === "E" ? true : false } name="ita_confirmation_page_status" value={ values.ita_confirmation_page_status } onChange = { (event) => {
                                                                                 const { target } = event || {};
                                                                                 const { name, value } = target || {};
                                                                                 let defaultValue = "D";
@@ -696,7 +686,7 @@ class AddNewEventDetails extends Component {
                                                                 <Col md="3" lg="3">
                                                                     <div className="form-group event-form-group">
                                                                         <div className="form-check-box">
-                                                                            <input id="reminder_email" type="checkbox" name="email_reminder_status" value={ values.email_reminder_status } onChange = { (event) => {
+                                                                            <input id="reminder_email" type="checkbox" checked={ values.ita_reminder_email_status === "E" ? true : false } name="ita_reminder_email_status" value={ values.ita_reminder_email_status } onChange = { (event) => {
                                                                                 const { target } = event || {};
                                                                                 const { name, value } = target || {};
                                                                                 let defaultValue = "D";
@@ -728,9 +718,9 @@ class AddNewEventDetails extends Component {
                                                 <div className="event-card-footer">
                                                     <Row>
                                                         <Col md="6" lg="6">
-                                                            <Button className="btn btn-outline">
+                                                            <Link to={`/admin/events/${id}/create?type=${type}`} className="btn btn-outline">
                                                                 Go Back
-                                                            </Button>
+                                                            </Link>
                                                         </Col>
                                                         <Col md="6" lg="6">
                                                             <Button type="submit" className="btn btn-app" disabled = { isLoading }>
@@ -745,7 +735,7 @@ class AddNewEventDetails extends Component {
                                             </Form>
                                         )
                                     }}
-                                </Formik>            
+                                </Formik>  }       
                             </div>                      
                         </Col>
                         <Col md="3" lg="3">

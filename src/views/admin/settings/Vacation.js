@@ -32,7 +32,9 @@ import {
   getAdminBusinessId,
   getLoggedInUserId,
 } from "../../../utils/authHelper";
-
+import DatePicker from "react-date-picker";
+//import "react-datepicker/dist/react-datepicker.css";
+import 'react-calendar/dist/Calendar.css';   
 class Vacation extends React.Component {
   constructor(props) {
     super(props);
@@ -48,6 +50,8 @@ class Vacation extends React.Component {
     ],
     rowData: [],
     basicPicker: "2020-02-06 to 2020-02-07",
+    startDate:"",
+    endDate:"",
     paginationPageSize: 10,
     currenPageSize: "",
     getPageSize: "",
@@ -63,6 +67,7 @@ class Vacation extends React.Component {
         headerName: "Vacation Name",
         field: "vacation_name",
         filter: true,
+        width:300
       },
       {
         editable: false,
@@ -70,24 +75,28 @@ class Vacation extends React.Component {
         field: "id",
         hide: true,
         filter: true,
+       
       },
       {
         editable: false,
         headerName: "Start Date",
         field: "start_date",
         filter: true,
+        width:300
       },
       {
         editable: false,
         headerName: "End Date",
         field: "end_date",
         filter: true,
+        width:300
       },
 
       {
         headerName: "Actions",
         field: "transactions",
-        width: 150,
+        width:300,
+       
         cellRendererFramework: (params) => {
           return (
             <div className="actions cursor-pointer">
@@ -144,19 +153,28 @@ class Vacation extends React.Component {
     this.setState({ [name]: value });
   };
   onEditClick(row) {
-    this.setState({
+
+    
+    /*this.setState({
       basicPicker: (row[0].start_date + " to " + row[0].end_date).replace(
         "/",
         "-"
       ),
-    });
+    });*/
+    
+    this.setState({ startDate: new Date(row[0].start_date) });
+    this.setState({ endDate: new Date(row[0].end_date) });
+
     this.setState({ vacation_name: row[0].vacation_name });
     this.setState({ id: row[0].id });
   }
+
   resetForm = (e) => {
     e.preventDefault();
     this.setState({ id: 0 });
     this.setState({ vacation_name: "" });
+    this.setState({startDate:""})
+    this.setState({endDate:""})
     this.setState({basicPicker:""})
   };
 
@@ -208,94 +226,109 @@ class Vacation extends React.Component {
     formData.append("business_id", getAdminBusinessId());
     formData.append("provider_id", getLoggedInUserId());
 
-    for (let [key, value] of formData.entries()) {
+   /* for (let [key, value] of formData.entries()) {
       if (key === "date_range") {
         formData.append("start_date", value.split("to")[0]);
         formData.append("end_date", value.split("to")[1]);
       }
       formData.delete("date_range");
       console.log(key, value);
-      //formObject[key]=value
-    }
+     
+    }*/
 
     if (this.state.id !== 0) {
       formData.append("id", this.state.id);
     }
-
     // formObject.guest_user_checkout_status=this.state.guestUserCheckOut?"E":"D"
-    if (this.state.basicPicker.length !== 1) {
+    if (this.state.startDate !=="" && this.state.endDate !=="") {
       this.props.updateMyVacation(formData);
     } else {
       this.setState({ isShowLoader: false });
-      toast.error("date range is required");
+      toast.error("date is required");
     }
   };
 
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state;
     return (
-      <Card>
+      <div class="eventdetailsaddbox rd_noshadow">
+      <div class="boxheader rd_floatingheaderthig">
+        <div class="rd_inputselectheader">
+            <div class="rd_selectheaderrdt2">
+                <h3><strong>Vacation / Holiday</strong></h3>
+              </div>
+        </div>
+      </div>
         <Loader isShowLoader={this.state.isShowLoader}></Loader>
         <br />
-        <Container>
-          <Row>
-            {" "}
-            <Col lg="4">
-              {" "}
-              <h3> Vacation / Holiday</h3>
-            </Col>
-            <Form onSubmit={this.handleSubmit} className="row">
-              <Col>
-                <Flatpickr
-                  required
-                  className="form-control"
-                  name="date_range"
-                  options={{
-                    mode: "range",
-                    defaultDate: ["2020-02-01", "2020-02-15"],
-                  }}
-                  value={this.state.basicPicker}
-                  onChange={(date) => {
-                    this.setState({ basicPicker: date });
-                  }}
-                />
-                <Label for="role">Date Range</Label>
-              </Col>
-              <Col>
-                <FormGroup className="mb-0">
-                  <Input
+        
+        <Form onSubmit={this.handleSubmit}>
+        <div class="rd_vacationfilterpart">
+       
+          
+          
+                  <div class="rd_vacationflex2">
+                  <p>Start Date</p>
+                  
+                  <div className="datepicker-wrapper">
+                  <DatePicker required
+                   calendarAriaLabel="Toggle calendar"
+                   clearAriaLabel="Clear value"
+                   dayAriaLabel="Day"
+                   monthAriaLabel="Month"
+                   nativeInputAriaLabel="Date"
+                  value={this.state.startDate} name="start_date" onChange={(date) => {
+                    
+                    this.setState({ startDate: date });
+                  }} />
+              </div>
+              </div>
+
+              <div class="rd_vacationflex2">
+                  <p>End Date</p>
+                  
+                  <div class="datepicker-wrapper">
+                  <DatePicker required value={this.state.endDate} name="end_date" onChange={(date) => {
+                    this.setState({ endDate: date });
+                  }} />
+              
+                </div>
+              </div>
+             
+                  <div class="rd_vacationflex3">
+                  <p>Vacation Name</p>
+             
+                  <div class="rd_adddayof">
+                  <input
                     type="text"
                     required
                     name="vacation_name"
                     value={this.state.vacation_name}
                     onChange={this.handleChange}
+                   
                   />
-                </FormGroup>
-                <Label for="role">Vacation Name</Label>
-              </Col>
-              <Col md="auto">
-                <Button.Ripple outline color="primary">
+                    <button>
                   {this.state.id !== 0 ? "Update" : "Add day off"}
-                </Button.Ripple>
+                </button>
                 {this.state.id !== 0 ? (
-                  <Button.Ripple
-                    onClick={this.resetForm}
-                    outline
-                    color="yellow"
-                  >
-                    Reset
-                  </Button.Ripple>
-                ) : (
-                  <></>
+  <button
+  onClick={this.resetForm}
+ 
+>
+  Reset
+</button>):(<></>
                 )}
-              </Col>
-            </Form>
-          </Row>
-        </Container>
-
+                   </div>
+            </div>
+           
+          
+</div>
+</Form>
+         
         <hr />
-        <CardBody className="py-0">
           {this.state.rowData === null ? null : (
+            
+        <div class="rd_vacationcontentpatrt">
             <div className="ag-theme-material w-100 my-2 ag-grid-table">
               <div className="d-flex flex-wrap justify-content-between align-items-center">
                 <div className="mb-1">
@@ -344,8 +377,9 @@ class Vacation extends React.Component {
                 </div>
 
                 <div className="d-flex flex-wrap justify-content-between mb-1">
-                  <div className="table-input mr-1">
-                    <Input
+                  <div class="rd_popreferencevacation">
+                    <input
+                  
                       placeholder="search..."
                       onChange={(e) => this.updateSearchQuery(e.target.value)}
                       value={this.state.value}
@@ -355,6 +389,7 @@ class Vacation extends React.Component {
               </div>
 
               <AgGridReact
+              style={{ width: '100%', height: '100%;' }}
                 gridOptions={{}}
                 rowSelection="multiple"
                 defaultColDef={defaultColDef}
@@ -367,11 +402,11 @@ class Vacation extends React.Component {
                 pivotPanelShow="always"
               />
             </div>
+            </div>
           )}
 
           <ToastContainer />
-        </CardBody>
-      </Card>
+        </div>
     );
   }
 }

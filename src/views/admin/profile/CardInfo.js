@@ -32,7 +32,8 @@ const CardInfo = (props) => {
     return (
       
       
-        <CardBody>
+      
+      <div class="rd_vacationfilterpart rd_vacationfilterpart3">
        
          
           <Formik
@@ -55,83 +56,50 @@ const CardInfo = (props) => {
           >
             {(formikprops) => (
               <Form>
-            
-                <Row>
-                  <Col sm="4" className="">
-                  <div className="">
-                      <h6 className="label-text align-middle mr-1">
-                        Card No
-                      </h6>
-                    </div>
-                    <div className="">
-                    <FormGroup>
-                    
-                    <InputMask
+              <div class="rd_profilerd_erpart">
+                <div class="rd_vacationflex2">
+                    <p>Card No</p>
+                      <div class="rd_profilethingco">
+                      <InputMask
           className="form-control"
          value={cardNo}
          mask={mask}
           onChange={onChange}
           placeholder="Enter Credit Card Number"
         />
-                    </FormGroup>
-               </div>
-                  </Col>
-                  <Col sm="12">
-                    <div className="d-inline-block mb-1 mr-1">
-                      <h6 className="label-text align-middle mr-1">
-                        Expiry (MM/YYYY)
-                      </h6>
-                    </div>
-                    <div className="d-inline-block mb-1 mr-1">
-                      <FormGroup>
-                        <Field
-                          className="form-control"
-                          type="text"
-                          name="mm"
-                          placeholder="MM"
-                          formikprops={formikprops}
-                        />
-                      </FormGroup>
-                    </div>
-                    <div className="d-inline-block mr-1">
-                      <h3>/</h3>
-                    </div>
-                    <div className="d-inline-block mr-1">
-                      <FormGroup>
-                        <Field
-                          className="form-control"
-                          type="text"
-                          name="yyyy"
-                          placeholder="YYYY"
-                          formikprops={formikprops}
-                        />
-                      </FormGroup>
-                    </div>
-                    <div className="d-inline-block mr-1">
-                      <FormGroup>
-                        <Field
-                          className="form-control"
-                          type="text"
-                          name="ccv"
-                          placeholder="CCV"
-                          formikprops={formikprops}
-                        />
-                      </FormGroup>
-                    </div>
-                  </Col>
-                <Col className="d-flex justify-content-end flex-wrap" sm="12">
-            <Button.Ripple className="mr-1" color="primary">
+    
+                      </div>
+                </div>
+              <div class="rd_vacationflex3">
+                <p class="rd_dipnone">card info</p>
+                <div class="rd_profilethingcofl">
+                  <p>Expiry (MM/YYYY)</p>
+                  <input type="text" name="" id="" class="rd_adddayofinput rd_adddayofinputNEXT" placeholder="MM"/>
+                  <span>/</span>
+                  <input type="text" name="" id="" class="rd_adddayofinput rd_adddayofinputNEXT" placeholder="YYYY"/>
+                  <input type="text" name="" id="" class="rd_adddayofinput" placeholder="CCV"/>
+                </div>
+
+              
+              </div>
+              </div>
+              <Col className="d-flex justify-content-end flex-wrap" sm="12">
+            <button type="button" className="newButtonClass">
               Save Changes
-            </Button.Ripple>
-            <Button.Ripple color="flat-warning">Reset</Button.Ripple>
+            </button>
+            <button type="button" className="newButtonClass">Reset</button>
           </Col>
-                </Row>
+
+       
+           
+                
+               
               </Form>
             )}
           </Formik>
 
           <ToastContainer />
-        </CardBody>
+          </div>
        
      
      

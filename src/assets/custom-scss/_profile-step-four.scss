@@ -1,0 +1,73 @@
+.profile-step-4 {
+  padding-left: 180px;
+  padding-right: 190px;
+}
+.profile-step .invite-friend {
+  display: flex;
+}
+.profile-step .invite-friend p {
+  border-radius: 0 !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+  color: #626262;
+  margin: 0;
+}
+.invite-friend button {
+  background-color: #F4F4F4;
+  color: #626262;
+  border-radius: 0 !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  padding: 0px 25px;
+  border: solid 1px #e0e0e0;;
+}
+.invite-socials h1{
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 30px;
+}
+.invite-socials ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 25px;
+}
+.invite-socials ul li {
+  list-style: none;
+  padding-right: 15px;
+}
+.invite-socials ul li a {
+  text-decoration: none;
+}
+.invite-socials p {
+  border-radius: 5px;
+  border: solid 1px #e0e0e0;
+  background-color: #f4f4f4;
+  font-size: 20px;
+  color: #0C4767;
+  padding: 23px;
+}
+.profile-step .details {
+  padding-top: 25px;
+}
+.profile-step .details h1 {
+  font-size: 16px;
+  font-weight: 500;
+}
+.details p {
+  font-size: 16px;
+  color: #626262;
+  display: flex;
+  margin: 0;
+}
+.details .no {
+  color: #FD9926;
+  padding-right: 4px;
+}
+/***RESPONSIVE REQUIREMENTS***/
+@media screen and (max-width: 750px){
+  .profile-step-4 {padding: 0 15px}
+}
+@media screen and (max-width: 650px){
+  .profile-step .details h1 {padding-bottom: 0}
+}

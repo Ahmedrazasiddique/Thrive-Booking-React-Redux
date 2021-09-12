@@ -2,8 +2,11 @@ import React, { Fragment } from "react";
 
 import Header from "./Header";
 import Footer from "./Footer";
+import { connect } from "react-redux";
 
-const Layout = ({ Component, route }) => (
+const Layout = ({ Component, route,props }) => (
+  
+  /* old code
   <Fragment>
     <div className="wrapper horizontal-layout theme-primary navbar-floating">
       <Header />
@@ -15,6 +18,26 @@ const Layout = ({ Component, route }) => (
       </div>
     </div>
   </Fragment>
+  */
+  <Fragment>
+  <div className="">
+    <Header />
+    <section class={!props.SectionClass?"contentboxcont":props.SectionClass}>
+    <Component route={route} />
+    </section>
+     
+      <Footer />
+    
+  </div>
+</Fragment>
 );
 
-export default Layout;
+
+const mapStateToProps = (state) => {
+  return {
+    SectionClass: state.layout.sectionClass,
+  };
+};
+
+export default connect(mapStateToProps, null)(Layout);
+

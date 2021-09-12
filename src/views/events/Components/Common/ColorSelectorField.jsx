@@ -44,7 +44,7 @@ class ColorSelectorField extends Component {
 
     }
     render() {
-        const { name: fieldName } = this.props;
+        const { name: fieldName, value: fieldValue } = this.props;
 
         return (
             <div className="color-selector-wrapper">
@@ -53,7 +53,7 @@ class ColorSelectorField extends Component {
                         const { name, color } = e || {};
                         return (
                             <div class="event-form-check" key = { i }>
-                                <input type="radio" id={ name } name={ fieldName } value = { color } onChange = { this.onValueChange }></input>
+                                <input type="radio" id={ name } checked={ (color === fieldValue) ? true : false} name={ fieldName } value = { color } onChange = { this.onValueChange }></input>
                                 <label htmlFor={ name }>
                                     <span style= {{
                                         backgroundColor: color ,

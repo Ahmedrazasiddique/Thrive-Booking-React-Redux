@@ -27,14 +27,22 @@ class Discount extends React.Component {
   state = {
     activeTab: "1",
   };
+
   editClick = (value) => {
     console.log(value);
   };
+
+  ChangeTab = () => {
+    this.setState({
+      activeTab: "2", // open add new form when click on edit
+    });
+  };
+
   editClickPromoCode(param) {
     this.setState({
       activeTab: "3", // open add new form when click on edit
     });
-    this.setState({ promoCode: param[0] });
+    this.setState({ promoCode: param });
     console.log("do something: ", param);
   }
 
@@ -45,70 +53,49 @@ class Discount extends React.Component {
   };
   render() {
     return (
-      <Row>
-        <Col sm="12">
-          <Card>
-            <CardBody className="pt-2">
-              <Nav tabs>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "1",
+      <div class="eventdetailsaddbox rd_noshadow">
+          <div class="boxheader rd_floatingheaderthig">
+            <div class="rd_inputselectheader">
+                <div class="rd_selectheaderrdt2 rd_selectheaderrdt2profile">
+                   
+
+                    
+                    <button  className={classnames({
+                      active: this.state.activeTab === "1"
                     })}
                     onClick={() => {
-                      this.toggle("1");
-                    }}
-                  >
-                    <DollarSign size={16} />
-                    <span className="align-middle ml-50">
-                      Recurrent Discounts
-                    </span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "2",
+                      this.toggle("1")
+                    }}>Recurrent Discounts</button>
+                    <button  className={classnames({
+                      active: this.state.activeTab === "2"
                     })}
                     onClick={() => {
-                      this.toggle("2");
-                    }}
-                  >
-                    <Gift size={16} />
-                    <span className="align-middle ml-50">Promocodes</span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "3",
+                      this.toggle("2")
+                    }}>Promocodes</button>
+                    <button  className={classnames({
+                      active: this.state.activeTab === "3"
                     })}
                     onClick={() => {
-                      this.toggle("3");
-                    }}
-                  >
-                    <Plus size={16} />
-                    <span className="align-middle ml-50">Add New</span>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "4",
+                      this.toggle("3")
+                      this.setState({promoCode:{}})
+                    }}>Add New</button>
+
+<button  className={classnames({
+                      active: this.state.activeTab === "4"
                     })}
                     onClick={() => {
-                      this.toggle("4");
-                    }}
-                  >
-                    <Globe size={16} />
-                    <span className="align-middle ml-50">Special Ribbon</span>
-                  </NavLink>
-                </NavItem>
-              </Nav>
+                      this.toggle("4")
+                    }}>Special Ribbon</button>
+                  </div>
+
+            </div>
+          </div>
 
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
+                  
                   <DiscountTab />
+                  
                 </TabPane>
                 <TabPane tabId="2">
                   <PromoCodeList
@@ -121,6 +108,7 @@ class Discount extends React.Component {
                       PromoRecord={
                         this.state.promoCode ? this.state.promoCode : {}
                       }
+                      ChangeTab={this.ChangeTab}
                     ></AddNewPromoCode>
                   </Col>
                 </TabPane>
@@ -130,10 +118,7 @@ class Discount extends React.Component {
                   </Col>
                 </TabPane>
               </TabContent>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+           </div>
     );
   }
 }

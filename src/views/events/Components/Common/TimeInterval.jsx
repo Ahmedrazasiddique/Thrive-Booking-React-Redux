@@ -53,11 +53,58 @@ class TimeIntervalComponent extends Component {
 
         return `${hourText}:${minuteText}`
     }
-    render() {
-        const { value, name, touched, onChange, placeholder, label, errors } = this.props;
 
+    formatDefaultTime = (time) => {
+        const { time: prevTime } = this.state || {};
+        
+        if(time) {
+            const currentTime = time.split(':');
+            let currTime = currentTime[0]+':'+currentTime[1];
+            if(parseInt(currentTime[0]) > 12) {
+                currentTime[0] = parseInt(currentTime[0]) - 12;
+                currTime = this.formatTime(currentTime[0], currentTime[1]);
+            }
+
+            if(currTime !== prevTime) {
+                this.setState({
+                    time: currTime
+                });
+            }
+        }
+
+        return "";
+    }
+
+    formatInterval(time) {
+        const { interval: prevInterval } = this.state || {};
+        if(time) {
+            let interval = "am";
+            const currentTime = time.split(":");
+            
+            if(parseInt(currentTime[0]) > 12) {
+                interval = "pm";
+            }
+
+            if(prevInterval !== interval) {
+                this.setState({
+                    interval
+                })
+            }
+            
+        }
+
+        return "";
+    }
+    render() {
+        const { value, name, touched, onChange, placeholder, label, errors } = this.props;        
         const { intervalOptions, interval, time } = this.state;
         const options = this.getOptions();
+
+        if(value) {
+            this.formatDefaultTime(value);
+            this.formatInterval(value);
+        }
+
         return (
            <Fragment>
                 
@@ -70,6 +117,7 @@ class TimeIntervalComponent extends Component {
                                 type="select"
                                 options= { options }
                                 name={ name}
+                                // value = { defaultValue }
                                 label= { label }
                                 errors={errors}
                                 touched={touched}
@@ -79,8 +127,8 @@ class TimeIntervalComponent extends Component {
                                     this.setState({
                                         time: value
                                     }, () => {
-                                        const { time, interval } = this.state;
-                                        onChange(`${time} ${ interval }`)
+                                        const { time } = this.state;
+                                        onChange(`${time}`)
                                     })
                                 }}
                             />

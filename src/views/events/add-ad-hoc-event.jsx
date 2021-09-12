@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Alert } from 'reactstrap';
 import { connect } from "react-redux";
-import { saveAdHocEvent } from '../../actions/eventActions';
+import { saveAdHocEvent, getAdHocEventDetails } from '../../actions/eventActions';
 import AdHocCalendar from './Components/Common/Ad-Hoc-Calendar';
 import * as moment from 'moment';
+import Loader from '../../components/Loader/Loader';
 import ToolTip from './Components/Common/ToolTip';
 import IntervalField from './Components/Common/IntervalField';
 import TimeIntervalComponent from './Components/Common/TimeInterval';
@@ -44,6 +45,8 @@ class AddAdHocComponent extends Component {
         isLoading: false,
         errorMessage: "",
         successMessage: "",
+        pageLoading: false,
+        eventId: "",
         invites_list: [
             {
                 first_name: "",
@@ -51,6 +54,54 @@ class AddAdHocComponent extends Component {
                 email: ""
             }
         ]
+    }
+
+    componentDidMount() {
+        const { route, getAdHocEventDetails } = this.props;
+
+        const { match } = route || {};
+
+        const { params } = match || {};
+        const { id } = params || {};
+
+        if(id) {
+            this.setState({
+                pageLoading: true
+            });
+
+            const _this = this;
+
+            getAdHocEventDetails({
+                data: {
+                    id
+                },
+                onSuccess: function(event) {
+                    const { event_date, event_invitations } = event || {};
+                    const { first_name, last_name, email } = event_invitations[0] || {};
+                     initialValues = {
+                        ...initialValues,
+                        ...event,
+                        event_date: new Date(event_date),
+                        first_name,
+                        last_name,
+                        email
+                        // start_time: moment(start_time).format('h:mm')
+                    }
+
+
+                   _this.setState({
+                       pageLoading: false,
+                    //    isEdit: true,
+                       eventId: id
+                   })
+                },
+                onError: function(error) {
+                    console.log({
+                        error
+                    });
+                }
+            })
+        }
     }
 
     addInvitee = () => {
@@ -64,7 +115,7 @@ class AddAdHocComponent extends Component {
     
     }
     render() {
-        const { isLoading, errorMessage, successMessage } = this.state;
+        const { isLoading, errorMessage, successMessage, pageLoading } = this.state;
         return (
             <div className="create-event-wrapper">
                 <div className="create-event-container">
@@ -77,12 +128,17 @@ class AddAdHocComponent extends Component {
                                 <div className="event-card-body">
 
                                     <div className="form-group event-form-group">
+                                    { pageLoading ? <Loader isShowLoader={true}/> :  
                                         <Formik
                                             validationSchema={validation}
                                             initialValues={initialValues}
                                             onSubmit={(data) => {
 
                                                 const { min_schedule_notice_in_minutes, event_date:date, link_expiration_period } = data || {};
+
+                                                const { eventId } = this.state || {};
+
+                                              
 
                                                 if(parseInt(min_schedule_notice_in_minutes) === 0) {
                                                     alert("Minimum schedule notice should be greater than 0 miutes.");
@@ -102,7 +158,7 @@ class AddAdHocComponent extends Component {
 
                                                 // const filterData = (Object.keys(data) || []).filter((e) => allowedFields.indexOf(e) === -1);
                                                 
-                                                alert(date);
+                                                // alert(date);
 
                                                 this.setState({
                                                     isLoading: true
@@ -116,9 +172,11 @@ class AddAdHocComponent extends Component {
                                                             last_name,
                                                             email
                                                         }],
+                                                        
                                                         business_id: bussinessId,
                                                         provider_id: bussinessId
                                                     },
+                                                    eventId,
                                                     onSuccess: (event) => {
                                                         const { route } = this.props;
                                                         const { history } = route || {};
@@ -216,7 +274,7 @@ class AddAdHocComponent extends Component {
                                                                     <Col md="6" lg="6">
                                                                         <div className="form-group event-group">
                                                                             <label>
-                                                                                Minimum Scheduling Notice
+                                                                                Minimum Scheduling Notice *
                                                                                 <ToolTip/>
                                                                             </label>
                                                                             <IntervalField 
@@ -229,7 +287,7 @@ class AddAdHocComponent extends Component {
                                                                                 }
                                                                                 label = "min"
                                                                                 interval = { 10 }
-                                                                                defaultValue = { 0 }
+                                                                                defaultValue = { parseInt(values.link_expiration_period) }
                                                                                 
                                                                             />
                                                                         </div>
@@ -237,7 +295,7 @@ class AddAdHocComponent extends Component {
                                                                     <Col md="6" lg="6">
                                                                         <div className="form-group event-group">
                                                                             <label>
-                                                                                Link Validity Period
+                                                                                Link Validity Period *
                                                                                 <ToolTip
                                                                                     position="left"
                                                                                 />
@@ -252,7 +310,7 @@ class AddAdHocComponent extends Component {
                                                                                 }
                                                                                 label = "days"
                                                                                 interval = { 1 }
-                                                                                defaultValue = { 0 }
+                                                                                defaultValue = { parseInt(values.link_expiration_period) }
                                                                             />
                                                                         </div>
                                                                     </Col>
@@ -334,6 +392,7 @@ class AddAdHocComponent extends Component {
                                                 )
                                             }}
                                         </Formik>                
+                                    }
                                     </div>
                                 </div>
                             </div>
@@ -348,5 +407,6 @@ class AddAdHocComponent extends Component {
 
 
 export default connect(null, {
-    saveAdHocEvent
+    saveAdHocEvent, 
+    getAdHocEventDetails
 })(AddAdHocComponent);

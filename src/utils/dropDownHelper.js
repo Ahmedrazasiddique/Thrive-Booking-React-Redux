@@ -10,3 +10,8 @@ export const getDropdownValue = (options, value, valueParam = "value") => {
     return option[valueParam] == value;
   });
 };
+
+export const getDropdownIndex = (options, value, valueParam = "value") => {
+  
+ return options.findIndex(x => x.value ===parseInt(value));
+};

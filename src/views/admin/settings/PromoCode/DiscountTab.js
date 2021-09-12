@@ -31,21 +31,34 @@ class DiscountTap extends React.Component {
   componentDidUpdate(previousProp) {
     if (previousProp !== this.props) {
       if (this.props.DiscountSuccess) {
+        console.log("discount data", this.props.DiscountData.data);
         this.setState({ DiscountData: this.props.DiscountData.data });
-        this.setState({onceChk:this.props.DiscountData.data.Once.status==="E"?true:false})
-        this.setState({weeklyChk:this.props.DiscountData.data.Weekly.status==="E"?true:false})
-        this.setState({biWeeklyChk:this.props.DiscountData.data["Bi-Weekly"].status==="E"?true:false})
-        this.setState({monthlyChk:this.props.DiscountData.data.Monthly.status==="E"?true:false})
+        this.setState({
+          onceChk:
+            this.props.DiscountData.data.Once.status === "E" ? true : false,
+        });
+        this.setState({
+          weeklyChk:
+            this.props.DiscountData.data.Weekly.status === "E" ? true : false,
+        });
+        this.setState({
+          biWeeklyChk:
+            this.props.DiscountData.data["Bi-Weekly"].status === "E"
+              ? true
+              : false,
+        });
+        this.setState({
+          monthlyChk:
+            this.props.DiscountData.data.Monthly.status === "E" ? true : false,
+        });
 
         this.setState({ isDataLoaded: true });
         this.setState({ isShowLoader: false });
       }
 
-      if(this.props.IsDataSubmitedSuccessfully)
-      {
+      if (this.props.IsDataSubmitedSuccessfully) {
         toast.success("Update Successfully");
       }
-     
     }
   }
 
@@ -120,12 +133,14 @@ class DiscountTap extends React.Component {
 
   render() {
     return (
-      <Fragment>
+      
+      <div className="rd_vacationfilterpart rd_vacationfilterpart3">
+
+     
         <Loader isShowLoader={this.state.isShowLoader}></Loader>
         <Form onSubmit={this.handleSubmit}>
           {this.state.isDataLoaded ? (
-            <Row>
-              <Col sm="6">
+             <div className="rd_profilerd_erpart rd_profilerd_erpartpromo">
                 <CustomDiscountComponent
                   IDName={"id"}
                   DiscountHeading="Once"
@@ -145,7 +160,6 @@ class DiscountTap extends React.Component {
                   discount_type_name_value={"Once"}
                 ></CustomDiscountComponent>
 
-                <hr />
                 <CustomDiscountComponent
                   IDName={"id"}
                   DiscountHeading="Weekly"
@@ -164,8 +178,7 @@ class DiscountTap extends React.Component {
                   discount_type_name={"discount_type_name"}
                   discount_type_name_value={"Weekly"}
                 ></CustomDiscountComponent>
-              </Col>
-              <Col sm="6">
+           
                 <CustomDiscountComponent
                   IDName={"id"}
                   DiscountHeading="Bi-Weekly"
@@ -184,7 +197,7 @@ class DiscountTap extends React.Component {
                   discount_type_name={"discount_type_name"}
                   discount_type_name_value={"Bi-Weekly"}
                 ></CustomDiscountComponent>
-                <hr />
+               
                 <CustomDiscountComponent
                   IDName={"id"}
                   DiscountHeading="Monthly"
@@ -203,21 +216,19 @@ class DiscountTap extends React.Component {
                   discount_type_name={"discount_type_name"}
                   discount_type_name_value={"Monthly"}
                 ></CustomDiscountComponent>
-              </Col>
+             
 
-              <Col className="d-flex justify-content-end flex-wrap" sm="12">
-                <Button.Ripple className="mr-1" color="primary" type="submit">
-                  Save Changes
-                </Button.Ripple>
-              </Col>
-            </Row>
+             <div className="rd_svaebtn">
+                    <button>Save Changes</button>
+                </div>
+              </div>
           ) : (
             <></>
           )}
         </Form>
 
         <ToastContainer />
-      </Fragment>
+     </div>
     );
   }
 }
@@ -227,7 +238,6 @@ const mapStateToProps = (state) => {
     DiscountData: state.discount.data,
     DiscountSuccess: state.discount.DiscountSuccess,
     IsDataSubmitedSuccessfully: state.discount.IsDataSubmitedSuccessfully,
-   
   };
 };
 

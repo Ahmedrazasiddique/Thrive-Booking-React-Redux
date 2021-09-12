@@ -1,0 +1,60 @@
+.page {
+  flex-grow: 1;
+}
+.page-desc {
+  max-width: 770px;
+  width: 100%;
+  margin: 70px auto;
+  border-radius: 5px;
+  box-shadow: 0 0 20px 0 rgba(131, 134, 163, 0.17);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 150px;
+  text-align: center;
+}
+.page img {
+  width: 130px;
+  height: 130px;
+}
+.page h1 {
+  color: #0C4767;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 25px;
+}
+.page p {
+  color: #626262;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0px 30px;
+}
+.done-thanks p {font-size: 16px}
+.welcome .p2 {
+  font-size: 16px;
+}
+.page button {
+  width: 100% !important;
+  background-color: #FD9926;
+  color: white;
+  font-weight: 16px;
+  padding: 20px 0px;
+  margin-top: 20px;
+}
+.page button:hover {
+  color: white;
+}
+/***RESPONSIVE REQUIREMENTS***/
+@media screen and (max-width: 950px){
+  .page-desc {
+    width: 100%;
+    box-shadow: none;
+    padding: 0 15px;
+  }
+  .page button {
+    padding: 18px;
+    margin-top: 10px;
+  }
+}

@@ -18,6 +18,12 @@ import "./DashboardCss/dashboardAdmin.scss";
 
 class BookedEvents extends React.Component {
   state = {
+    cl:["#45c48a",
+     "#ffb863",
+    "#255a77",
+     "#9c8cfc",
+     "#FFC085",
+    "#f29292"],
     options: {
       chart: {
         dropShadow: {
@@ -31,8 +37,13 @@ class BookedEvents extends React.Component {
           show: false,
         },
       },
-      colors: [this.props.primary, this.props.warning, this.props.danger],
-      fill: {
+      colors: ["#45c48a",
+      "#ffb863",
+     "#255a77",
+      "#9c8cfc",
+      "#FFC085",
+     "#f29292"],
+      /*fill: {
         type: "gradient",
         gradient: {
           gradientToColors: [
@@ -41,7 +52,7 @@ class BookedEvents extends React.Component {
             this.props.dangerLight,
           ],
         },
-      },
+      }*/
       dataLabels: {
         enabled: false,
       },
@@ -49,9 +60,9 @@ class BookedEvents extends React.Component {
       stroke: {
         width: 5,
       },
-      labels: ["Sales Meetings", "Demo Meetings", "Onboarding meetings"],
+      labels: this.props.data.data.labels,
     },
-    series: [690, 258, 343],
+    series: this.props.data.data.series,
   };
 
   componentDidMount() {}
@@ -61,89 +72,33 @@ class BookedEvents extends React.Component {
   render() {
     return (
       <>
-        {" "}
-        <Card className="TopPortion">
-          <CardHeader>
-            <CardTitle>Booked Events</CardTitle>
-            <UncontrolledDropdown>
-              <DropdownToggle
-                tag="small"
-                className="text-bold-500 cursor-pointer"
-              >
-                Day <ChevronDown size={10} />
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Weekly</DropdownItem>
-                <DropdownItem>Monthly</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </CardHeader>
-          <CardBody className="pt-0">
-            <Chart
+      <div class="rd_crmspecdi">
+                    <h5><strong>Booked Events</strong></h5>
+                    <div class="rd_flexthing">
+                    
+
+<Chart
               options={this.state.options}
               series={this.state.series}
               type="pie"
               height={290}
             />
+                        <div class="rd_flexthingitemhalf">
+                            <div class="rd_contentchart1thign">
+                            {this.props.data.data.labels.map((person, index) => (
+                            <p>
+                                <span style={{backgroundColor:this.state.cl[index]}} className="rd_bluedot">
 
-            <ListGroup flush>
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-primary"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Sales Meetings </span>
+                                </span>
+                                {person}
+                            </p>
+                     ))}    
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="product-result">
-                  <span>690</span>
-                </div>
-              </ListGroupItem>
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-warning"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Demo Meetings</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>
-              <ListGroupItem className="d-flex justify-content-between">
-                <div className="item-info">
-                  <div
-                    className="bg-success"
-                    style={{
-                      height: "10px",
-                      width: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      margin: "0 5px",
-                    }}
-                  />
-                  <span className="text-bold-600">Onboarding meetings</span>
-                </div>
-                <div className="product-result">
-                  <span>258</span>
-                </div>
-              </ListGroupItem>
-            </ListGroup>
-          </CardBody>
-        </Card>
+      
       </>
     );
   }

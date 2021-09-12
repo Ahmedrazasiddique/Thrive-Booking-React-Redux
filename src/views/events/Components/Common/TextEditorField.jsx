@@ -11,9 +11,6 @@ class TextEditor extends Component {
     constructor(props) {
         super(props);
         const { value } = props;
-        console.log({
-            value
-        })
         this.state = {
             content: value
         }
@@ -27,7 +24,7 @@ class TextEditor extends Component {
         const { content } = this.state;
         const { onChange } = this.props;
         return (
-            <div className="textarea-wrapper gutter-25">
+            <div className="textarea-wrapper gutter-cd 25">
                 <JoditEditor
                         
                     config= {{
@@ -80,7 +77,10 @@ class TextEditor extends Component {
                     onBlur={newContent => {
                         this.setState({
                             'content': newContent
-                        }, onChange(newContent));
+                        }, 
+                            onChange(newContent.srcElement.innerHTML)
+                            
+                        );
                     }}   
                 >
                 </JoditEditor>

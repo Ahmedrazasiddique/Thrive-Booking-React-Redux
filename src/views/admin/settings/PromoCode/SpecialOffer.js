@@ -83,47 +83,54 @@ const SpecialOffer = (props) => {
   };
 
   return (
-    <CardBody>
-      <Loader isShowLoader={isShowLoader}></Loader>
+   
+
+    <div class="rd_vacationfilterpart rd_vacationfilterpart3">
+
+<Loader isShowLoader={isShowLoader}></Loader>
       <Form onSubmit={handleSubmit}>
-        <FormGroup row>
-          <Col sm="4">
-            <h5>Special Offer </h5>
-          </Col>
-          <Col sm="8">
-            <label className="react-toggle-wrapper">
-              <Toggle
-                checked={specialOfferChk}
-                onChange={specialOfferChange}
-                id="specialOfferChk"
-              />
-            </label>
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col sm="4">
-            <h5>Special announcement </h5>
-          </Col>
-          <Col sm="8">
-            <Input
-              className="form-control"
-              type="text"
-              name="="
-              id="="
-              placeholder="Special announcement"
-              name="special_announcement"
-              value={inputs.special_announcement}
-              onChange={handleInputChange}
-            />
-            {islimit30 ? (
+    <div class="rd_profilerd_erpart">
+        <div class="rd_vacationflex2">
+            <p>Special announcement </p>
+              <div class="rd_profilethingco">
+                <input type="text"
+                 type="text"
+                 name="="
+                 id="="
+                 placeholder="Special announcement"
+                 name="special_announcement"
+                 value={inputs.special_announcement}
+                 onChange={handleInputChange}
+                class="rd_adddayofinput" placeholder="Special announcement "/>
+ {islimit30 ? (
               <div class="field-error text-danger">Limit exceed (30)</div>
             ) : (
               <></>
             )}
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col sm="4">
+              </div>
+        </div>
+        <div class="rd_vacationflex2 rd_specialcheckscpro">
+              <p>Special announcement </p>
+              <div class="rd_activeprdesa">
+                <div class="box_content">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" 
+                         checked={specialOfferChk}
+                         onChange={specialOfferChange}
+                         id="specialOfferChk"
+                       />
+                        <label class="form-check-label" 
+                        for="specialOfferChk" >Special announcement </label>
+                    </div>
+                </div>
+            </div>
+      </div>
+
+      </div>
+
+      <div class="rd_profilerd_erpart">
+        <div class="rd_vacationflex2">
+        <Col sm="4">
             <h5>Color </h5>
           </Col>
           <Col sm="8">
@@ -138,23 +145,22 @@ const SpecialOffer = (props) => {
               <></>
             )}
           </Col>
-        </FormGroup>
-
-        <Row>
-          <Col className="d-flex justify-content-end flex-wrap" sm="12">
+        </div>
+      <div class="rd_vacationflex2">
+            <div class="rd_addsvaebtn">
             {!islimit30 ? (
-              <Button.Ripple className="mr-1" color="primary">
-                Save Changes
-              </Button.Ripple>
+             
+             <button>Add New</button>
             ) : (
               <></>
             )}
-          </Col>
-        </Row>
-      </Form>
+            </div>
+        </div>
+    
+      </div>
+</Form>
+</div>
 
-      <ToastContainer />
-    </CardBody>
   );
 };
 
