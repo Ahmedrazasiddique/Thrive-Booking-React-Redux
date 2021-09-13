@@ -1,0 +1,448 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style/bootstrap.min.css" />
+    <link rel="stylesheet" href="style/main.css" />
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div class="eventdetailsaddbox">
+          <div class="boxheader">
+            <h3>Event Details</h3>
+          </div>
+          <div class="box_content">
+            <div class="box_content_section">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="groupthing">
+                    <div class="mb-3">
+                      <label for="formFile" class="form-label">Image</label>
+                      <input
+                        class="form-control file_upload"
+                        type="file"
+                        id="formFile"
+                      />
+                    </div>
+                  </div>
+                  <div class="groupthing">
+                    <p>Description/Instructions</p>
+                    <div class="text-editor">
+                      <img src="assets/images/exampletexteditor.png" alt="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="groupthing">
+                    <p>Event Color</p>
+                    <div class="check_color">
+                      <div class="form-check">
+                        <div>
+                          <label class="container_check">
+                            <input
+                              id="orange_check"
+                              type="radio"
+                              checked="checked"
+                              name="radio"
+                            />
+                            <span class="checkmark" id="orangecheck"></span>
+                          </label>
+                          <label class="container_check">
+                            <input
+                              id="darkblue_check"
+                              type="radio"
+                              name="radio"
+                            />
+                            <span class="checkmark" id="darkbluecheck"></span>
+                          </label>
+                          <label class="container_check">
+                            <input
+                              id="lightgreen_check"
+                              type="radio"
+                              name="radio"
+                            />
+                            <span class="checkmark" id="lightgreencheck"></span>
+                          </label>
+                          <label class="container_check">
+                            <input
+                              id="lightblue_check"
+                              type="radio"
+                              name="radio"
+                            />
+                            <span id="lightbluecheck" class="checkmark"></span>
+                          </label>
+                          <label class="container_check">
+                            <input
+                              id="yellow_check"
+                              type="radio"
+                              name="radio"
+                            />
+                            <span id="yellowcheck" class="checkmark"></span>
+                          </label>
+                          <label class="container_check">
+                            <input id="red_check" type="radio" name="radio" />
+                            <span id="redcheck" class="checkmark"></span>
+                          </label>
+                          <label class="container_check">
+                            <input id="black_check" type="radio" name="radio" />
+                            <span id="blackcheck" class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="groupthing">
+                    <div>
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheckChecked"
+                          checked
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheckChecked"
+                          >Max no. of Bookings</label
+                        >
+                      </div>
+
+                      <div class="numinputbooking">
+                        <button></button
+                        ><input
+                          type="number"
+                          name=""
+                          id=""
+                          value="1"
+                        /><button></button>
+                      </div>
+
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheckChecked2"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheckChecked2"
+                          >Allow Recurring Booking?</label
+                        >
+                      </div>
+
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheckChecked3"
+                          checked
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheckChecked3"
+                          >Allow Rescheduling?</label
+                        >
+                      </div>
+
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheckChecked4"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexSwitchCheckChecked4"
+                          >Allow Attendee Cancellation?</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="box_content_section">
+              <div class="groupthing">
+                <p class="specialtextboxcont">
+                  Do You Require A Prepayment/Deposit ?
+                </p>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-check py-2">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault1"
+                        checked
+                      />
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        Yes
+                      </label>
+                    </div>
+                    <div class="subform">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="flexCheckChecked"
+                        />
+                        <label class="form-check-label" for="flexCheckChecked">
+                          Full Payment
+                        </label>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              value=""
+                              id="flexCheckChecked3"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="flexCheckChecked3"
+                            >
+                              Deposit
+                            </label>
+                          </div>
+
+                          <div class="input-groupthing">
+                            <select class="form-select" id="inputGroupSelect02">
+                              <option selected>Percent %</option>
+                              <option value="1">Value</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                            <input type="number" name="" id="" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              value=""
+                              id="flexCheckChecked6"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="flexCheckChecked6"
+                            >
+                              Partial Payment
+                            </label>
+                          </div>
+
+                          <div class="input-groupthing">
+                            <select class="form-select" id="inputGroupSelect02">
+                              <option selected>Percent %</option>
+                              <option value="1">Value</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                            <input type="number" name="" id="" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-check py-2">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault2"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        No, I would pay at the event
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="box_content_section">
+              <div class="contchecksec">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="checkleft">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="coupncodfe"
+                        />
+                        <label class="form-check-label" for="coupncodfe"
+                          >Coupon Codes</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="checkleft">
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="discountth"
+                        />
+                        <label class="form-check-label" for="discountth"
+                          >Enable Recurrent Booking Discounts</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="box_content_section">
+              <div class="mt-4 mb-2">
+                <p class="specialtextboxcont">Pricing</p>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5 my-2">
+                  <label for="">Item Name</label>
+                  <input type="text" name="" id="" placeholder="Item_name" />
+                </div>
+                <div class="col-md-3 my-2">
+                  <label for="">Price</label>
+                  <input type="text" name="" id="" />
+                </div>
+                <div class="col-md-4 my-2">
+                  <label for="">Qty.</label>
+                  <div class="contbut">
+                    <div class="numinputbooking">
+                      <button></button
+                      ><input
+                        type="number"
+                        name=""
+                        id=""
+                        value="1"
+                      /><button></button>
+                    </div>
+                    <button class="deleteprro"></button>
+                    <button class="addprro"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="box_content_section">
+              <div class="mt-4 mb-2">
+                <p class="specialtextboxcont">Add-on</p>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5 my-2">
+                  <label for="">Item Name</label>
+                  <input type="text" name="" id="" placeholder="Item_name" />
+                </div>
+                <div class="col-md-3 my-2">
+                  <label for="">Price</label>
+                  <input type="text" name="" id="" />
+                </div>
+                <div class="col-md-4 my-2">
+                  <label for="">Qty.</label>
+                  <div class="contbut">
+                    <div class="numinputbooking">
+                      <button></button
+                      ><input
+                        type="number"
+                        name=""
+                        id=""
+                        value="1"
+                      /><button></button>
+                    </div>
+                    <button class="deleteprro"></button>
+                    <button class="addprro"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="box_content_section_final">
+              <div class="row my-4">
+                <div class="col-md-6">
+                  <label for="">Cancellation Policy</label>
+                  <input type="text" name="" id="" placeholder="From text" />
+                </div>
+                <div class="col-md-6">
+                  <label for="">Instructions to Attendee</label>
+                  <input type="text" name="" id="" placeholder="From text" />
+                </div>
+              </div>
+
+              <div class="row subform p-0">
+                <div class="col-md-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckChecked31"
+                    />
+                    <label class="form-check-label" for="flexCheckChecked31">
+                      Booking Page
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckChecked32"
+                    />
+                    <label class="form-check-label" for="flexCheckChecked32">
+                      Confirmation Page
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckChecked33"
+                    />
+                    <label class="form-check-label" for="flexCheckChecked33">
+                      Reminder Email
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="finalsecbuttons">
+              <div class="row">
+                <div class="col-md-6">
+                  <button class="gobackbtn">Go Back</button>
+                </div>
+                <div class="col-md-6">
+                  <button class="nextstepbtn">Next Step</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section></section>
+
+    <script src="js/bootstrap.js"></script>
+  </body>
+</html>
